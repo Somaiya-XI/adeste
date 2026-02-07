@@ -1,6 +1,6 @@
 //
-//  level_upApp.swift
-//  level-up
+//  levelUpApp.swift
+//  levelUp
 //
 //  Created by Somaiya on 16/08/1447 AH.
 //

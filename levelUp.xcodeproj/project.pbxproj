@@ -10,9 +10,26 @@
 		533B00542F338289009B8771 /* levelUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = levelUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		533B026B2F37E797009B8771 /* Exceptions for "levelUp" folder in "levelUp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Models/readme.md,
+				Networking/readme.md,
+				ViewModels/readme.md,
+				Views/Components/readme.md,
+				Views/readme.md,
+			);
+			target = 533B00532F338289009B8771 /* levelUp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		533B00562F338289009B8771 /* levelUp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				533B026B2F37E797009B8771 /* Exceptions for "levelUp" folder in "levelUp" target */,
+			);
 			path = levelUp;
 			sourceTree = "<group>";
 		};
