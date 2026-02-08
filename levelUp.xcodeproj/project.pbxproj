@@ -14,7 +14,6 @@
 		533B026B2F37E797009B8771 /* Exceptions for "levelUp" folder in "levelUp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Models/readme.md,
 				Networking/readme.md,
 				ViewModels/readme.md,
 				Views/Components/readme.md,
