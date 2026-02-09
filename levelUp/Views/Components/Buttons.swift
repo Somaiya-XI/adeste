@@ -7,6 +7,21 @@
 
 import SwiftUI
 
+/// Back button
+struct BackButton: View {
+    var action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Image("ic_back")
+                 .frame(width: 40, height: 40)
+                .background(Color("base-shade-02"))
+                .clipShape(Circle())
+        }
+        .buttonStyle(.plain)
+    }
+}
+
 struct Buttons: View {
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
@@ -14,5 +29,9 @@ struct Buttons: View {
 }
 
 #Preview {
+    BackButton(action: {})
+}
+
+#Preview("Buttons") {
     Buttons()
 }
