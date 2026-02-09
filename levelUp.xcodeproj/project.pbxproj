@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FB84554A2F3A04C70045993A /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = FB8455492F3A04C70045993A /* Adhan */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		533B00542F338289009B8771 /* levelUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = levelUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -39,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB84554A2F3A04C70045993A /* Adhan in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +86,7 @@
 			);
 			name = levelUp;
 			packageProductDependencies = (
+				FB8455492F3A04C70045993A /* Adhan */,
 			);
 			productName = "level-up";
 			productReference = 533B00542F338289009B8771 /* levelUp.app */;
@@ -111,6 +117,9 @@
 			);
 			mainGroup = 533B004B2F338289009B8771;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				FB8455482F3A04C70045993A /* XCRemoteSwiftPackageReference "adhan-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 533B00552F338289009B8771 /* Products */;
 			projectDirPath = "";
@@ -351,6 +360,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FB8455482F3A04C70045993A /* XCRemoteSwiftPackageReference "adhan-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/batoulapps/adhan-swift?utm_source=chatgpt.com";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FB8455492F3A04C70045993A /* Adhan */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB8455482F3A04C70045993A /* XCRemoteSwiftPackageReference "adhan-swift" */;
+			productName = Adhan;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 533B004C2F338289009B8771 /* Project object */;
 }
