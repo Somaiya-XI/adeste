@@ -8,57 +8,36 @@
 import SwiftUI
 
 extension Font {
-    static func PlaypenSans(size: CGFloat, relativeTo textStyle: TextStyle = .body) -> Font {
-        Font.custom("Playpen Sans Arabic", size: size, relativeTo: textStyle)
+
+    static var s48Heavy: Font {
+       .system(size: 48, weight: .heavy, design: .rounded)
+   }
+    
+    static var s32Medium: Font {
+        .system(size: 32, weight: .medium, design: .rounded)
+    }
+
+    static var s28Medium: Font {
+        .system(size: 28, weight: .medium, design: .rounded)
+    }
+
+    static var s20Medium: Font {
+        .system(size: 20, weight: .medium, design: .rounded)
     }
     
-    static var playpenLargeTitle: Font {
-        Font.custom("Playpen Sans Arabic", size: 34, relativeTo: .largeTitle)
+    static var s24Medium: Font {
+        .system(size: 24, weight: .medium, design: .rounded)
     }
-    
-    static var playpenTitle: Font {
-        Font.custom("Playpen Sans Arabic", size: 28, relativeTo: .title)
+
+    static var s16Medium: Font {
+        .system(size: 16, weight: .medium, design: .rounded)
     }
-    
-    static var playpenTitle2: Font {
-        Font.custom("Playpen Sans Arabic", size: 24, relativeTo: .title2)
+
+    static var s12Medium: Font {
+        .system(size: 12, weight: .medium, design: .rounded)
     }
-    
-    static var playpenTitle3: Font {
-        Font.custom("Playpen Sans Arabic", size: 22, relativeTo: .title2)
+
+    static var s12Light: Font {
+        .system(size: 12, weight: .light, design: .rounded)
     }
-    
-    static var playpenTitle4: Font {
-        Font.custom("Playpen Sans Arabic", size: 22, relativeTo: .title3)
-    }
-    
-    static var playpenBody: Font {
-        Font.custom("Playpen Sans Arabic", size: 20, relativeTo: .body)
-    }
-    
-    static var playpenCallout: Font {
-        Font.custom("Playpen Sans Arabic", size: 17, relativeTo: .callout)
-    }
-    
-    static var playpenSubhead: Font {
-        Font.custom("Playpen Sans Arabic", size: 16, relativeTo: .subheadline)
-    }
-    
-    static var playpenFootnote: Font {
-        Font.custom("Playpen Sans Arabic", size: 14, relativeTo: .footnote)
-    }
-    
-    static var playpenCaption: Font {
-        Font.custom("Playpen Sans Arabic", size: 13, relativeTo: .caption)
-    }
-    
-    static var playpenCaption2: Font {
-        Font.custom("Playpen Sans Arabic", size: 12, relativeTo: .caption2)
-    }
-    
 }
-
-
-
-
-
