@@ -13,6 +13,7 @@ struct levelUpApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Habit.self,
+            Intention.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         
