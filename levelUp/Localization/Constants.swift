@@ -48,7 +48,7 @@ struct consts {
         static let stopStr = "Stop"
         
         // Icons (System Symbols & Assets)
-        // System Symbols
+        // Assets
         static let chevronRight = "ic_chevron"
         static let chevronBack = "ic_back"
         static let checkmarkIcon = "checkmark"
@@ -56,7 +56,5 @@ struct consts {
         static let plusIcon = "plus"
         static let emptyWaterbottleIconStr = "waterbottle"
         static let fullWaterbottleIconStr = "waterbottle.fill"
-     
-     
 }
 

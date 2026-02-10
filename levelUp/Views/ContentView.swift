@@ -10,15 +10,33 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var context
+    @State private var selectedTab: Tab = .home
+    @Namespace private var tabAnimation
+    
+    init() {
+        UITabBar.appearance().isHidden = true
+    }
     
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ZStack(alignment: .bottom) {
+            // Main content
+            Group {
+                switch selectedTab {
+                case .home:
+                    HomeView()
+                case .intentions:
+                    IntentionsView()
+                case .profile:
+                    ProfileView()
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.white)
+            
+            // Floating custom tab bar
+            CustomTabBar(selectedTab: $selectedTab, namespace: tabAnimation)
+                .padding(.bottom, 24)
         }
-        .padding()
     }
 }
 
