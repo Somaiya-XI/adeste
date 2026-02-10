@@ -14,8 +14,10 @@ struct BackButton: View {
     var body: some View {
         Button(action: action) {
             Image("ic_back")
-                 .frame(width: 40, height: 40)
-                .background(Color("base-shade-02"))
+                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                .foregroundStyle(Color("brand-color"))
+                .frame(width: 40, height: 40)
+                .background(Color("base-shade-02").opacity(0.5))
                 .clipShape(Circle())
         }
         .buttonStyle(.plain)
