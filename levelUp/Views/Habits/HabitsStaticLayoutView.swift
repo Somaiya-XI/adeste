@@ -34,7 +34,7 @@ struct HabitsStaticLayoutView: View {
 
             case 3:
                 VStack(spacing: 16) {
-                    HStack(spacing: 16) {
+                    HStack(spacing: 8) {
                         habitView(habits[0])
                             .frame(height: 120)
 
@@ -60,7 +60,8 @@ struct HabitsStaticLayoutView: View {
 
                 
             case .steps:
-                HabitCardView(title: habit.title, subtitle: "\(habit.stepsCount) steps", type: .steps)
+                StepsHabitCardView(habit: habit)
+
                 
             case .wakeUp:
                   
