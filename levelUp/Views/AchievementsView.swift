@@ -20,7 +20,7 @@ struct AchievementsView: View {
 
             VStack(spacing: 24) {
                 ZStack {
-                    Text("Achievements")
+                    Text(consts.achievementsStr)
                         .font(.system(size: 24, weight: .semibold, design: .rounded))
                         .foregroundStyle(Color("brand-color"))
 

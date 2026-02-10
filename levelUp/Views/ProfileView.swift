@@ -12,7 +12,7 @@ struct ProfileView: View {
         ScrollView {
             VStack(spacing: 0) {
 
-                Text("Profile")
+                Text(consts.profilepageStr)
                     .font(.s32Medium)
                     .foregroundStyle(Color("brand-color"))
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -38,7 +38,7 @@ struct ProfileView: View {
                 // Achievements
                 NavigationLink(destination: AchievementsView()) {
                     HStack {
-                        Text("Achievements")
+                        Text(consts.achievementsStr)
                             .font(.s24Medium)
                             .foregroundStyle(Color("brand-color"))
                         Spacer(minLength: 0)
@@ -60,7 +60,7 @@ struct ProfileView: View {
                 Spacer().frame(height: 36)
 
                 // Settings
-                Text("Settings")
+                Text(consts.settingsStr)
                     .font(.s24Medium)
                     .foregroundStyle(Color("brand-color"))
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -68,13 +68,13 @@ struct ProfileView: View {
                 Spacer().frame(height: 16)
 
                 VStack(spacing: 0) {
-                    settingsRow(title: "Select New Cycle")
+                    settingsRow(title: consts.selectCycleStr)
                     customDivider
                     
-                    settingsRow(title: "Manage Intentions")
+                    settingsRow(title: consts.manageIntentionsStr)
                     customDivider
     
-                    settingsRow(title: "Manage Account")
+                    settingsRow(title: consts.manageAccountStr)
                 }
 
                 Spacer(minLength: 32)
