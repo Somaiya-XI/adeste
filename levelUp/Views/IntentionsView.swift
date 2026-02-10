@@ -34,13 +34,30 @@ struct IntentionsView: View {
             ZStack {
                 VStack(spacing: 0) {
             
-            HStack {
-                Text("Intentions")
-                    .font(.s32Medium)
-                    .foregroundStyle(Color("brand-color"))
-                Spacer(minLength: 0)
-            }
-
+                    HStack {
+                        // Centered title
+                        Text("Intentions")
+                            .font(.s32Medium)
+                            .foregroundStyle(Color("brand-color"))
+                        Spacer(minLength: 0)
+                              Button {
+                                withAnimation {
+                                    isEditing.toggle()
+                                }
+                                } label: {
+                                    Image(systemName: isEditing ? "checkmark" : "pencil.and.outline")
+                                            .font(.s24Medium)
+                                            .foregroundStyle(Color("brand-color"))
+                                            .frame(width: 40, height: 40)
+                                            .background(Color("base-shade-02"))
+                                            .clipShape(Circle())
+                                    }
+                                    .buttonStyle(.plain)
+                    }
+                     .padding(.top, 10)
+                    .padding(.bottom, 20)
+     
+                    
             Spacer().frame(height: 16)
 
             // Card: Intention / Stopwatch
@@ -143,24 +160,6 @@ struct IntentionsView: View {
 
             Spacer().frame(height: 36)
 
-            // Intentions List View
-//            NavigationLink(destination: IntentionsListView()) {
-//                HStack {
-//                    Text("List of Intentions")
-//                        .font(.s20Medium)
-//                        .foregroundStyle(Color("brand-color"))
-//                    Spacer(minLength: 0)
-//                    Image("ic_chevron")
-//                }
-//                .frame(maxWidth: .infinity)
-//                .frame(height: 52)
-//                .padding(.horizontal, 16)
-//                .background(Color("base-shade-01"))
-//                .clipShape(RoundedRectangle(cornerRadius: 16))
-//            }
-//            .buttonStyle(.plain)
-
-                
             Spacer(minLength: 0)
                 }
                 .padding(.horizontal, 16)
@@ -204,23 +203,7 @@ struct IntentionsView: View {
                     )
                 }
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        withAnimation {
-                            isEditing.toggle()
-                        }
-                    } label: {
-                        Image(systemName: isEditing ? "checkmark" : "pencil.and.outline")
-                            .font(.s24Medium)
-                            .foregroundStyle(Color("brand-color"))
-                            .frame(width: 40, height: 40)
-                            .background(Color("base-shade-02"))
-                            .clipShape(Circle())
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
+             
         }
     }
 
@@ -246,7 +229,7 @@ struct IntentionsView: View {
             tempIntention = newIntention
             isAddingNew = true
         } label: {
-            actionButtonContent(icon: "plus", label: "Add more")
+            actionButtonContent(icon: "plus", label: "Add more", isEditing: false)
         }
         .buttonStyle(.plain)
     }
@@ -263,9 +246,7 @@ struct IntentionsView: View {
                 selectedIntentionIcon = intention.icon
             }
         } label: {
-            actionButtonContent(icon: intention.icon, label: intention.title)
-                .rotationEffect(.degrees(isEditing ? 7 : 0))
-                .animation(isEditing ? .default.repeatForever(autoreverses: true) : .default, value: isEditing)
+            actionButtonContent(icon: intention.icon, label: intention.title, isEditing: isEditing)
         }
         .buttonStyle(.plain)
         .onLongPressGesture {
@@ -275,7 +256,7 @@ struct IntentionsView: View {
         }
     }
 
-    private func actionButtonContent(icon: String, label: String) -> some View {
+    private func actionButtonContent(icon: String, label: String, isEditing: Bool) -> some View {
         VStack(spacing: 4) {
             Image(systemName: icon)
                 .font(.s24Medium)
@@ -288,6 +269,14 @@ struct IntentionsView: View {
                 .font(.s16Medium)
                 .foregroundStyle(Color("brand-color"))
         }
+        .rotationEffect(.degrees(isEditing ? 2 : -2))
+        .offset(x: isEditing ? 1 : -1)
+        .animation(
+            isEditing
+            ? .linear(duration: 0.12).repeatForever(autoreverses: true)
+            : .default,
+            value: isEditing
+        )
     }
 }
 
