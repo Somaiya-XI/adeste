@@ -36,23 +36,23 @@ struct IntentionsView: View {
             
                     HStack {
                         // Centered title
-                        Text("Intentions")
+                        Text(consts.intentionpageStr)
                             .font(.s32Medium)
                             .foregroundStyle(Color("brand-color"))
                         Spacer(minLength: 0)
-                              Button {
-                                withAnimation {
-                                    isEditing.toggle()
-                                }
-                                } label: {
-                                    Image(systemName: isEditing ? "checkmark" : "pencil.and.outline")
-                                            .font(.s24Medium)
-                                            .foregroundStyle(Color("brand-color"))
-                                            .frame(width: 40, height: 40)
-                                            .background(Color("base-shade-02"))
-                                            .clipShape(Circle())
-                                    }
-                                    .buttonStyle(.plain)
+                        Button {
+                            withAnimation {
+                                isEditing.toggle()
+                            }
+                        } label: {
+                            Image(systemName: isEditing ? consts.checkmarkIcon : consts.editIcon)
+                                .font(.s24Medium)
+                                .foregroundStyle(Color("brand-color"))
+                                .frame(width: 40, height: 40)
+                                .background(Color("base-shade-02"))
+                                .clipShape(Circle())
+                        }
+                        .buttonStyle(.plain)
                     }
                      .padding(.top, 10)
                     .padding(.bottom, 20)
@@ -64,7 +64,7 @@ struct IntentionsView: View {
             VStack(alignment: .leading, spacing: 16) {
                 if let icon = selectedIntentionIcon {
                     // Stopwatch Mode: User picked an intention, so we show the running timer
-                    Text("Current intention")
+                    Text(consts.currentIntentionStr)
                         .font(.s24Medium)
                         .foregroundStyle(Color("brand-color"))
 
@@ -83,7 +83,7 @@ struct IntentionsView: View {
                             .monospacedDigit()
                             .foregroundStyle(Color("brand-color"))
 
-                        Button("Stop") {
+                        Button(consts.stopStr) {
                             selectedIntentionIcon = nil
                             stopwatchTime = 0
                         }
@@ -99,7 +99,7 @@ struct IntentionsView: View {
                     }
                 } else {
                     // Selection Mode: User has not picked yet, so we show the grid of intentions
-                    Text("Start an intention")
+                    Text(consts.startIntentionStr)
                         .font(.s24Medium)
                         .foregroundStyle(Color("brand-color"))
 
@@ -127,7 +127,7 @@ struct IntentionsView: View {
 
             // Weekly Summary
             HStack {
-                Text("Weekly Intention summary")
+                Text(consts.weeklySummaryStr)
                     .font(.s28Medium)
                     .foregroundStyle(Color("brand-color"))
                 Spacer(minLength: 0)
@@ -151,7 +151,7 @@ struct IntentionsView: View {
                     Text("\(Int(focusRatio * 100))%")
                         .font(.s48Heavy)
                         .foregroundStyle(Color("brand-color"))
-                    Text("Focused")
+                    Text(consts.focusedStr)
                         .font(.s12Light)
                         .foregroundStyle(Color("brand-color"))
                 }
@@ -225,11 +225,11 @@ struct IntentionsView: View {
     // Add more
     private var addMoreButton: some View {
         Button {
-            let newIntention = Intention(title: "", icon: "plus")
+            let newIntention = Intention(title: "", icon: consts.plusIcon)
             tempIntention = newIntention
             isAddingNew = true
         } label: {
-            actionButtonContent(icon: "plus", label: "Add more", isEditing: false)
+            actionButtonContent(icon: consts.plusIcon, label: consts.addMoreStr, isEditing: false)
         }
         .buttonStyle(.plain)
     }
@@ -330,7 +330,7 @@ struct EditIntentionPopup: View {
     
     var body: some View {
         VStack(spacing: 16) {
-             Text(isAddingNew ? "New Intention" : "Edit Intention")
+            Text(isAddingNew ? consts.newIntentionStr : consts.editIntentionStr)
                 .font(.s24Medium)
                 .foregroundStyle(Color("brand-color"))
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -364,7 +364,7 @@ struct EditIntentionPopup: View {
                 showFamilyActivityPicker = true
             } label: {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Managed Apps")
+                    Text(consts.managedAppsStr)
                         .font(.s16Medium)
                         .foregroundStyle(Color("brand-color"))
                     Text(familyActivitySelection.applicationTokens.isEmpty ? "No apps selected" : "\(familyActivitySelection.applicationTokens.count) apps selected")
@@ -382,7 +382,7 @@ struct EditIntentionPopup: View {
             }
             
              HStack(spacing: 16) {
-                Button("Cancel") {
+                Button(consts.cancelStr) {
                     onCancel()
                 }
                 .font(.s16Medium)
@@ -395,7 +395,7 @@ struct EditIntentionPopup: View {
                         .stroke(Color("brand-color"), lineWidth: 1)
                 )
                 
-                Button("Save") {
+                Button(consts.saveStr) {
                     // Create updated intention
                     let updatedIntention = Intention(title: editedTitle.trimmingCharacters(in: .whitespacesAndNewlines), icon: editedIcon)
                     updatedIntention.id = intention.id // Preserve ID for updates
@@ -424,12 +424,11 @@ struct EditIntentionPopup: View {
                 .disabled(!isValid)
             }
             
-             if !isAddingNew && existingIntentions.count > 3 {
-                
+            if !isAddingNew && existingIntentions.count > 3 {
                 Button {
                     onDelete()
                 } label: {
-                    Text("Delete Intention")
+                    Text(consts.deleteIntentionStr)
                         .font(.s16Medium)
                         .foregroundStyle(Color.red)
                 }
