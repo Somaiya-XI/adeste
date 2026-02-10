@@ -49,8 +49,8 @@ struct consts {
         
         // Icons (System Symbols & Assets)
         // System Symbols
-        static let chevronRight = "chevron.right"
-        static let chevronBack = "chevron.backward"
+        static let chevronRight = "ic_chevron"
+        static let chevronBack = "ic_back"
         static let checkmarkIcon = "checkmark"
         static let editIcon = "pencil.and.outline"
         static let plusIcon = "plus"
