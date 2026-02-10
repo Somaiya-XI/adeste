@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 @main
-struct levelUpApp: App {
+struct adesteApp: App {
     
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
