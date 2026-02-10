@@ -11,13 +11,14 @@ import Combine
 class HomeViewModel: ObservableObject {
     @Published var pages: [[Habit]] = []
     
-    func loadHabits(_ habit: [Habit]) {
-        let enabledHabits = habit.filter{ $0.isEnabled }
+    func loadHabits(_ habits: [Habit]) {
+        let enabledHabits = habits.filter{ $0.isEnabled }
         var resultPages: [[Habit]] = []
         var currentPage: [Habit] = []
 
        for habit in enabledHabits {
             currentPage.append(habit)
+           
            if currentPage.count == 3 {
                resultPages.append(currentPage)
                currentPage = []
@@ -27,39 +28,6 @@ class HomeViewModel: ObservableObject {
             resultPages.append(currentPage)
         }
         
-        
-        for page in resultPages {
-
-            switch page.count {
-
-            case 1:
-                let habit = page[0]
-                if habit.type == .water {
-                    habit.displayType = .fullWidth
-                } else {
-                    habit.displayType = .fullWidth
-                }
-
-            case 2:
-                for habit in page {
-                    habit.displayType = .rectangle
-                }
-
-            case 3:
-                for habit in page {
-                    if habit.type == .water {
-                        habit.displayType = .rectangle   // 👈 المويه دايم مستطيل
-                    } else {
-                        habit.displayType = .square
-                    }
-                }
-
-            default:
-                for habit in page {
-                    habit.displayType = .square
-                }
-            }
-        }
 
         self.pages = resultPages
 
@@ -86,6 +54,7 @@ class HomeViewModel: ObservableObject {
             }
         }
     }
+    
     func increaseWater() {
         for page in pages {
             for habit in page where habit.type == .water {
@@ -105,7 +74,8 @@ class HomeViewModel: ObservableObject {
             }
         }
     }
-
+    
+    
     }
 
 
