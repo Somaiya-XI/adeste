@@ -10,6 +10,7 @@ import Combine
 import FamilyControls
 
 struct IntentionsView: View {
+    @State var vm: IntentionsViewModel = .init()
     @State private var selectedIntentionIcon: String? = nil
     @State private var stopwatchTime: TimeInterval = 0
     @State private var currentIntentionsCount = 3

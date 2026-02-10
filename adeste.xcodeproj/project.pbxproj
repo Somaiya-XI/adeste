@@ -10,21 +10,6 @@
 		FB84554A2F3A04C70045993A /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = FB8455492F3A04C70045993A /* Adhan */; };
 /* End PBXBuildFile section */
 
-		53BF30A22F3ABD8D00FA12B9 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53BF30A12F3ABD8D00FA12B9 /* WidgetKit.framework */; };
-		53BF30A42F3ABD8D00FA12B9 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53BF30A32F3ABD8D00FA12B9 /* SwiftUI.framework */; };
-		53BF30AF2F3ABD8E00FA12B9 /* adesteWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 53BF309F2F3ABD8D00FA12B9 /* adesteWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-/* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		53BF30AD2F3ABD8E00FA12B9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 533B004C2F338289009B8771 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 53BF309E2F3ABD8D00FA12B9;
-			remoteInfo = adesteWidgetExtension;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		53BF30B42F3ABD8E00FA12B9 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -32,7 +17,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				53BF30AF2F3ABD8E00FA12B9 /* adesteWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -42,7 +26,6 @@
 /* Begin PBXFileReference section */
 		533B00542F338289009B8771 /* adeste.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = adeste.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53BF309A2F3AB8EE00FA12B9 /* adeste.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = adeste.entitlements; sourceTree = "<group>"; };
-		53BF309F2F3ABD8D00FA12B9 /* adesteWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = adesteWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		53BF30A12F3ABD8D00FA12B9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		53BF30A32F3ABD8D00FA12B9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		53BF30B52F3ABDAD00FA12B9 /* adesteWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = adesteWidgetExtension.entitlements; sourceTree = "<group>"; };
@@ -59,13 +42,6 @@
 			);
 			target = 533B00532F338289009B8771 /* adeste */;
 		};
-		53BF30B32F3ABD8E00FA12B9 /* Exceptions for "adesteWidget" folder in "adesteWidgetExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 53BF309E2F3ABD8D00FA12B9 /* adesteWidgetExtension */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -79,9 +55,6 @@
 		};
 		53BF30A52F3ABD8D00FA12B9 /* adesteWidget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				53BF30B32F3ABD8E00FA12B9 /* Exceptions for "adesteWidget" folder in "adesteWidgetExtension" target */,
-			);
 			path = adesteWidget;
 			sourceTree = "<group>";
 		};
@@ -93,15 +66,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB84554A2F3A04C70045993A /* Adhan in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		53BF309C2F3ABD8D00FA12B9 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				53BF30A42F3ABD8D00FA12B9 /* SwiftUI.framework in Frameworks */,
-				53BF30A22F3ABD8D00FA12B9 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +88,6 @@
 			isa = PBXGroup;
 			children = (
 				533B00542F338289009B8771 /* adeste.app */,
-				53BF309F2F3ABD8D00FA12B9 /* adesteWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -153,7 +116,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				53BF30AE2F3ABD8E00FA12B9 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				533B00562F338289009B8771 /* levelUp */,
@@ -164,29 +126,6 @@
 			productName = "level-up";
 			productReference = 533B00542F338289009B8771 /* adeste.app */;
 			productType = "com.apple.product-type.application";
-		};
-		53BF309E2F3ABD8D00FA12B9 /* adesteWidgetExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 53BF30B02F3ABD8E00FA12B9 /* Build configuration list for PBXNativeTarget "adesteWidgetExtension" */;
-			buildPhases = (
-				53BF309B2F3ABD8D00FA12B9 /* Sources */,
-				53BF309C2F3ABD8D00FA12B9 /* Frameworks */,
-				53BF309D2F3ABD8D00FA12B9 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				53BF30A52F3ABD8D00FA12B9 /* adesteWidget */,
-			);
-			name = adesteWidgetExtension;
-			packageProductDependencies = (
-				FB8455492F3A04C70045993A /* Adhan */,
-			);
-			productName = adesteWidgetExtension;
-			productReference = 53BF309F2F3ABD8D00FA12B9 /* adesteWidgetExtension.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -199,9 +138,6 @@
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					533B00532F338289009B8771 = {
-						CreatedOnToolsVersion = 26.0.1;
-					};
-					53BF309E2F3ABD8D00FA12B9 = {
 						CreatedOnToolsVersion = 26.0.1;
 					};
 				};
@@ -225,20 +161,12 @@
 			projectRoot = "";
 			targets = (
 				533B00532F338289009B8771 /* adeste */,
-				53BF309E2F3ABD8D00FA12B9 /* adesteWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		533B00522F338289009B8771 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		53BF309D2F3ABD8D00FA12B9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -255,22 +183,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		53BF309B2F3ABD8D00FA12B9 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		53BF30AE2F3ABD8E00FA12B9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 53BF309E2F3ABD8D00FA12B9 /* adesteWidgetExtension */;
-			targetProxy = 53BF30AD2F3ABD8E00FA12B9 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		533B005D2F33828B009B8771 /* Debug */ = {
@@ -401,7 +314,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = levelUp/levelUp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CATUKJ98AS;
@@ -437,7 +349,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = levelUp/levelUp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CATUKJ98AS;
@@ -468,68 +379,6 @@
 			};
 			name = Release;
 		};
-		53BF30B12F3ABD8E00FA12B9 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = adesteWidgetExtension.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CATUKJ98AS;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = adesteWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = adesteWidget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = adeste.app.adesteWidget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		53BF30B22F3ABD8E00FA12B9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = adesteWidgetExtension.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CATUKJ98AS;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = adesteWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = adesteWidget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = adeste.app.adesteWidget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -547,15 +396,6 @@
 			buildConfigurations = (
 				533B00602F33828B009B8771 /* Debug */,
 				533B00612F33828B009B8771 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		53BF30B02F3ABD8E00FA12B9 /* Build configuration list for PBXNativeTarget "adesteWidgetExtension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				53BF30B12F3ABD8E00FA12B9 /* Debug */,
-				53BF30B22F3ABD8E00FA12B9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

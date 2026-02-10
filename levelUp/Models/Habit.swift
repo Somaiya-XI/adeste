@@ -80,13 +80,10 @@ protocol HabitManager  {
     func calculateHabitProgress()
 }
 
-struct StepsManager: HabitManager {
+struct StepsManager {
     var id: String
     var name: String
-    func calculateHabitProgress() -> HabitProgress {
-        //Custom for each habit
-        return HabitProgress(fraction: 0, isCompleted: false)
-    }
+
     var stepCount: Int
     var isCompleted: Bool
 }
@@ -157,4 +154,3 @@ extension Habit {
         return .active
     }
 }
-
