@@ -7,13 +7,15 @@
 
 import Foundation
 import SwiftData
+import Adhan
 
 @Model
 class Habit: Identifiable {
     var id = UUID().uuidString
     var title: String
+    var habitIsCompleted: Bool = false
     
-    init(id: String, title: String)  {
+    init(id: String, title: String, habitManager: HabitManager)  {
         self.id = id
         self.title = title
     }
@@ -60,27 +62,7 @@ struct WaterManager: HabitManager {
 
 }
 
-enum Prayer: String, CaseIterable, Codable, Hashable {
-    case fjr = "Fajr"
-    case dhr = "Dhuhr"
-    case asr = "Asr"
-    case mgb = "Magrib"
-    case ish = "Isha"
-}
 
-struct PrayerTimesDay {
-    // start of the day in user's timezone
-    let dayStart: Date
-
-    // prayer times
-    let times: [Prayer: Date]
-}
-
-import Foundation
-
-protocol PrayerTimesProviding {
-    func prayerTimes(for dayStart: Date) async throws -> PrayerTimesDay
-}
 
 //struct PrayerManager: HabitManager {
 //    var id: String

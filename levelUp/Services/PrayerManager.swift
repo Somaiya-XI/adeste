@@ -189,12 +189,12 @@ final class UserDefaultsPrayerStore {
     }
 }
 
+
 struct PrayerManager {
 
     let timesProvider: PrayerTimesProviding
     let store: UserDefaultsPrayerStore
     let windowService = PrayerWindowService()
-    var isPrayerProgressCompleted: Bool
 
     private func todayStart(_ now: Date) -> Date {
         Calendar.current.startOfDay(for: now)
@@ -206,50 +206,120 @@ struct PrayerManager {
             let today = try await timesProvider.prayerTimes(for: dayStart)
             return windowService.buildWindows(today: today)
         } catch {
-            // If Adhan/provider fails, convert to your error for UI
             throw PrayerCheckInError.prayerTimesUnavailable
         }
     }
 
-    // Optional helper for UI (disable button)
+    /// Optional helper for UI (disable button)
     func canCheckIn(prayer: Prayer, now: Date = Date()) async throws -> Bool {
         let windows = try await windowsForToday(now: now)
         return windowService.isValidCheckIn(prayer: prayer, at: now, windows: windows)
     }
 
+    /// User taps “I prayed”
     func checkIn(prayer: Prayer, now: Date = Date()) async throws {
         let dayStart = todayStart(now)
         let windows = try await windowsForToday(now: now)
 
-        // STRICT RULE: cannot check outside window
         guard windowService.isValidCheckIn(prayer: prayer, at: now, windows: windows) else {
             throw PrayerCheckInError.outsideWindow(prayer: prayer)
         }
 
         var checkIns = try store.load(for: dayStart)
 
-        // One check-in per prayer per day (latest wins)
+        // One check-in per prayer per day
         checkIns.removeAll { $0.prayer == prayer }
         checkIns.append(PrayerCheckIn(prayer: prayer, checkedAt: now))
 
         try store.save(checkIns, for: dayStart)
     }
 
-    // Progress is binary: 100% only if all 5 prayers are valid check-ins
-    mutating func progressForToday(now: Date = Date()) async throws  {
+    /// STRICT rule:
+    /// true = all 5 prayers checked in valid windows
+    /// false = anything else
+    func progressForToday(now: Date = Date()) async throws -> Bool {
         let dayStart = todayStart(now)
         let windows = try await windowsForToday(now: now)
         let checkIns = try store.load(for: dayStart)
 
         let validPrayers = Set(
             checkIns
-                .filter { windowService.isValidCheckIn(prayer: $0.prayer, at: $0.checkedAt, windows: windows) }
+                .filter {
+                    windowService.isValidCheckIn(
+                        prayer: $0.prayer,
+                        at: $0.checkedAt,
+                        windows: windows
+                    )
+                }
                 .map(\.prayer)
         )
 
-        isPrayerProgressCompleted = (validPrayers.count == Prayer.allCases.count)
+        return validPrayers.count == Prayer.allCases.count
     }
-    
+}
+
+
+//struct PrayerManager {
+//
+//    let timesProvider: PrayerTimesProviding
+//    let store: UserDefaultsPrayerStore
+//    let windowService = PrayerWindowService()
+//    var isPrayerProgressCompleted: Bool
+//
+//    private func todayStart(_ now: Date) -> Date {
+//        Calendar.current.startOfDay(for: now)
+//    }
+//
+//    private func windowsForToday(now: Date) async throws -> [PrayerWindow] {
+//        let dayStart = todayStart(now)
+//        do {
+//            let today = try await timesProvider.prayerTimes(for: dayStart)
+//            return windowService.buildWindows(today: today)
+//        } catch {
+//            // If Adhan/provider fails, convert to your error for UI
+//            throw PrayerCheckInError.prayerTimesUnavailable
+//        }
+//    }
+//
+//    // Optional helper for UI (disable button)
+//    func canCheckIn(prayer: Prayer, now: Date = Date()) async throws -> Bool {
+//        let windows = try await windowsForToday(now: now)
+//        return windowService.isValidCheckIn(prayer: prayer, at: now, windows: windows)
+//    }
+//
+//    func checkIn(prayer: Prayer, now: Date = Date()) async throws {
+//        let dayStart = todayStart(now)
+//        let windows = try await windowsForToday(now: now)
+//
+//        // STRICT RULE: cannot check outside window
+//        guard windowService.isValidCheckIn(prayer: prayer, at: now, windows: windows) else {
+//            throw PrayerCheckInError.outsideWindow(prayer: prayer)
+//        }
+//
+//        var checkIns = try store.load(for: dayStart)
+//
+//        // One check-in per prayer per day (latest wins)
+//        checkIns.removeAll { $0.prayer == prayer }
+//        checkIns.append(PrayerCheckIn(prayer: prayer, checkedAt: now))
+//
+//        try store.save(checkIns, for: dayStart)
+//    }
+//
+//    // Progress is binary: 100% only if all 5 prayers are valid check-ins
+//    mutating func progressForToday(now: Date = Date()) async throws  {
+//        let dayStart = todayStart(now)
+//        let windows = try await windowsForToday(now: now)
+//        let checkIns = try store.load(for: dayStart)
+//
+//        let validPrayers = Set(
+//            checkIns
+//                .filter { windowService.isValidCheckIn(prayer: $0.prayer, at: $0.checkedAt, windows: windows) }
+//                .map(\.prayer)
+//        )
+//
+//        isPrayerProgressCompleted = (validPrayers.count == Prayer.allCases.count)
+//    }
+//    
 //    func progressForToday(now: Date = Date()) async throws -> PrayerProgress {
 //        let dayStart = todayStart(now)
 //        let windows = try await windowsForToday(now: now)
@@ -263,4 +333,4 @@ struct PrayerManager {
 //
 //        return PrayerProgress(isCompleted: validPrayers.count == Prayer.allCases.count)
 //    }
-}
+//}
