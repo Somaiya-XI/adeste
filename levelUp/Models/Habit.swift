@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import Adhan
 
 @Model
 class Habit: Identifiable {
@@ -82,8 +83,9 @@ protocol HabitManager  {
 struct StepsManager: HabitManager {
     var id: String
     var name: String
-    func calculateHabitProgress() {
+    func calculateHabitProgress() -> HabitProgress {
         //Custom for each habit
+        return HabitProgress(fraction: 0, isCompleted: false)
     }
     var stepCount: Int
     var isCompleted: Bool
