@@ -7,8 +7,10 @@
 
 import SwiftUI
 import SwiftData
+
 @main
-struct levelUpApp: App {
+struct adesteApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -31,5 +33,18 @@ struct levelUpApp: App {
         }
         .modelContainer(sharedModelContainer)
 
+    }
+}
+
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    let notificationDelegate = NotificationDelegate()
+    
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+    ) -> Bool {
+        UNUserNotificationCenter.current().delegate = notificationDelegate
+        return true
     }
 }

@@ -75,8 +75,8 @@ class IntentionManager {
             
         ]
         
-        NotificationManager.obj.triggerScheduledNotification(
-        for: notificationContent,
+        NotificationManager.obj.triggerScheduledIntentionNotification(
+        for: intention,
         triggerInterval: 5)
         
     }
