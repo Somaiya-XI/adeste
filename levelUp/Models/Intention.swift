@@ -11,6 +11,7 @@ import SwiftData
 @Model
 class Intention: Identifiable {
     var id: String
+    var id: String
     var title: String
     //SF Symbols to represent the intention
     var icon: String
@@ -41,4 +42,5 @@ class Intention: Identifiable {
     func editApps(for intention: inout Intention, with apps: [String]) {
         
     }
+
 }

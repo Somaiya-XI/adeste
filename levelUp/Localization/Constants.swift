@@ -14,6 +14,25 @@ import Foundation
 
 struct consts {
     
+    static let fajrStr = "FJR"
+    static let dhuhrStr = "DHR"
+    static let asrStr = "ASR"
+    static let magribStr = "MGB"
+    static let ishaStr = "ISH"
+    
+    //Icon Strings
+    static let homeTabIconStr = "house"
+    static let homeActiveTabIconStr = "house.fill"
+    
+    static let intentionsTabIconStr = "sparkle.text.clipboard"
+    static let intentionsActiveTabIconStr = "sparkle.text.clipboard.fill"
+    
+    static let profileTabIconStr = "person"
+    static let profileActiveTabIconStr = "person.fill"
+    
+    static let emptyWaterbottleIconStr = "waterbottle"
+    static let fullWaterbottleIconStr = "waterbottle.fill"
+
         // Pages Titles
         static let homepageStr = "Home"
         static let intentionpageStr = "Intention"
