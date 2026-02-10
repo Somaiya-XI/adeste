@@ -1,6 +1,6 @@
 //
 //  IntentionsViewModel.swift
-//  levelUp
+//  Adeste
 //
 //  Created by Somaiya on 21/08/1447 AH.
 //
@@ -40,5 +40,9 @@ class IntentionsViewModel {
     
     func deleteIntention(_ intention: Intention) {
         manager?.deleteIntention(intention)
+    }
+    
+    func triggerNotification(for intention: Intention){
+        manager?.triggerNotification(for: intention)
     }
 }
