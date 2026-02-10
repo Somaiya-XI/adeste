@@ -11,7 +11,10 @@ import Foundation
 struct User {
     var id: String
     var name: String
+    var currentCycle: Cycle
     var cycleHistory: [Cycle]
     var streak: Int
+    var listOfHabits: [Habit]
+
 }
 

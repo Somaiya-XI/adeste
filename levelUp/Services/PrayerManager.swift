@@ -216,7 +216,7 @@ struct PrayerManager {
         return windowService.isValidCheckIn(prayer: prayer, at: now, windows: windows)
     }
 
-    /// User taps “I prayed”
+    // User taps “I prayed”
     func checkIn(prayer: Prayer, now: Date = Date()) async throws {
         let dayStart = todayStart(now)
         let windows = try await windowsForToday(now: now)

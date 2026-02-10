@@ -17,6 +17,12 @@ struct consts {
     static let intentionStr = "Intention"
     static let homeStr = "Home"
     
+    static let fajrStr = "FJR"
+    static let dhuhrStr = "DHR"
+    static let asrStr = "ASR"
+    static let magribStr = "MGB"
+    static let ishaStr = "ISH"
+    
     //Icon Strings
     static let homeTabIconStr = "house"
     static let homeActiveTabIconStr = "house.fill"
