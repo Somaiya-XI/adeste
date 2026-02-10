@@ -1,6 +1,6 @@
 //
 //  IntentionManager.swift
-//  levelUp
+//  Adeste
 //
 //  Created by Somaiya on 20/08/1447 AH.
 //
@@ -46,7 +46,7 @@ class IntentionManager {
         saveContext()
     }
     
-    // Business Logic
+    // Business Logic (WE HAVE TO MAKE SURE IT STAYS ON THE WEEK RANGE)
     func calculateWeeklySummary() -> IntentionSummary {
         let intentions = fetchAllIntentions()
         var summary = IntentionSummary()
@@ -64,6 +64,21 @@ class IntentionManager {
         }
         
         return summary
+    }
+    
+    func triggerNotification(for intention: Intention) {
+        
+        let notificationContent =
+        [
+            "title": "Intention",
+            "body": "Hello from intentions",
+            
+        ]
+        
+        NotificationManager.obj.triggerScheduledNotification(
+        for: notificationContent,
+        triggerInterval: 5)
+        
     }
     
     func registerFocus(for intention: Intention) {
