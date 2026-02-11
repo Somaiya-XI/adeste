@@ -30,7 +30,7 @@ class NotificationManager {
         }
     }
     
-    func triggerScheduledNotification(for content: [String: String], triggerInterval: TimeInterval) {
+    func triggerScheduledNotification(for content: [String: String], triggerInterval: TimeInterval, category: String? = "") {
         
         
         let notificationContent = UNMutableNotificationContent()
@@ -40,7 +40,7 @@ class NotificationManager {
         notificationContent.title = title
         notificationContent.body = body
         notificationContent.sound = UNNotificationSound.default
-        
+        notificationContent.categoryIdentifier = category ?? ""
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: triggerInterval, repeats: false)
         
@@ -52,23 +52,25 @@ class NotificationManager {
         
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
-                print("Error: \(error)")
+                print("Error: \(error.localizedDescription)")
+            } else {
+                print("notification is firing in \(triggerInterval) seconds")
             }
         }
     }
-
-    func triggerScheduledNotification() {
+    
+    func setupNotificationCategory() {
         
         // 1. Define actions
         let focusAction = UNNotificationAction(
             identifier: "FOCUS_ACTION",
-            title: "Focus",
-            options: [.foreground]
+            title: "Focused",
+            options: []
         )
         
         let distractionAction = UNNotificationAction(
             identifier: "DISTRACTION_ACTION",
-            title: "Distraction",
+            title: "Got distracted",
             options: [.destructive]
         )
         
@@ -88,25 +90,29 @@ class NotificationManager {
         
         // 3. Register the category
         UNUserNotificationCenter.current().setNotificationCategories([category])
-        
-        
+    }
+
+    
+    func triggerScheduledIntentionNotification(for intention: Intention, triggerInterval: TimeInterval) {
         let content = UNMutableNotificationContent()
-        content.title = "Hello"
-        content.body = "Hello World"
+        content.title = "Intention Check"
+//        content.body = "How did you handle '\(intention.title)'?"
+        content.body = "You opened your phone to '\(intention.title)' Did you finish?"
         content.sound = UNNotificationSound.default
+        content.categoryIdentifier = "INTENTION_CATEGORY"
         
+        // Store the intention ID in userInfo
+        content.userInfo = ["intentionId": intention.id]
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-        
-        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: triggerInterval, repeats: false)
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        
         
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
-                print("Error: \(error)")
+                print("Error: \(error.localizedDescription)")
+            } else {
+                print("Notification scheduled for \(intention.title)")
             }
         }
     }
-
 }

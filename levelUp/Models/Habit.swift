@@ -155,4 +155,3 @@ extension Habit {
         return .active
     }
 }
-

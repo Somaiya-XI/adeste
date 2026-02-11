@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "533B00532F338289009B8771"
-               BuildableName = "levelUp.app"
-               BlueprintName = "levelUp"
-               ReferencedContainer = "container:levelUp.xcodeproj">
+               BuildableName = "adeste.app"
+               BlueprintName = "adeste"
+               ReferencedContainer = "container:adeste.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "533B00532F338289009B8771"
-            BuildableName = "levelUp.app"
-            BlueprintName = "levelUp"
-            ReferencedContainer = "container:levelUp.xcodeproj">
+            BuildableName = "adeste.app"
+            BlueprintName = "adeste"
+            ReferencedContainer = "container:adeste.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "533B00532F338289009B8771"
-            BuildableName = "levelUp.app"
-            BlueprintName = "levelUp"
-            ReferencedContainer = "container:levelUp.xcodeproj">
+            BuildableName = "adeste.app"
+            BlueprintName = "adeste"
+            ReferencedContainer = "container:adeste.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
