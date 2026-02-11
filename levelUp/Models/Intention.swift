@@ -41,4 +41,5 @@ class Intention: Identifiable {
     func editApps(for intention: inout Intention, with apps: [String]) {
         
     }
+
 }

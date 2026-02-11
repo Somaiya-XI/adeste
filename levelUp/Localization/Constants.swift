@@ -1,6 +1,6 @@
 //
 //  Constants.swift
-//  levelUp
+//  adeste
 //
 //  Created by Somaiya on 21/08/1447 AH.
 //
@@ -14,16 +14,30 @@ import Foundation
 
 struct consts {
     
-        // Pages Titles
-        static let homepageStr = "Home"
-        static let intentionpageStr = "Intention"
-        static let profilepageStr = "Profile"
-        
-        // Tab Icons
-        static let homeTabIconStr = "house.fill"
-        static let intentionsTabIconStr = "sparkle.text.clipboard.fill"
-        static let profileTabIconStr = "person.fill"
-        
+    static let fajrStr = "FJR"
+    static let dhuhrStr = "DHR"
+    static let asrStr = "ASR"
+    static let magribStr = "MGB"
+    static let ishaStr = "ISH"
+    
+    //Icon Strings
+    static let homeActiveTabIconStr = "house.fill"
+    
+    static let intentionsActiveTabIconStr = "sparkle.text.clipboard.fill"
+    
+    static let profileActiveTabIconStr = "person.fill"
+    
+    
+    // Pages Titles
+    static let homepageStr = "Home"
+    static let intentionpageStr = "Intention"
+    static let profilepageStr = "Profile"
+    
+    // Tab Icons
+    static let homeTabIconStr = "house.fill"
+    static let intentionsTabIconStr = "sparkle.text.clipboard.fill"
+    static let profileTabIconStr = "person.fill"
+    
     // Intentions View
         static let weeklySummaryStr = "Weekly Intention summary"
         static let currentIntentionStr = "Current intention"
@@ -46,7 +60,6 @@ struct consts {
         static let saveStr = "Save"
         static let deleteIntentionStr = "Delete Intention"
         static let stopStr = "Stop"
-        static let doneStr = "Done"
         
         // Icons (System Symbols & Assets)
         // Assets
@@ -57,24 +70,5 @@ struct consts {
         static let plusIcon = "plus"
         static let emptyWaterbottleIconStr = "waterbottle"
         static let fullWaterbottleIconStr = "waterbottle.fill"
-
-    
-    static let fajrStr = "FJR"
-    static let dhuhrStr = "DHR"
-    static let asrStr = "ASR"
-    static let magribStr = "MGB"
-    static let ishaStr = "ISH"
-    
-    //Icon Strings
-    static let homeActiveTabIconStr = "house.fill"
-    
-    static let intentionsActiveTabIconStr = "sparkle.text.clipboard.fill"
-    
-    static let profileActiveTabIconStr = "person.fill"
-
-    static let stopTimerIconStr = "clock.badge.xmark"
-    
-    static let emptyIntentionChartIconStr = "chart.bar.xaxis.ascending.badge.clock" //"chart.line.text.clipboard"
-    
-    static let emptyIntentionSummaryStr = "start interacting with intentions\n to get your summary"
 }
+

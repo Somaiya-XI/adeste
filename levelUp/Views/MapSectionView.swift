@@ -10,7 +10,7 @@ import SwiftUI
 struct MapSectionView: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 24)
-            .fill(Color.gray.opacity(0.15))
+            .fill(Color.baseShade01)
             .frame(height: 160)
             .overlay(
                 VStack {
