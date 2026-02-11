@@ -25,6 +25,10 @@ extension Font {
         .system(size: 20, weight: .medium, design: .rounded)
     }
     
+    static var s18Medium: Font {
+        .system(size: 18, weight: .medium, design: .rounded)
+    }
+    
     static var s24Medium: Font {
         .system(size: 24, weight: .medium, design: .rounded)
     }

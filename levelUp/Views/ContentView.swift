@@ -42,7 +42,7 @@ struct ContentView: View {
             CustomTabBar(selectedTab: $selectedTab, namespace: tabAnimation)
                 .padding(.bottom, 24)
         }
-        
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 

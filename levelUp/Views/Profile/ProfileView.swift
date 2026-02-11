@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @AppStorage("userName") private var userName: String = "My Name"
+    @State private var showNameEditor = false
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
@@ -28,9 +31,23 @@ struct ProfileView: View {
                         .background(Color("base-shade-01"))
                         .clipShape(Circle())
 
-                    Text("User Name")
-                        .font(.s24Medium)
-                        .foregroundStyle(Color("brand-color"))
+                    Button {
+                        showNameEditor = true
+                    } label: {
+                        HStack(spacing: 0) {
+                            Spacer(minLength: 0)
+                            HStack(spacing: 6) {
+                                Image(systemName: "pencil.line")
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(Color("brand-color").opacity(0.5))
+                                Text(userName)
+                                    .font(.s24Medium)
+                                    .foregroundStyle(Color("brand-color"))
+                            }
+                            Spacer(minLength: 0)
+                        }
+                    }
+                    .buttonStyle(.plain)
                 }
 
                 Spacer().frame(height: 36)
@@ -75,10 +92,6 @@ struct ProfileView: View {
                         settingsRow(title: consts.manageIntentionsStr)
                     }
                     .buttonStyle(.plain)
-                    
-                    customDivider
-    
-                    settingsRow(title: consts.manageAccountStr)
                 }
 
                 Spacer(minLength: 32)
@@ -86,6 +99,22 @@ struct ProfileView: View {
             .padding(.horizontal, 16)
         }
         .background(Color.white)
+        .overlay {
+            // Custom Edit Name Popup (matching EditIntentionPopup style)
+            if showNameEditor {
+                ZStack {
+                    // Dimmed background
+                    Color.black.opacity(0.45)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            showNameEditor = false
+                        }
+                    
+                    // Popup content
+                    EditNamePopup(userName: $userName, isPresented: $showNameEditor)
+                }
+            }
+        }
     }
 
     
