@@ -10,7 +10,7 @@ import SwiftUI
 struct AppLimitCardView: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 20)
-            .fill(Color.gray.opacity(0.15))
+            .fill(Color.baseShade01)
             .frame(height: 96)
             .overlay(
                 VStack(spacing: 6) {

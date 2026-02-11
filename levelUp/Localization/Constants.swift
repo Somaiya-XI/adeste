@@ -21,13 +21,10 @@ struct consts {
     static let ishaStr = "ISH"
     
     //Icon Strings
-    static let homeTabIconStr = "house"
     static let homeActiveTabIconStr = "house.fill"
     
-    static let intentionsTabIconStr = "sparkle.text.clipboard"
     static let intentionsActiveTabIconStr = "sparkle.text.clipboard.fill"
     
-    static let profileTabIconStr = "person"
     static let profileActiveTabIconStr = "person.fill"
     
     static let emptyWaterbottleIconStr = "waterbottle"
@@ -73,7 +70,5 @@ struct consts {
         static let checkmarkIcon = "checkmark"
         static let editIcon = "pencil.and.outline"
         static let plusIcon = "plus"
-        static let emptyWaterbottleIconStr = "waterbottle"
-        static let fullWaterbottleIconStr = "waterbottle.fill"
 }
 

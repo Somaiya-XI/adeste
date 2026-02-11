@@ -17,7 +17,7 @@ struct WaterHabitCardView: View {
         VStack(spacing: 12) {
 
             // العنوان
-            Text("Water intake")
+            Text("Water Intake")
                 .font(.headline)
                 .foregroundColor(.white)
 
@@ -65,7 +65,7 @@ struct WaterHabitCardView: View {
         .frame(height: 120)
         .frame(maxWidth: .infinity)
         .background(Color.secColorBlue)
-        .cornerRadius(20)
+        .cornerRadius(16)
         .alert("wait", isPresented: $showAlert) {
             Button("okey") {}
         } message: {
