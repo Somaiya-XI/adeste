@@ -52,6 +52,8 @@ enum HabitType: String, Codable {
     case water
     case steps
     case wakeUp
+    case prayer
+    case athkar
 
     var color: Color {
         switch self {
@@ -60,6 +62,11 @@ enum HabitType: String, Codable {
         case .steps:
             return .secColorBerry
         case .wakeUp:
+            return .secColorMustard
+            case .prayer:
+            return .secColorBerry
+        case .athkar:
+           //حطي ال if
             return .secColorMustard
         }
     }
@@ -80,16 +87,7 @@ protocol HabitManager  {
     func calculateHabitProgress()
 }
 
-struct StepsManager: HabitManager {
-    var id: String
-    var name: String
-    func calculateHabitProgress() -> HabitProgress {
-        //Custom for each habit
-        return HabitProgress(fraction: 0, isCompleted: false)
-    }
-    var stepCount: Int
-    var isCompleted: Bool
-}
+
 extension Habit {
     convenience init(title: String, type: HabitType) {
         self.init(

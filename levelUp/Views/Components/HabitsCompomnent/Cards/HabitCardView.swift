@@ -12,6 +12,7 @@ struct HabitCardView: View {
       let subtitle: String?
     let type : HabitType
     var body: some View {
+        
         VStack(alignment: .leading, spacing: 8) {
                    Text(title)
                        .font(.headline)

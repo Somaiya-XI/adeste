@@ -66,8 +66,12 @@ struct HabitsStaticLayoutView: View {
             case .wakeUp:
                   
                     WakeUpHabitCardView(habit: habit)
-                       
-                   
+                  
+            case .prayer:
+                PrayerHabitCardView(habit: habit)
+                
+            case .athkar:
+                AthkarHabitCardView(habit: habit)
             }
         }
     }

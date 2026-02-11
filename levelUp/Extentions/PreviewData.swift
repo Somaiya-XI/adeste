@@ -49,6 +49,29 @@ enum PreviewData {
         )
         return h
     }
+    // MARK: - Prayer Habit
+
+    static var prayerHabit: Habit {
+        let h = Habit(
+            id: UUID().uuidString,
+            title: "Prayer",
+            type: .prayer,
+            isEnabled: true
+        )
+        return h
+    }
+
+    // MARK: - Athkar Habit
+
+    static var athkarHabit: Habit {
+        let h = Habit(
+            id: UUID().uuidString,
+            title: "Athkar",
+            type: .athkar,
+            isEnabled: true
+        )
+        return h
+    }
 
     // MARK: - Extra Habits (for paging test)
 
