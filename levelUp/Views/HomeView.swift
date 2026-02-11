@@ -8,38 +8,6 @@
 import SwiftUI
 
 
-//let mockHabits: [Habit] = {
-//    let h1 = Habit(
-//        id: UUID().uuidString,
-//        title: "Wake Up",
-//        type: .wakeUp,
-//        isEnabled: true
-//    )
-//
-//    let h2 = Habit(
-//        id: UUID().uuidString,
-//        title: "Steps",
-//        type: .steps,
-//        isEnabled: true
-//    )
-//
-//    let h3 = Habit(
-//        id: UUID().uuidString,
-//        title: "Water Intake",
-//        type: .water,
-//        isEnabled: true
-//    )
-//
-//    let h4 = Habit(
-//        id: UUID().uuidString,
-//        title: "Athkar",
-//        type: .wakeUp, // أو سوي type جديد لو حابة
-//        isEnabled: true
-//    )
-//
-//    return [h1, h2, h3, h4]
-//}()
-
 import SwiftUI
 
 struct HomeView: View {
@@ -49,6 +17,9 @@ struct HomeView: View {
             vm.pages = previewPages
         }
         _viewModel = StateObject(wrappedValue: vm)
+       
+        UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color.brand)
+          UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color.brand.opacity(0.3))
     }
 
     @StateObject private var viewModel = HomeViewModel()
@@ -66,7 +37,7 @@ struct HomeView: View {
         }
         .padding(.horizontal)
         .onAppear {
-//            viewModel.loadHabits(mockHabits)
+
         }
     }
 }
