@@ -46,6 +46,7 @@ struct consts {
         static let saveStr = "Save"
         static let deleteIntentionStr = "Delete Intention"
         static let stopStr = "Stop"
+        static let doneStr = "Done"
         
         // Icons (System Symbols & Assets)
         // Assets

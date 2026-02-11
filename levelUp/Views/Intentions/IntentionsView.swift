@@ -6,22 +6,25 @@
 //
 
 import SwiftUI
+import SwiftData
 import Combine
 import FamilyControls
 
 struct IntentionsView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \Intention.title) private var intentions: [Intention]
+    
     @State private var selectedIntentionIcon: String? = nil
     @State private var stopwatchTime: TimeInterval = 0
-    @State private var currentIntentionsCount = 3
     @State private var isEditing = false
     @State private var tempIntention: Intention? = nil
     @State private var isAddingNew = false
-    @State private var intentions: [Intention] = [
-        Intention(title: "Texting", icon: "message.badge.filled.fill"),
-        Intention(title: "Studying", icon: "book.pages.fill"),
-        Intention(title: "Playing", icon: "gamecontroller.fill")
-    ]
-    @State var focusRatio: Double = 0.5  
+    @State var focusRatio: Double = 0.5
+    
+    // Computed property for current intentions count
+    private var currentIntentionsCount: Int {
+        intentions.count
+    }  
 
     private let columns = [
         GridItem(.flexible()),
@@ -184,19 +187,16 @@ struct IntentionsView: View {
                         },
                         onSave: { updatedIntention in
                             if isAddingNew {
-                                intentions.append(updatedIntention)
-                                currentIntentionsCount = intentions.count
-                            } else {
-                                 if let index = intentions.firstIndex(where: { $0.id == updatedIntention.id }) {
-                                    intentions[index] = updatedIntention
-                                }
+                                modelContext.insert(updatedIntention)
                             }
+                            // For updates, the EditIntentionPopup modifies the existing object directly
+                            try? modelContext.save()
                             tempIntention = nil
                         },
                         onDelete: {
                             if currentIntentionsCount > 3, let intentionToDelete = tempIntention {
-                                intentions.removeAll { $0.id == intentionToDelete.id }
-                                currentIntentionsCount = intentions.count
+                                modelContext.delete(intentionToDelete)
+                                try? modelContext.save()
                                 tempIntention = nil
                             }
                         }
@@ -238,8 +238,7 @@ struct IntentionsView: View {
     private func intentionButton(intention: Intention, isEditing: Bool, onLongPress: @escaping () -> Void) -> some View {
         Button {
              if isEditing {
-                 tempIntention = Intention(title: intention.title, icon: intention.icon)
-                tempIntention?.id = intention.id
+                 tempIntention = intention // Use the actual SwiftData object
                 isAddingNew = false
             } else {
                 // Start Timer
@@ -293,6 +292,7 @@ struct EditIntentionPopup: View {
     @State private var editedIcon: String
     @State private var showFamilyActivityPicker = false
     @State private var familyActivitySelection = FamilyActivitySelection()
+    @State private var showIconPicker = false
     
     init(intention: Intention, isAddingNew: Bool, existingIntentions: [Intention], canDelete: Bool, onCancel: @escaping () -> Void, onSave: @escaping (Intention) -> Void, onDelete: @escaping () -> Void) {
         self.intention = intention
@@ -337,14 +337,24 @@ struct EditIntentionPopup: View {
             
              HStack(spacing: 16) {
                  Button {
-                    print("Open Icon Picker")
+                    showIconPicker = true
                 } label: {
-                    Image(systemName: editedIcon)
-                        .font(.s24Medium)
-                        .foregroundStyle(Color("brand-color"))
-                        .frame(width: 48, height: 48)
-                        .background(Color("base-shade-03"))
-                        .clipShape(Circle())
+                    ZStack {
+                        Image(systemName: editedIcon)
+                            .font(.s24Medium)
+                            .foregroundStyle(Color("brand-color"))
+                            .frame(width: 48, height: 48)
+                            .background(Color("base-shade-03"))
+                            .clipShape(Circle())
+                        
+                        // Visual hint: Small pencil badge overlay
+                        Image(systemName: "pencil.circle.fill")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundStyle(Color("brand-color"))
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .offset(x: 16, y: 16)
+                    }
                 }
                 .buttonStyle(.plain)
                 
@@ -396,24 +406,38 @@ struct EditIntentionPopup: View {
                 )
                 
                 Button(consts.saveStr) {
-                    // Create updated intention
-                    let updatedIntention = Intention(title: editedTitle.trimmingCharacters(in: .whitespacesAndNewlines), icon: editedIcon)
-                    updatedIntention.id = intention.id // Preserve ID for updates
-                    // Save the selected apps from FamilyActivityPicker
-                    // Convert ApplicationTokens to encoded strings for storage
-                    if !familyActivitySelection.applicationTokens.isEmpty {
-                        updatedIntention.apps = familyActivitySelection.applicationTokens.compactMap { token in
-                            // Encode token to string for storage
-                            if let encoded = try? JSONEncoder().encode(token),
-                               let encodedString = String(data: encoded, encoding: .utf8) {
-                                return encodedString
+                    if isAddingNew {
+                        // Create new intention
+                        let newIntention = Intention(title: editedTitle.trimmingCharacters(in: .whitespacesAndNewlines), icon: editedIcon)
+                        // Save the selected apps from FamilyActivityPicker
+                        if !familyActivitySelection.applicationTokens.isEmpty {
+                            newIntention.apps = familyActivitySelection.applicationTokens.compactMap { token in
+                                if let encoded = try? JSONEncoder().encode(token),
+                                   let encodedString = String(data: encoded, encoding: .utf8) {
+                                    return encodedString
+                                }
+                                return nil
                             }
-                            return nil
                         }
+                        onSave(newIntention)
                     } else {
-                        updatedIntention.apps = nil
+                        // Update existing intention directly (SwiftData will track changes)
+                        intention.title = editedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+                        intention.icon = editedIcon
+                        // Save the selected apps from FamilyActivityPicker
+                        if !familyActivitySelection.applicationTokens.isEmpty {
+                            intention.apps = familyActivitySelection.applicationTokens.compactMap { token in
+                                if let encoded = try? JSONEncoder().encode(token),
+                                   let encodedString = String(data: encoded, encoding: .utf8) {
+                                    return encodedString
+                                }
+                                return nil
+                            }
+                        } else {
+                            intention.apps = nil
+                        }
+                        onSave(intention)
                     }
-                    onSave(updatedIntention)
                 }
                 .font(.s16Medium)
                 .foregroundStyle(isValid ? Color.white : Color.gray)
@@ -440,6 +464,12 @@ struct EditIntentionPopup: View {
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
+        // Icon Picker Sheet (Notion-style)
+        .sheet(isPresented: $showIconPicker) {
+            SymbolView(selectedSymbol: $editedIcon)
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
+        }
     }
 }
 

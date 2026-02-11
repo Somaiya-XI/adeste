@@ -71,7 +71,11 @@ struct ProfileView: View {
                     settingsRow(title: consts.selectCycleStr)
                     customDivider
                     
-                    settingsRow(title: consts.manageIntentionsStr)
+                    NavigationLink(destination: ManageIntentionsView()) {
+                        settingsRow(title: consts.manageIntentionsStr)
+                    }
+                    .buttonStyle(.plain)
+                    
                     customDivider
     
                     settingsRow(title: consts.manageAccountStr)
