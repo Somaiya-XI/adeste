@@ -13,7 +13,9 @@ let previewContainer: ModelContainer = {
      var intentions: [Intention] = [
         Intention(title: "Texting", icon: "message.badge.filled.fill"),
         Intention(title: "Studying", icon: "book.pages.fill"),
-        Intention(title: "Playing", icon: "gamecontroller.fill")
+        Intention(title: "Studying", icon: "book.pages.fill"),
+        Intention(title: "Playing", icon: "gamecontroller.fill"),
+        Intention(title: "Playing", icon: "gamecontroller"),
     ]
     do {
         let container = try ModelContainer(for: Intention.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))

@@ -14,7 +14,7 @@ struct NotificationTestingView: View {
     @AppStorage("counter") var counter: Int = 0
 
     @Environment(\.modelContext) private var modelContext
-    @State var screenTimeManager  = ScreenTimeManager()
+//    @State var screenTimeManager  = ScreenTimeManager()
     @State private var pickerIsPresented = false
     @State private var activitySelection = FamilyActivitySelection()
     var myIntent = Intention(title: "Texting", icon: "message.badge.filled.fill")
@@ -39,9 +39,9 @@ struct NotificationTestingView: View {
             }
             
         }.onAppear{
-            Task {
-                await screenTimeManager.requestAuthorization()
-            }
+//            Task {
+//                await screenTimeManager.requestAuthorization()
+//            }
             vm.configure(with: modelContext)
             
         }.onChange(of: intentions) {

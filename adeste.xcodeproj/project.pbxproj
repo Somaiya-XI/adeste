@@ -11,6 +11,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		531EE8AF2F3C94D9006C52A2 /* Embed ExtensionKit Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			name = "Embed ExtensionKit Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		53BF30B42F3ABD8E00FA12B9 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -24,6 +34,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		531EE86F2F3C24A8006C52A2 /* ManagedSettings.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ManagedSettings.framework; path = System/Library/Frameworks/ManagedSettings.framework; sourceTree = SDKROOT; };
+		531EE8712F3C24A8006C52A2 /* ManagedSettingsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ManagedSettingsUI.framework; path = System/Library/Frameworks/ManagedSettingsUI.framework; sourceTree = SDKROOT; };
+		531EE8842F3C24CC006C52A2 /* DeviceActivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceActivity.framework; path = System/Library/Frameworks/DeviceActivity.framework; sourceTree = SDKROOT; };
 		533B00542F338289009B8771 /* adeste.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = adeste.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53BF309A2F3AB8EE00FA12B9 /* adeste.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = adeste.entitlements; sourceTree = "<group>"; };
 		53BF30A12F3ABD8D00FA12B9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -35,10 +48,7 @@
 		533B026B2F37E797009B8771 /* Exceptions for "levelUp" folder in "adeste" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Networking/readme.md,
-				ViewModels/readme.md,
 				Views/Components/readme.md,
-				Views/readme.md,
 			);
 			target = 533B00532F338289009B8771 /* adeste */;
 		};
@@ -97,6 +107,9 @@
 			children = (
 				53BF30A12F3ABD8D00FA12B9 /* WidgetKit.framework */,
 				53BF30A32F3ABD8D00FA12B9 /* SwiftUI.framework */,
+				531EE86F2F3C24A8006C52A2 /* ManagedSettings.framework */,
+				531EE8712F3C24A8006C52A2 /* ManagedSettingsUI.framework */,
+				531EE8842F3C24CC006C52A2 /* DeviceActivity.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -112,6 +125,7 @@
 				533B00512F338289009B8771 /* Frameworks */,
 				533B00522F338289009B8771 /* Resources */,
 				53BF30B42F3ABD8E00FA12B9 /* Embed Foundation Extensions */,
+				531EE8AF2F3C94D9006C52A2 /* Embed ExtensionKit Extensions */,
 			);
 			buildRules = (
 			);
@@ -314,6 +328,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = adeste.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CATUKJ98AS;
@@ -349,6 +364,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = adeste.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CATUKJ98AS;

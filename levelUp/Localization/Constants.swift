@@ -39,7 +39,7 @@ struct consts {
     static let profileTabIconStr = "person.fill"
     
     // Intentions View
-    static let weeklySummaryStr = "Weekly Intention summary"
+    static let weeklySummaryStr = "Intention summary"
     static let currentIntentionStr = "Current intention"
     static let startIntentionStr = "Start an intention"
     static let newIntentionStr = "New Intention"
@@ -70,4 +70,9 @@ struct consts {
     static let plusIcon = "plus"
     static let emptyWaterbottleIconStr = "waterbottle"
     static let fullWaterbottleIconStr = "waterbottle.fill"
+    static let stopTimerIconStr = "clock.badge.xmark"
+    
+    static let emptyIntentionChartIconStr = "chart.bar.xaxis.ascending.badge.clock" //"chart.line.text.clipboard"
+    
+    static let emptyIntentionSummaryStr = "start interacting with intentions\n to get your summary"
 }
