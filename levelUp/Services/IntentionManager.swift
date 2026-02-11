@@ -85,6 +85,11 @@ class IntentionManager {
     }
     
     func triggerNotification(for intention: Intention) {
+        NotificationManager.obj.setupNotificationCategory()
+
+        if NotificationManager.obj.isNotificationEnabled == false {
+            NotificationManager.obj.requestPermission()
+        }
         
         NotificationManager.obj.triggerScheduledIntentionNotification(
         for: intention,
