@@ -14,7 +14,10 @@
 		533B026B2F37E797009B8771 /* Exceptions for "levelUp" folder in "adeste" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Networking/readme.md,
+				ViewModels/readme.md,
 				Views/Components/readme.md,
+				Views/readme.md,
 			);
 			target = 533B00532F338289009B8771 /* adeste */;
 		};
