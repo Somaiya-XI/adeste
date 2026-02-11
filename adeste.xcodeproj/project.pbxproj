@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		533B00542F338289009B8771 /* levelUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = levelUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		533B00542F338289009B8771 /* adeste.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = adeste.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		533B026B2F37E797009B8771 /* Exceptions for "levelUp" folder in "levelUp" target */ = {
+		533B026B2F37E797009B8771 /* Exceptions for "levelUp" folder in "adeste" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Networking/readme.md,
@@ -19,7 +19,7 @@
 				Views/Components/readme.md,
 				Views/readme.md,
 			);
-			target = 533B00532F338289009B8771 /* levelUp */;
+			target = 533B00532F338289009B8771 /* adeste */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -27,7 +27,7 @@
 		533B00562F338289009B8771 /* levelUp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				533B026B2F37E797009B8771 /* Exceptions for "levelUp" folder in "levelUp" target */,
+				533B026B2F37E797009B8771 /* Exceptions for "levelUp" folder in "adeste" target */,
 			);
 			path = levelUp;
 			sourceTree = "<group>";
@@ -56,7 +56,7 @@
 		533B00552F338289009B8771 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				533B00542F338289009B8771 /* levelUp.app */,
+				533B00542F338289009B8771 /* adeste.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -64,9 +64,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		533B00532F338289009B8771 /* levelUp */ = {
+		533B00532F338289009B8771 /* adeste */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 533B005F2F33828B009B8771 /* Build configuration list for PBXNativeTarget "levelUp" */;
+			buildConfigurationList = 533B005F2F33828B009B8771 /* Build configuration list for PBXNativeTarget "adeste" */;
 			buildPhases = (
 				533B00502F338289009B8771 /* Sources */,
 				533B00512F338289009B8771 /* Frameworks */,
@@ -79,11 +79,11 @@
 			fileSystemSynchronizedGroups = (
 				533B00562F338289009B8771 /* levelUp */,
 			);
-			name = levelUp;
+			name = adeste;
 			packageProductDependencies = (
 			);
 			productName = "level-up";
-			productReference = 533B00542F338289009B8771 /* levelUp.app */;
+			productReference = 533B00542F338289009B8771 /* adeste.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -101,7 +101,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 533B004F2F338289009B8771 /* Build configuration list for PBXProject "levelUp" */;
+			buildConfigurationList = 533B004F2F338289009B8771 /* Build configuration list for PBXProject "adeste" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -116,7 +116,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				533B00532F338289009B8771 /* levelUp */,
+				533B00532F338289009B8771 /* adeste */,
 			);
 		};
 /* End PBXProject section */
@@ -334,7 +334,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		533B004F2F338289009B8771 /* Build configuration list for PBXProject "levelUp" */ = {
+		533B004F2F338289009B8771 /* Build configuration list for PBXProject "adeste" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				533B005D2F33828B009B8771 /* Debug */,
@@ -343,7 +343,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		533B005F2F33828B009B8771 /* Build configuration list for PBXNativeTarget "levelUp" */ = {
+		533B005F2F33828B009B8771 /* Build configuration list for PBXNativeTarget "adeste" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				533B00602F33828B009B8771 /* Debug */,
