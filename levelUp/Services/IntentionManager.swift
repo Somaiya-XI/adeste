@@ -24,6 +24,24 @@ class IntentionManager {
     
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
+        populateDefaultIntentions()
+
+    }
+    
+    private func populateDefaultIntentions() {
+        let intentions = fetchAllIntentions()
+        
+        if intentions.isEmpty {
+            let starterIntentions = [
+                Intention(title: "Texting", icon: "message.badge.filled.fill"),
+                Intention(title: "Studying", icon: "book.pages.fill"),
+                Intention(title: "Playing", icon: "gamecontroller.fill")
+            ]
+            
+            for intention in starterIntentions {
+                addIntention(intention)
+            }
+        }
     }
     
     // CRUD Operations
@@ -68,15 +86,8 @@ class IntentionManager {
     
     func triggerNotification(for intention: Intention) {
         
-        let notificationContent =
-        [
-            "title": "Intention",
-            "body": "Hello from intentions",
-            
-        ]
-        
-        NotificationManager.obj.triggerScheduledNotification(
-        for: notificationContent,
+        NotificationManager.obj.triggerScheduledIntentionNotification(
+        for: intention,
         triggerInterval: 5)
         
     }
