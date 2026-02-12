@@ -47,6 +47,11 @@ struct StepsHabitCardView: View {
            .frame(maxWidth: .infinity, maxHeight: .infinity)
            .background(Color.secColorBerry)
            .cornerRadius(16)
+           .onAppear{
+               Task {
+                   try await HealthManager.shared.requestAuthorization()
+               }
+           }
        }
    }
 

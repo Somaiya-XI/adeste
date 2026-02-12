@@ -9,7 +9,11 @@ import Foundation
 import Combine
 
 class HomeViewModel: ObservableObject {
-    @Published var pages: [[Habit]] = []
+    @Published var pages: [[Habit]] = [[
+        Habit(title: "Water", type: .water),
+        Habit(title: "Steps", type: .steps),
+        Habit(title: "Wake Up", type: .wakeUp)
+    ]]
     
     func loadHabits(_ habits: [Habit]) {
         let enabledHabits = habits.filter{ $0.isEnabled }
