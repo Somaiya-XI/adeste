@@ -1,55 +1,41 @@
-//
-//  AthkarHabitCardView.swift
-//  levelUp
-//
-//  Created by Jory on 23/08/1447 AH.
-//
+////
+////  PrayerHabitCardView.swift
+////  levelUp
+////
+////  Created by Jory on 23/08/1447 AH.
+////
 
 import SwiftUI
 
-struct AthkarHabitCardView: View {
+struct PrayerHabitCardView: View {
     var habit: Habit
-    
-  
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             
             VStack(alignment: .leading) {
                 HStack {
-                    Text(habit.title)
+                    Text("Prayer")
                         .font(.headline)
                         .foregroundColor(.white)
                     
                     Spacer()
                 }
                 
-                Text("mmmm")
+                Text("Prayer")
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(.white)
             }
             
             HStack {
                 Spacer()
-                Image(systemName: athkarIcon)
+                Image(systemName: "")
                     .font(.system(size: 60))
                     .foregroundColor(.white.opacity(0.7))
             }
         }
         .padding()
-        .background(Color.secColorMustard)
+        .background(Color.secColorBerry)
         .frame(width: 168, height: 146)
         .cornerRadius(16)
-    }
-    // اختيار الأيقونة حسب الأذكار
-    private var athkarIcon: String {
-        if habit.title.contains("صباح") {
-            return "cloud.sun.fill"   // أذكار الصباح
-        } else {
-            return "cloud.moon.fill"  // أذكار المساء
-        }
-    }
-}
-
-
-
+    }}

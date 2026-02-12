@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct HabitsSectionView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: -20) {
