@@ -316,39 +316,24 @@ struct AdaptiveHabitCard: View {
                 .fill(Color(habit.backgroundColorName))
                 .wideHabitFrame()
             
-            VStack(alignment: .leading, spacing: 0) {
-                Text(habit.title)
-                    .font(.s20Medium)
-                    .foregroundStyle(Color.white)
-                
-                Spacer()
-                
-                // Two rows of 4 bottles each
-                VStack(spacing: 4) {
-                    HStack(spacing: 4) {
-                        let filledCount = waterFilledBottles ?? (Int(habit.value ?? "0") ?? 0)
-                        ForEach(0..<4, id: \.self) { index in
-                            Image(systemName: index < filledCount ? "waterbottle.fill" : "waterbottle")
-                                .font(.system(size: 32, weight: .medium))
-                                .foregroundStyle(Color.white.opacity(0.7))
-                        }
-                    }
-                    
-                    HStack(spacing: 4) {
-                        let filledCount = waterFilledBottles ?? (Int(habit.value ?? "0") ?? 0)
-                        ForEach(4..<8, id: \.self) { index in
-                            Image(systemName: index < filledCount ? "waterbottle.fill" : "waterbottle")
-                                .font(.system(size: 32, weight: .medium))
-                                .foregroundStyle(Color.white.opacity(0.7))
-                        }
-                    }
+            // Title: Top-Leading corner (independent layer)
+            Text(habit.title)
+                .font(.s20Medium)
+                .foregroundStyle(Color.white)
+                .padding(16)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            
+            // Single row of 8 bottles - perfectly centered
+            HStack(spacing: 8) {
+                let filledCount = waterFilledBottles ?? (Int(habit.value ?? "0") ?? 0)
+                ForEach(0..<8, id: \.self) { index in
+                    Image(systemName: index < filledCount ? "waterbottle.fill" : "waterbottle")
+                        .font(.system(size: 30, weight: .medium))
+                        .foregroundStyle(Color.white.opacity(0.7))
                 }
-                .frame(maxWidth: .infinity)
-                
-                Spacer()
             }
-            .padding(16)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .offset(y: 10)
             
             // Completion checkmark
             Image(systemName: "checkmark.circle")
@@ -356,6 +341,7 @@ struct AdaptiveHabitCard: View {
                 .foregroundStyle(Color.white.opacity(0.7))
                 .padding(8)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            
         }
         .wideHabitFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -606,45 +592,36 @@ struct AdaptiveHabitCard: View {
                 .fill(Color(habit.backgroundColorName))
                 .habitProgressCardFrame()
             
-            VStack(alignment: .leading, spacing: 0) {
-                Text(habit.title)
-                    .font(.s20Medium)
-                    .foregroundStyle(Color.white)
-                
-                Spacer()
-                
-                // Two rows of 4 bottles each
-                VStack(spacing: 8) {
-                    HStack(spacing: 8) {
-                        let filledCount = waterFilledBottles ?? (Int(habit.value ?? "0") ?? 0)
-                        ForEach(0..<4, id: \.self) { index in
-                            Image(systemName: index < filledCount ? "waterbottle.fill" : "waterbottle")
-                                .font(.system(size: 44, weight: .medium))
-                                .foregroundStyle(Color.white.opacity(0.7))
-                        }
-                    }
-                    
-                    HStack(spacing: 8) {
-                        let filledCount = waterFilledBottles ?? (Int(habit.value ?? "0") ?? 0)
-                        ForEach(4..<8, id: \.self) { index in
-                            Image(systemName: index < filledCount ? "waterbottle.fill" : "waterbottle")
-                                .font(.system(size: 44, weight: .medium))
-                                .foregroundStyle(Color.white.opacity(0.7))
-                        }
+            // Title: Top-Leading corner (independent layer)
+            Text(habit.title)
+                .font(.s20Medium)
+                .foregroundStyle(Color.white)
+                .padding(16)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            
+            // Two rows of 4 bottles each - perfectly centered
+            VStack(spacing: 8) {
+                HStack(spacing: 8) {
+                    let filledCount = waterFilledBottles ?? (Int(habit.value ?? "0") ?? 0)
+                    ForEach(0..<4, id: \.self) { index in
+                        Image(systemName: index < filledCount ? "waterbottle.fill" : "waterbottle")
+                            .font(.system(size: 55, weight: .medium))
+                            .foregroundStyle(Color.white.opacity(0.7))
                     }
                 }
-                .frame(maxWidth: .infinity)
                 
-                Spacer()
-                
-                Text("Water intake")
-                    .font(.s16Medium)
-                    .foregroundStyle(Color.white)
-                    .frame(maxWidth: .infinity)
+                HStack(spacing: 8) {
+                    let filledCount = waterFilledBottles ?? (Int(habit.value ?? "0") ?? 0)
+                    ForEach(4..<8, id: \.self) { index in
+                        Image(systemName: index < filledCount ? "waterbottle.fill" : "waterbottle")
+                            .font(.system(size: 55, weight: .medium))
+                            .foregroundStyle(Color.white.opacity(0.7))
+                    }
+                }
             }
-            .padding(16)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .offset(y: 10)
+
             // Completion checkmark
             Image(systemName: "checkmark.circle")
                 .font(.s20Medium)
@@ -912,10 +889,58 @@ struct AdaptiveHabitCard: View {
         //        .background(Color(.systemBackground))
         //        .clipShape(RoundedRectangle(cornerRadius: 12))
         //
-        // MARK: - ATHKAR EVENING VARIANTS
+        //        // MARK: - ATHKAR EVENING VARIANTS
+        //        VStack(spacing: 16) {
+        //            HStack {
+        //                Text("ATHKAR EVENING VARIANTS")
+        //                    .font(.s16Semibold)
+        //                    .foregroundStyle(.secondary)
+        //                Spacer()
+        //            }
+        //            Divider()
+        //            
+        //            // Stack: Small -> Wide -> Large
+        //            VStack(spacing: 16) {
+        //                AdaptiveHabitCard(
+        //                    habit: HabitDisplayData(
+        //                        title: "Athkar",
+        //                        value: "EVENING",
+        //                        iconName: "moon.stars.fill",
+        //                        backgroundColorName: "sec-color-mustard",
+        //                        textColorName: "brand-color"
+        //                    ),
+        //                    layoutType: .small
+        //                )
+        //                
+        //                AdaptiveHabitCard(
+        //                    habit: HabitDisplayData(
+        //                        title: "Athkar",
+        //                        subTitle: "EVENING",
+        //                        iconName: "moon.stars.fill",
+        //                        backgroundColorName: "sec-color-mustard"
+        //                    ),
+        //                    layoutType: .wide
+        //                )
+        //                
+        //                AdaptiveHabitCard(
+        //                    habit: HabitDisplayData(
+        //                        title: "Athkar",
+        //                        subTitle: "EVENING",
+        //                        iconName: "moon.stars.fill",
+        //                        backgroundColorName: "sec-color-mustard"
+        //                    ),
+        //                    layoutType: .large
+        //                )
+        //            }
+        //        }
+        //        .padding(20)
+        //        .background(Color(.systemBackground))
+        //        .clipShape(RoundedRectangle(cornerRadius: 12))
+        //   
+        // MARK: - WATER VARIANTS
         VStack(spacing: 16) {
             HStack {
-                Text("ATHKAR EVENING VARIANTS")
+                Text("WATER VARIANTS")
                     .font(.s16Semibold)
                     .foregroundStyle(.secondary)
                 Spacer()
@@ -926,33 +951,36 @@ struct AdaptiveHabitCard: View {
             VStack(spacing: 16) {
                 AdaptiveHabitCard(
                     habit: HabitDisplayData(
-                        title: "Athkar",
-                        value: "EVENING",
-                        iconName: "moon.stars.fill",
-                        backgroundColorName: "sec-color-mustard",
-                        textColorName: "brand-color"
+                        title: "Water",
+                        value: "5",
+                        unit: "Bottles",
+                        iconName: "waterbottle.fill",
+                        backgroundColorName: "sec-color-blue",
+                        textColorName: "white"
                     ),
                     layoutType: .small
                 )
                 
                 AdaptiveHabitCard(
                     habit: HabitDisplayData(
-                        title: "Athkar",
-                        subTitle: "EVENING",
-                        iconName: "moon.stars.fill",
-                        backgroundColorName: "sec-color-mustard"
+                        title: "Water intake",
+                        value: "5",
+                        iconName: "waterbottle.fill",
+                        backgroundColorName: "sec-color-blue"
                     ),
-                    layoutType: .wide
+                    layoutType: .wide,
+                    waterFilledBottles: 5
                 )
                 
                 AdaptiveHabitCard(
                     habit: HabitDisplayData(
-                        title: "Athkar",
-                        subTitle: "EVENING",
-                        iconName: "moon.stars.fill",
-                        backgroundColorName: "sec-color-mustard"
+                        title: "Water intake",
+                        value: "5",
+                        iconName: "waterbottle.fill",
+                        backgroundColorName: "sec-color-blue"
                     ),
-                    layoutType: .large
+                    layoutType: .large,
+                    waterFilledBottles: 5
                 )
             }
         }
@@ -960,60 +988,9 @@ struct AdaptiveHabitCard: View {
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
+    .padding(.vertical, 20)
+    .padding(.horizontal, 16)
 }
-//            // MARK: - WATER VARIANTS
-//            VStack(spacing: 16) {
-//                HStack {
-//                    Text("WATER VARIANTS")
-//                        .font(.s16Semibold)
-//                        .foregroundStyle(.secondary)
-//                    Spacer()
-//                }
-//                Divider()
-//
-//                // Stack: Small -> Wide -> Large
-//                VStack(spacing: 16) {
-//                    AdaptiveHabitCard(
-//                        habit: HabitDisplayData(
-//                            title: "Water",
-//                            value: "5",
-//                            unit: "Bottles",
-//                            iconName: "waterbottle.fill",
-//                            backgroundColorName: "sec-color-blue",
-//                            textColorName: "white"
-//                        ),
-//                        layoutType: .small
-//                    )
-//
-//                    AdaptiveHabitCard(
-//                        habit: HabitDisplayData(
-//                            title: "Water intake",
-//                            value: "5",
-//                            iconName: "waterbottle.fill",
-//                            backgroundColorName: "sec-color-blue"
-//                        ),
-//                        layoutType: .wide,
-//                        waterFilledBottles: 5
-//                    )
-//
-//                    AdaptiveHabitCard(
-//                        habit: HabitDisplayData(
-//                            title: "Water intake",
-//                            value: "5",
-//                            iconName: "waterbottle.fill",
-//                            backgroundColorName: "sec-color-blue"
-//                        ),
-//                        layoutType: .large,
-//                        waterFilledBottles: 5
-//                    )
-//                }
-//            }
-//            .padding(20)
-//            .background(Color(.systemBackground))
-//            .clipShape(RoundedRectangle(cornerRadius: 12))
-//        }
-//        .padding(.vertical, 20)
-//        .padding(.horizontal, 16)
 //    }
 //    .background(Color(.systemGroupedBackground))
 //}
