@@ -39,6 +39,16 @@ struct AdaptiveHabitCard: View {
         }
     }
     
+    // MARK: - Reusable Components
+    @ViewBuilder
+    private var checkmarkOverlay: some View {
+        Image(systemName: "checkmark.circle")
+            .font(.s20Medium)
+            .foregroundStyle(Color.white.opacity(0.7))
+            .padding(8)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+    }
+    
     // MARK: - Small Layout (168x128)
     @ViewBuilder
     private var smallLayout: some View {
@@ -59,15 +69,12 @@ struct AdaptiveHabitCard: View {
                     textColorName: habit.textColorName ?? "white"
                 )
                 
-                // Completion checkmark
-                Image(systemName: "checkmark.circle")
-                    .font(.s20Medium)
-                    .foregroundStyle(Color.white.opacity(0.7))
-                    .padding(8)
+                checkmarkOverlay
             }
         }
     }
     
+    // MARK: - ATHKAR CARD | SMALL | FINAL | MILLIMETER-PERFECT OFFSETS (90, 55) | Title: .s12Medium | Value: .s20Medium | Icon: 70x70
     @ViewBuilder
     private var smallAthkarCard: some View {
         ZStack(alignment: .topLeading) {
@@ -100,12 +107,7 @@ struct AdaptiveHabitCard: View {
                 .foregroundStyle(Color.white.opacity(0.7))
                 .offset(x: 90, y: 55)
             
-            // Completion checkmark
-            Image(systemName: "checkmark.circle")
-                .font(.s20Medium)
-                .foregroundStyle(Color.white.opacity(0.7))
-                .padding(8)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            checkmarkOverlay
         }
         .smallHabitFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -134,15 +136,12 @@ struct AdaptiveHabitCard: View {
                     backgroundColorName: habit.backgroundColorName
                 )
                 
-                // Completion checkmark
-                Image(systemName: "checkmark.circle")
-                    .font(.s20Medium)
-                    .foregroundStyle(Color.white.opacity(0.7))
-                    .padding(8)
+                checkmarkOverlay
             }
         }
     }
     
+    // MARK: - ATHKAR CARD | WIDE | FINAL | Title: .s20Medium | Subtitle: .s12Medium | Icon: 60x60 | Padding: 16px
     @ViewBuilder
     private var wideAthkarCard: some View {
         ZStack(alignment: .topLeading) {
@@ -177,18 +176,14 @@ struct AdaptiveHabitCard: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             }
             
-            // Completion checkmark
-            Image(systemName: "checkmark.circle")
-                .font(.s20Medium)
-                .foregroundStyle(Color.white.opacity(0.7))
-                .padding(8)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            checkmarkOverlay
         }
         .wideHabitFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
     
     // MARK: - Custom Wide Card Variants (345x117.5)
+    // MARK: - WAKE UP CARD | WIDE | FINAL | MILLIMETER-PERFECT OFFSETS (260, 35) | Title: .s20Medium | Value: .s32Medium | Icon: 90x90
     @ViewBuilder
     private var wideWakeUpCard: some View {
         ZStack(alignment: .topLeading) {
@@ -197,16 +192,12 @@ struct AdaptiveHabitCard: View {
                 .wideHabitFrame()
             
             // Title: Top-Leading corner
-            VStack(alignment: .leading, spacing: 0) {
-                Text(habit.title)
-                    .font(.s20Medium)
-                    .foregroundStyle(Color("brand-color"))
-                    .lineLimit(1)
-                
-                Spacer()
-            }
-            .padding(16)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            Text(habit.title)
+                .font(.s20Medium)
+                .foregroundStyle(Color("brand-color"))
+                .lineLimit(1)
+                .padding(16)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             
             // Time: Center of card
             if let value = habit.value {
@@ -233,17 +224,13 @@ struct AdaptiveHabitCard: View {
                 .foregroundStyle(Color.white.opacity(0.7))
                 .offset(x: 260, y: 35)
             
-            // Completion checkmark
-            Image(systemName: "checkmark.circle")
-                .font(.s20Medium)
-                .foregroundStyle(Color.white.opacity(0.7))
-                .padding(8)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            checkmarkOverlay
         }
         .wideHabitFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
     
+    // MARK: - EXERCISE CARD | WIDE | FINAL | MILLIMETER-PERFECT OFFSETS (260, 45) | Title: .s20Medium | Value: .system(28) | Icon: 60x60/70x70
     @ViewBuilder
     private var wideExerciseCard: some View {
         ZStack(alignment: .topLeading) {
@@ -252,16 +239,12 @@ struct AdaptiveHabitCard: View {
                 .wideHabitFrame()
             
             // Title: Top-Leading corner
-            VStack(alignment: .leading, spacing: 0) {
-                Text(habit.title)
-                    .font(.s20Medium)
-                    .foregroundStyle(Color.white)
-                    .lineLimit(1)
-                
-                Spacer()
-            }
-            .padding(16)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            Text(habit.title)
+                .font(.s20Medium)
+                .foregroundStyle(Color.white)
+                .lineLimit(1)
+                .padding(16)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             
             // Steps: Center of card
             if let value = habit.value {
@@ -298,17 +281,13 @@ struct AdaptiveHabitCard: View {
             .foregroundStyle(Color.white.opacity(0.7))
             .offset(x: 260, y: 45)
             
-            // Completion checkmark
-            Image(systemName: "checkmark.circle")
-                .font(.s20Medium)
-                .foregroundStyle(Color.white.opacity(0.7))
-                .padding(8)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            checkmarkOverlay
         }
         .wideHabitFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
     
+    // MARK: - WATER CARD | WIDE | FINAL | MILLIMETER-PERFECT OFFSET (y: 10) | Title: .s20Medium | Bottles: .system(30) | Single Row Layout
     @ViewBuilder
     private var wideWaterCard: some View {
         ZStack(alignment: .topLeading) {
@@ -324,7 +303,7 @@ struct AdaptiveHabitCard: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             
             // Single row of 8 bottles - perfectly centered
-            HStack(spacing: 8) {
+            HStack(spacing: 4) {
                 let filledCount = waterFilledBottles ?? (Int(habit.value ?? "0") ?? 0)
                 ForEach(0..<8, id: \.self) { index in
                     Image(systemName: index < filledCount ? "waterbottle.fill" : "waterbottle")
@@ -335,12 +314,7 @@ struct AdaptiveHabitCard: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .offset(y: 10)
             
-            // Completion checkmark
-            Image(systemName: "checkmark.circle")
-                .font(.s20Medium)
-                .foregroundStyle(Color.white.opacity(0.7))
-                .padding(8)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            checkmarkOverlay
             
         }
         .wideHabitFrame()
@@ -369,6 +343,7 @@ struct AdaptiveHabitCard: View {
     }
     
     // MARK: - Large Card Variants (345x243)
+    // MARK: - WAKE UP CARD | LARGE | FINAL | MILLIMETER-PERFECT OFFSETS (210, 110) | Title: .s20Medium | Value: .system(36) | Icon: 150x150
     @ViewBuilder
     private var largeWakeUpCard: some View {
         ZStack(alignment: .topLeading) {
@@ -377,16 +352,12 @@ struct AdaptiveHabitCard: View {
                 .habitProgressCardFrame()
             
             // Title: Top-Leading corner
-            VStack(alignment: .leading, spacing: 0) {
-                Text(habit.title)
-                    .font(.s20Medium)
-                    .foregroundStyle(Color("brand-color"))
-                    .lineLimit(1)
-                
-                Spacer()
-            }
-            .padding(16)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            Text(habit.title)
+                .font(.s20Medium)
+                .foregroundStyle(Color("brand-color"))
+                .lineLimit(1)
+                .padding(16)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             
             // Time: Perfectly centered (both horizontally and vertically)
             if let value = habit.value {
@@ -413,17 +384,13 @@ struct AdaptiveHabitCard: View {
                 .foregroundStyle(Color.white.opacity(0.7))
                 .offset(x: 210, y: 110)
             
-            // Completion checkmark
-            Image(systemName: "checkmark.circle")
-                .font(.s20Medium)
-                .foregroundStyle(Color.white.opacity(0.7))
-                .padding(8)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            checkmarkOverlay
         }
         .habitProgressCardFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
     
+    // MARK: - EXERCISE CARD | LARGE | FINAL | MILLIMETER-PERFECT OFFSETS (235, 0) & (y: 30) | Title: .s20Medium | Value: .system(36) | Icon: 100x100
     @ViewBuilder
     private var largeExerciseCard: some View {
         ZStack(alignment: .topLeading) {
@@ -459,9 +426,7 @@ struct AdaptiveHabitCard: View {
                 
                 Spacer()
                 
-                // Steps: Bottom-center
-               
-                
+                // Icon: Centered and large
                 Group {
                     if habit.isSystemIcon {
                         Image(systemName: habit.iconName)
@@ -479,19 +444,11 @@ struct AdaptiveHabitCard: View {
                 }
                 .foregroundStyle(Color.white.opacity(0.7))
                 .offset(x: 235, y: 0)
-                
-                
-         
             }
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             
-            // Completion checkmark
-            Image(systemName: "checkmark.circle")
-                .font(.s20Medium)
-                .foregroundStyle(Color.white.opacity(0.7))
-                .padding(8)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            checkmarkOverlay
         }
         .habitProgressCardFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -529,17 +486,13 @@ struct AdaptiveHabitCard: View {
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             
-            // Completion checkmark
-            Image(systemName: "checkmark.circle")
-                .font(.s20Medium)
-                .foregroundStyle(Color.white.opacity(0.7))
-                .padding(8)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            checkmarkOverlay
         }
         .habitProgressCardFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
     
+    // MARK: - ATHKAR CARD | LARGE | FINAL | Title: .s20Medium | Subtitle: .s12Medium | Icon: 100x100 | Padding: 16px
     @ViewBuilder
     private var largeAthkarCard: some View {
         ZStack(alignment: .topLeading) {
@@ -566,25 +519,21 @@ struct AdaptiveHabitCard: View {
             // Subtitle: Bottom-Center
             if let subTitle = habit.subTitle {
                 Text(subTitle)
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.s20Medium)
                     .foregroundStyle(Color.white.opacity(0.7))
                     .textCase(.uppercase)
                     .lineLimit(1)
-                    .padding(.bottom, 12)
+                    .padding(.bottom, 8)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             }
             
-            // Completion checkmark
-            Image(systemName: "checkmark.circle")
-                .font(.s20Medium)
-                .foregroundStyle(Color.white.opacity(0.7))
-                .padding(8)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            checkmarkOverlay
         }
         .habitProgressCardFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
     
+    // MARK: - WATER CARD | LARGE | FINAL | MILLIMETER-PERFECT OFFSET (y: 10) | Title: .s20Medium | Bottles: .system(55) | 2x4 Grid Layout
     @ViewBuilder
     private var largeWaterCard: some View {
         ZStack(alignment: .topLeading) {
@@ -622,12 +571,7 @@ struct AdaptiveHabitCard: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .offset(y: 10)
 
-            // Completion checkmark
-            Image(systemName: "checkmark.circle")
-                .font(.s20Medium)
-                .foregroundStyle(Color.white.opacity(0.7))
-                .padding(8)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            checkmarkOverlay
         }
         .habitProgressCardFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -647,27 +591,27 @@ struct AdaptiveHabitCard: View {
 
                 Spacer()
                 
-                VStack(spacing: 8) {
-                    Group {
-                        if habit.isSystemIcon {
-                            Image(systemName: habit.iconName)
-                                .font(.s80Regular)
-                        } else {
-                            Image(habit.iconName)
-                                .renderingMode(.template)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 80, height: 80)
-                        }
+                Group {
+                    if habit.isSystemIcon {
+                        Image(systemName: habit.iconName)
+                            .font(.s80Regular)
+                    } else {
+                        Image(habit.iconName)
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
                     }
-                    .foregroundStyle(Color.white.opacity(0.7))
                 }
+                .foregroundStyle(Color.white.opacity(0.7))
                 .frame(maxWidth: .infinity)
                 
                 Spacer()
             }
-            .padding(8)
+            .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            
+            checkmarkOverlay
         }
         .habitProgressCardFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -676,321 +620,317 @@ struct AdaptiveHabitCard: View {
 
 #Preview("Design System Catalog - All Habit Variants") {
     ScrollView {
-        //        VStack(spacing: 48) {
-        //            // MARK: - WAKE UP VARIANTS
-        //            VStack(spacing: 16) {
-        //                HStack {
-        //                    Text("WAKE UP VARIANTS")
-        //                        .font(.s16Semibold)
-        //                        .foregroundStyle(.secondary)
-        //                    Spacer()
-        //                }
-        //                Divider()
-        //
-        //                // Stack: Small -> Wide -> Large
-        //                VStack(spacing: 16) {
-        //                    AdaptiveHabitCard(
-        //                        habit: HabitDisplayData(
-        //                            title: "Wake up",
-        //                            value: "7:45",
-        //                            unit: "PM",
-        //                            iconName: "sun.max",
-        //                            isSystemIcon: true,
-        //                            backgroundColorName: "sec-color-mustard",
-        //                            textColorName: "brand-color"
-        //                        ),
-        //                        layoutType: .small
-        //                    )
-        //
-        //                    AdaptiveHabitCard(
-        //                        habit: HabitDisplayData(
-        //                            title: "Wake up",
-        //                            value: "7:45",
-        //                            unit: "PM",
-        //                            iconName: "sun.max",
-        //                            isSystemIcon: true,
-        //                            backgroundColorName: "sec-color-mustard",
-        //                            textColorName: "brand-color"
-        //                        ),
-        //                        layoutType: .wide
-        //                    )
-        //
-        //                    AdaptiveHabitCard(
-        //                        habit: HabitDisplayData(
-        //                            title: "Wake up",
-        //                            value: "7:45",
-        //                            unit: "PM",
-        //                            iconName: "sun.max",
-        //                            isSystemIcon: true,
-        //                            backgroundColorName: "sec-color-mustard",
-        //                            textColorName: "brand-color"
-        //                        ),
-        //                        layoutType: .large
-        //                    )
-        //                }
-        //            }
-        //            .padding(20)
-        //            .background(Color(.systemBackground))
-        //            .clipShape(RoundedRectangle(cornerRadius: 12))
-        //        }
-        //    }
-        //}
-        //
-        //        // MARK: - EXERCISE VARIANTS
-        //        VStack(spacing: 16) {
-        //            HStack {
-        //                Text("EXERCISE VARIANTS")
-        //                    .font(.s16Semibold)
-        //                    .foregroundStyle(.secondary)
-        //                Spacer()
-        //            }
-        //            Divider()
-        //
-        //            // Stack: Small -> Wide -> Large
-        //            VStack(spacing: 16) {
-        //                AdaptiveHabitCard(
-        //                    habit: HabitDisplayData(
-        //                        title: "Exercise",
-        //                        value: "9,565",
-        //                        unit: "Steps",
-        //                        iconName: "ic_steps",
-        //                        isSystemIcon: false,
-        //                        backgroundColorName: "sec-color-berry",
-        //                        textColorName: "white"
-        //                    ),
-        //                    layoutType: .small
-        //                )
-        //
-        //                AdaptiveHabitCard(
-        //                    habit: HabitDisplayData(
-        //                        title: "Exercise",
-        //                        value: "9,565",
-        //                        unit: "Steps",
-        //                        iconName: "ic_steps",
-        //                        isSystemIcon: false,
-        //                        backgroundColorName: "sec-color-berry",
-        //                        textColorName: "white"
-        //                    ),
-        //                    layoutType: .wide
-        //                )
-        //
-        //                AdaptiveHabitCard(
-        //                    habit: HabitDisplayData(
-        //                        title: "Exercise",
-        //                        value: "9,565",
-        //                        unit: "Steps",
-        //                        iconName: "ic_steps",
-        //                        isSystemIcon: false,
-        //                        backgroundColorName: "sec-color-berry",
-        //                        textColorName: "white"
-        //                    ),
-        //                    layoutType: .large
-        //                )
-        //            }
-        //        }
-        //        .padding(20)
-        //        .background(Color(.systemBackground))
-        //        .clipShape(RoundedRectangle(cornerRadius: 12))
-        
-        //            // MARK: - PRAYER VARIANTS
-        //            VStack(spacing: 16) {
-        //                HStack {
-        //                    Text("PRAYER VARIANTS")
-        //                        .font(.s16Semibold)
-        //                        .foregroundStyle(.secondary)
-        //                    Spacer()
-        //                }
-        //                Divider()
-        //
-        //                // Stack: Small -> Wide -> Large
-        //                VStack(spacing: 16) {
-        //                    AdaptiveHabitCard(
-        //                        habit: HabitDisplayData(
-        //                            title: "Praying",
-        //                            value: "FJR",
-        //                            unit: "Prayer",
-        //                            iconName: "sunrise.fill",
-        //                            backgroundColorName: "sec-color-berry",
-        //                            textColorName: "white"
-        //                        ),
-        //                        layoutType: .small
-        //                    )
-        //
-        //                    AdaptiveHabitCard(
-        //                        habit: HabitDisplayData(
-        //                            title: "Praying",
-        //                            subTitle: "FJR",
-        //                            iconName: "sunrise.fill",
-        //                            backgroundColorName: "sec-color-berry"
-        //                        ),
-        //                        layoutType: .wide
-        //                    )
-        //
-        //                    AdaptiveHabitCard(
-        //                        habit: HabitDisplayData(
-        //                            title: "Praying",
-        //                            subTitle: "FJR",
-        //                            iconName: "sunrise.fill",
-        //                            backgroundColorName: "sec-color-berry"
-        //                        ),
-        //                        layoutType: .large
-        //                    )
-        //                }
-        //            }
-        //            .padding(20)
-        //            .background(Color(.systemBackground))
-        //            .clipShape(RoundedRectangle(cornerRadius: 12))
-        
-        //        // MARK: - ATHKAR MORNING VARIANTS
-        //        VStack(spacing: 16) {
-        //            HStack {
-        //                Text("ATHKAR MORNING VARIANTS")
-        //                    .font(.s16Semibold)
-        //                    .foregroundStyle(.secondary)
-        //                Spacer()
-        //            }
-        //            Divider()
-        //
-        //            // Stack: Small -> Wide -> Large
-        //            VStack(spacing: 16) {
-        //                AdaptiveHabitCard(
-        //                    habit: HabitDisplayData(
-        //                        title: "Athkar",
-        //                        value: "MORNING",
-        //                        iconName: "cloud.sun.fill",
-        //                        backgroundColorName: "sec-color-mustard",
-        //                        textColorName: "brand-color"
-        //                    ),
-        //                    layoutType: .small
-        //                )
-        //
-        //                AdaptiveHabitCard(
-        //                    habit: HabitDisplayData(
-        //                        title: "Athkar",
-        //                        subTitle: "MORNING",
-        //                        iconName: "cloud.sun.fill",
-        //                        backgroundColorName: "sec-color-mustard"
-        //                    ),
-        //                    layoutType: .wide
-        //                )
-        //
-        //                AdaptiveHabitCard(
-        //                    habit: HabitDisplayData(
-        //                        title: "Athkar",
-        //                        subTitle: "MORNING",
-        //                        iconName: "cloud.sun.fill",
-        //                        backgroundColorName: "sec-color-mustard"
-        //                    ),
-        //                    layoutType: .large
-        //                )
-        //            }
-        //        }
-        //        .padding(20)
-        //        .background(Color(.systemBackground))
-        //        .clipShape(RoundedRectangle(cornerRadius: 12))
-        //
-        //        // MARK: - ATHKAR EVENING VARIANTS
-        //        VStack(spacing: 16) {
-        //            HStack {
-        //                Text("ATHKAR EVENING VARIANTS")
-        //                    .font(.s16Semibold)
-        //                    .foregroundStyle(.secondary)
-        //                Spacer()
-        //            }
-        //            Divider()
-        //            
-        //            // Stack: Small -> Wide -> Large
-        //            VStack(spacing: 16) {
-        //                AdaptiveHabitCard(
-        //                    habit: HabitDisplayData(
-        //                        title: "Athkar",
-        //                        value: "EVENING",
-        //                        iconName: "moon.stars.fill",
-        //                        backgroundColorName: "sec-color-mustard",
-        //                        textColorName: "brand-color"
-        //                    ),
-        //                    layoutType: .small
-        //                )
-        //                
-        //                AdaptiveHabitCard(
-        //                    habit: HabitDisplayData(
-        //                        title: "Athkar",
-        //                        subTitle: "EVENING",
-        //                        iconName: "moon.stars.fill",
-        //                        backgroundColorName: "sec-color-mustard"
-        //                    ),
-        //                    layoutType: .wide
-        //                )
-        //                
-        //                AdaptiveHabitCard(
-        //                    habit: HabitDisplayData(
-        //                        title: "Athkar",
-        //                        subTitle: "EVENING",
-        //                        iconName: "moon.stars.fill",
-        //                        backgroundColorName: "sec-color-mustard"
-        //                    ),
-        //                    layoutType: .large
-        //                )
-        //            }
-        //        }
-        //        .padding(20)
-        //        .background(Color(.systemBackground))
-        //        .clipShape(RoundedRectangle(cornerRadius: 12))
-        //   
-        // MARK: - WATER VARIANTS
-        VStack(spacing: 16) {
-            HStack {
-                Text("WATER VARIANTS")
-                    .font(.s16Semibold)
-                    .foregroundStyle(.secondary)
-                Spacer()
-            }
-            Divider()
-            
-            // Stack: Small -> Wide -> Large
+        VStack(spacing: 48) {
+            // MARK: - WAKE UP VARIANTS
             VStack(spacing: 16) {
-                AdaptiveHabitCard(
-                    habit: HabitDisplayData(
-                        title: "Water",
-                        value: "5",
-                        unit: "Bottles",
-                        iconName: "waterbottle.fill",
-                        backgroundColorName: "sec-color-blue",
-                        textColorName: "white"
-                    ),
-                    layoutType: .small
-                )
-                
-                AdaptiveHabitCard(
-                    habit: HabitDisplayData(
-                        title: "Water intake",
-                        value: "5",
-                        iconName: "waterbottle.fill",
-                        backgroundColorName: "sec-color-blue"
-                    ),
-                    layoutType: .wide,
-                    waterFilledBottles: 5
-                )
-                
-                AdaptiveHabitCard(
-                    habit: HabitDisplayData(
-                        title: "Water intake",
-                        value: "5",
-                        iconName: "waterbottle.fill",
-                        backgroundColorName: "sec-color-blue"
-                    ),
-                    layoutType: .large,
-                    waterFilledBottles: 5
-                )
+                HStack {
+                    Text("WAKE UP VARIANTS")
+                        .font(.s16Semibold)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
+                Divider()
+
+                // Stack: Small -> Wide -> Large
+                VStack(spacing: 16) {
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Wake up",
+                            value: "7:45",
+                            unit: "PM",
+                            iconName: "sun.max",
+                            isSystemIcon: true,
+                            backgroundColorName: "sec-color-mustard",
+                            textColorName: "brand-color"
+                        ),
+                        layoutType: .small
+                    )
+
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Wake up",
+                            value: "7:45",
+                            unit: "PM",
+                            iconName: "sun.max",
+                            isSystemIcon: true,
+                            backgroundColorName: "sec-color-mustard",
+                            textColorName: "brand-color"
+                        ),
+                        layoutType: .wide
+                    )
+
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Wake up",
+                            value: "7:45",
+                            unit: "PM",
+                            iconName: "sun.max",
+                            isSystemIcon: true,
+                            backgroundColorName: "sec-color-mustard",
+                            textColorName: "brand-color"
+                        ),
+                        layoutType: .large
+                    )
+                }
             }
+            .padding(20)
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+
+            // MARK: - EXERCISE VARIANTS
+            VStack(spacing: 16) {
+                HStack {
+                    Text("EXERCISE VARIANTS")
+                        .font(.s16Semibold)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
+                Divider()
+
+                // Stack: Small -> Wide -> Large
+                VStack(spacing: 16) {
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Exercise",
+                            value: "9,565",
+                            unit: "Steps",
+                            iconName: "ic_steps",
+                            isSystemIcon: false,
+                            backgroundColorName: "sec-color-berry",
+                            textColorName: "white"
+                        ),
+                        layoutType: .small
+                    )
+
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Exercise",
+                            value: "9,565",
+                            unit: "Steps",
+                            iconName: "ic_steps",
+                            isSystemIcon: false,
+                            backgroundColorName: "sec-color-berry",
+                            textColorName: "white"
+                        ),
+                        layoutType: .wide
+                    )
+
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Exercise",
+                            value: "9,565",
+                            unit: "Steps",
+                            iconName: "ic_steps",
+                            isSystemIcon: false,
+                            backgroundColorName: "sec-color-berry",
+                            textColorName: "white"
+                        ),
+                        layoutType: .large
+                    )
+                }
+            }
+            .padding(20)
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+
+            // MARK: - PRAYER VARIANTS
+            VStack(spacing: 16) {
+                HStack {
+                    Text("PRAYER VARIANTS")
+                        .font(.s16Semibold)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
+                Divider()
+
+                // Stack: Small -> Wide -> Large
+                VStack(spacing: 16) {
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Praying",
+                            value: "FJR",
+                            unit: "Prayer",
+                            iconName: "sunrise.fill",
+                            backgroundColorName: "sec-color-berry",
+                            textColorName: "white"
+                        ),
+                        layoutType: .small
+                    )
+
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Praying",
+                            subTitle: "FJR",
+                            iconName: "sunrise.fill",
+                            backgroundColorName: "sec-color-berry"
+                        ),
+                        layoutType: .wide
+                    )
+
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Praying",
+                            subTitle: "FJR",
+                            iconName: "sunrise.fill",
+                            backgroundColorName: "sec-color-berry"
+                        ),
+                        layoutType: .large
+                    )
+                }
+            }
+            .padding(20)
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+
+            // MARK: - ATHKAR MORNING VARIANTS
+            VStack(spacing: 16) {
+                HStack {
+                    Text("ATHKAR MORNING VARIANTS")
+                        .font(.s16Semibold)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
+                Divider()
+
+                // Stack: Small -> Wide -> Large
+                VStack(spacing: 16) {
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Athkar",
+                            value: "MORNING",
+                            iconName: "cloud.sun.fill",
+                            backgroundColorName: "sec-color-mustard",
+                            textColorName: "brand-color"
+                        ),
+                        layoutType: .small
+                    )
+
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Athkar",
+                            subTitle: "MORNING",
+                            iconName: "cloud.sun.fill",
+                            backgroundColorName: "sec-color-mustard"
+                        ),
+                        layoutType: .wide
+                    )
+
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Athkar",
+                            subTitle: "MORNING",
+                            iconName: "cloud.sun.fill",
+                            backgroundColorName: "sec-color-mustard"
+                        ),
+                        layoutType: .large
+                    )
+                }
+            }
+            .padding(20)
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+
+            // MARK: - ATHKAR EVENING VARIANTS
+            VStack(spacing: 16) {
+                HStack {
+                    Text("ATHKAR EVENING VARIANTS")
+                        .font(.s16Semibold)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
+                Divider()
+                
+                // Stack: Small -> Wide -> Large
+                VStack(spacing: 16) {
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Athkar",
+                            value: "EVENING",
+                            iconName: "moon.stars.fill",
+                            backgroundColorName: "sec-color-mustard",
+                            textColorName: "brand-color"
+                        ),
+                        layoutType: .small
+                    )
+                    
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Athkar",
+                            subTitle: "EVENING",
+                            iconName: "moon.stars.fill",
+                            backgroundColorName: "sec-color-mustard"
+                        ),
+                        layoutType: .wide
+                    )
+                    
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Athkar",
+                            subTitle: "EVENING",
+                            iconName: "moon.stars.fill",
+                            backgroundColorName: "sec-color-mustard"
+                        ),
+                        layoutType: .large
+                    )
+                }
+            }
+            .padding(20)
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+   
+            // MARK: - WATER VARIANTS
+            VStack(spacing: 16) {
+                HStack {
+                    Text("WATER VARIANTS")
+                        .font(.s16Semibold)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
+                Divider()
+                
+                // Stack: Small -> Wide -> Large
+                VStack(spacing: 16) {
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Water",
+                            value: "5",
+                            unit: "Bottles",
+                            iconName: "waterbottle.fill",
+                            backgroundColorName: "sec-color-blue",
+                            textColorName: "white"
+                        ),
+                        layoutType: .small
+                    )
+                    
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Water intake",
+                            value: "5",
+                            iconName: "waterbottle.fill",
+                            backgroundColorName: "sec-color-blue"
+                        ),
+                        layoutType: .wide,
+                        waterFilledBottles: 5
+                    )
+                    
+                    AdaptiveHabitCard(
+                        habit: HabitDisplayData(
+                            title: "Water intake",
+                            value: "5",
+                            iconName: "waterbottle.fill",
+                            backgroundColorName: "sec-color-blue"
+                        ),
+                        layoutType: .large,
+                        waterFilledBottles: 5
+                    )
+                }
+            }
+            .padding(20)
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
         }
-        .padding(20)
-        .background(Color(.systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
     .padding(.vertical, 20)
     .padding(.horizontal, 16)
+    .background(Color(.systemGroupedBackground))
 }
-//    }
-//    .background(Color(.systemGroupedBackground))
-//}
