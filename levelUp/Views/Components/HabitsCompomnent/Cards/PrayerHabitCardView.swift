@@ -1,1 +1,0 @@
-// DEPRECATED: Use WideHabitCard(title: "Praying", subTitle: "FJR", iconName: "sunrise.fill", backgroundColorName: "sec-color-berry") instead. (Use "DHR", "ASR", "MGB", "ISH" and corresponding icons for other prayers.)
