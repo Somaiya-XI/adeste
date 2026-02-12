@@ -17,7 +17,7 @@ struct AthkarTestView: View {
         VStack(spacing: 16) {
 
             Text("Athkar Logic Test")
-                .font(.title2).bold()
+                .font(.s24Semibold)
 
             Button("Check Morning Athkar (valid)") {
                 Task { await checkMorningValid() }

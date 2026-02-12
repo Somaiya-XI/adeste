@@ -8,25 +8,25 @@
 import SwiftUI
 
 struct IntentionsSymbolPicker: View {
+    @Binding var icon: String
+    @Binding var title: String
     @State private var showIconPicker = false
 
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
         HStack(spacing: 16) {
             Button {
                showIconPicker = true
            } label: {
                ZStack {
-                   Image(systemName: "")
+                   Image(systemName: icon)
                        .font(.s24Medium)
                        .foregroundStyle(Color("brand-color"))
                        .frame(width: 48, height: 48)
                        .background(Color("base-shade-03"))
                        .clipShape(Circle())
                    
-                   // Visual hint: Small pencil badge overlay
-                   Image(systemName: "pencil.circle.fill")
-                       .font(.system(size: 16, weight: .medium))
+                    Image(systemName: "pencil.circle.fill")
+                       .font(.s16Medium)
                        .foregroundStyle(Color("brand-color"))
                        .background(Color.white)
                        .clipShape(Circle())
@@ -36,7 +36,7 @@ struct IntentionsSymbolPicker: View {
            .buttonStyle(.plain)
            
             VStack(alignment: .leading, spacing: 4) {
-                TextField("Intention Name", text: .constant(""))
+                TextField("Intention Name", text: $title)
                    .font(.s20Medium)
                    .foregroundStyle(Color("brand-color"))
                    .textFieldStyle(.plain)
@@ -46,15 +46,13 @@ struct IntentionsSymbolPicker: View {
            }
        }
         .sheet(isPresented: $showIconPicker) {
-            SymbolView(selectedSymbol: .constant(""))
+            SymbolView(selectedSymbol: $icon)
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
         }
-        
-        
     }
 }
 
 #Preview {
-    IntentionsSymbolPicker()
+    IntentionsSymbolPicker(icon: .constant("heart.fill"), title: .constant("Sample Intention"))
 }

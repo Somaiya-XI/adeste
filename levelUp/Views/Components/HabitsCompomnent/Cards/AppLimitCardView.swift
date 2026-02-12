@@ -15,11 +15,11 @@ struct AppLimitCardView: View {
             .overlay(
                 VStack(spacing: 6) {
                     Text("Usage Card")
-                        .font(.caption)
+                        .font(.s12Medium)
                         .foregroundColor(.gray)
 
                     Text("Screen time / limits")
-                        .font(.caption2)
+                        .font(.s10Medium)
                         .foregroundColor(.gray.opacity(0.7))
                 }
             )
