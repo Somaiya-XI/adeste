@@ -23,7 +23,7 @@ struct ContentView: View {
             Group {
                 switch selectedTab {
                 case .home:
-                    HomeView(previewPages: PreviewData.pages)
+                    HomeView()
                 case .intentions:
                     IntentionsView()
                 case .profile:

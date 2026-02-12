@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct HabitsSectionView: View {
     let pages:[[Habit]]
     var body: some View {
@@ -34,7 +35,17 @@ struct HabitsSectionView: View {
            }
        }
 }
-#Preview {
-    HabitsSectionView(pages: PreviewData.pages)
-        .padding()
+#Preview("HabitsSection – Single Page") {
+
+    HabitsSectionView(
+        pages: [
+            [
+                Habit(title: "Water", type: .water),
+                Habit(title: "Steps", type: .steps),
+                Habit(title: "Wake Up", type: .wakeUp)
+            ]
+        ]
+    )
+    .padding()
+  
 }

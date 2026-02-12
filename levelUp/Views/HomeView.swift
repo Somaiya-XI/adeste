@@ -5,8 +5,6 @@
 //  Created by Somaiya on 20/08/1447 AH.
 //
 
-import SwiftUI
-
 
 import SwiftUI
 
@@ -42,8 +40,29 @@ struct HomeView: View {
     }
 }
 
-#Preview {
-    HomeView(previewPages: PreviewData.pages)
+#Preview("HomeView – Mock Data") {
+
+    let page1: [Habit] = [
+        Habit(title: "Water", type: .water),
+        Habit(title: "Steps", type: .steps),
+        Habit(title: "Wake Up", type: .wakeUp)
+    ]
+
+    let page2: [Habit] = [
+//        Habit(title: "Water", type: .water)
+//        Habit(title: "Athkar صباح", type: .athkar)
+        Habit(title: "Wake Up", type: .wakeUp),
+        Habit(title: "Water", type: .water),
+    ]
+    let page3: [Habit] = [
+//        Habit(title: "Water", type: .water)
+//        Habit(title: "Athkar صباح", type: .athkar)
+       
+        Habit(title: "Water", type: .water),
+    ]
+
+    HomeView(previewPages: [page1, page2, page3])
 }
+
 
 

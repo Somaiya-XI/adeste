@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct StepsHabitCardView: View {
-    var habit: Habit
+    @StateObject  var viewModel: StepsViewModel
+    
+    init(habit: Habit) {
+           _viewModel = StateObject(wrappedValue: StepsViewModel(habit: habit))
+       }
     var body: some View {
            VStack(alignment: .leading, spacing: 8) {
 
@@ -22,7 +26,7 @@ struct StepsHabitCardView: View {
                    }
 
                    HStack(alignment: .lastTextBaseline, spacing: 4) {
-                       Text("\(habit.stepsCount)")
+                       Text("\(viewModel.stepsCount)")
                            .font(.title.bold())
                            .foregroundColor(.white)
 
@@ -35,20 +39,29 @@ struct StepsHabitCardView: View {
                HStack {
                    Spacer()
                    Image(systemName: "shoeprints.fill")
-                       .font(.system(size: 60))
+                       .font(.system(size: 40))
                        .foregroundColor(.white.opacity(0.7))
                }
            }
            .padding()
-           .background(habit.type.color)
-           .frame(width: 168, height: 146)
+           .frame(maxWidth: .infinity, maxHeight: .infinity)
+           .background(Color.secColorBerry)
            .cornerRadius(16)
        }
    }
 
 
 #Preview {
-    StepsHabitCardView(habit: PreviewData.stepsHabit)
+    let habit = Habit(
+        id: UUID().uuidString,
+        title: "Steps",
+        type: .steps,
+        isEnabled: true
+    )
+
+    StepsHabitCardView(habit: habit)
         .padding()
 }
+
+
 

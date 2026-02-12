@@ -37,7 +37,7 @@ struct AthkarHabitCardView: View {
             }
         }
         .padding()
-        .background(habit.type.color)
+        .background(Color.secColorMustard)
         .frame(width: 168, height: 146)
         .cornerRadius(16)
     }
@@ -51,9 +51,5 @@ struct AthkarHabitCardView: View {
     }
 }
 
-#Preview("Athkar Morning") {
-    AthkarHabitCardView(habit: PreviewData.wakeUpHabit)
-        .padding()
-}
 
 
