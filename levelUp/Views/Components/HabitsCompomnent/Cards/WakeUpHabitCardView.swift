@@ -7,9 +7,23 @@
 
 import SwiftUI
 
+
 struct WakeUpHabitCardView: View {
    
-        var habit: Habit
+    @StateObject var viewModel: WakeUpViewModel
+    init(habit: Habit) {
+            _viewModel = StateObject(
+                wrappedValue: WakeUpViewModel(
+                    habit: habit,
+                    wakeUpTime: Calendar.current.date(
+                        bySettingHour: 7,
+                        minute: 45,
+                        second: 0,
+                        of: Date()
+                    )!
+                )
+            )
+        }
 
         var body: some View {
                         VStack(alignment: .leading, spacing: 8) {
@@ -21,16 +35,22 @@ struct WakeUpHabitCardView: View {
                                         .font(.headline)
                                         .foregroundColor(.white)
                                     Spacer()
+                                    
                                     Button {
-                                        habit.checkInWakeUp()
+                                        viewModel.checkIn()
                                     } label: {
-                                        Image(systemName: habit.didCheckIn ?  "checkmark.circle.fill" : "checkmark.circle")
+                                        Image(systemName: viewModel.didCheckIn ?  "checkmark.circle.fill" : "checkmark.circle")
                                             .font(.title2)
                                             .foregroundColor(.white)
                                         
                                     }
+                                    
                                 }
-                                Text(habit.wakeUpTime?.formatted(date: .omitted, time: .shortened) ?? "Not set")
+                              
+                                Text(viewModel.wakeUpTime.formatted(
+                                    date: .omitted,
+                                    time: .shortened)
+                                     )
                                     .font(.title2.bold())
                                     .foregroundColor(.white)
                             }
@@ -38,34 +58,14 @@ struct WakeUpHabitCardView: View {
                             HStack {
                                            Spacer()
                                            Image(systemName: "sun.max")
-                                               .font(.system(size: 60))
+                                               .font(.system(size: 40))
                                                .foregroundColor(.white.opacity(0.7))
                                        }
                 
-
-//                switch habit.wakeUpStatus {
-//
-//                case .active:
-//                    Button("I'm awake") {
-//                        habit.checkInWakeUp()
-//                    }
-//
-//                case .completed:
-//                    Text("proud!")
-//
-//                case .missed:
-//                    Text("try again tomorrow")
-//
-//                case .upcoming:
-//                    Text(" Not yet")
-//
-//                case .notSet:
-//                    Text("Set your wake up time")
-//                }
             }
             .padding()
-            .background(habit.type.color)
-            .frame(width: 168, height: 146)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.secColorMustard)
             .cornerRadius(16)
         }
     }
@@ -73,6 +73,18 @@ struct WakeUpHabitCardView: View {
 
 
 #Preview {
-    WakeUpHabitCardView(habit: PreviewData.wakeUpHabit)
+
+    let habit = Habit(
+        id: UUID().uuidString,
+        title: "Wake Up",
+        type: .wakeUp,
+        isEnabled: true
+    )
+
+    WakeUpHabitCardView(habit: habit)
         .padding()
+        
 }
+
+
+
