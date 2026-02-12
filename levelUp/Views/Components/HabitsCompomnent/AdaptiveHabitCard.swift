@@ -246,47 +246,52 @@ struct AdaptiveHabitCard: View {
                 .fill(Color(habit.backgroundColorName))
                 .wideHabitFrame()
             
+            // Title: Top-Leading corner
             VStack(alignment: .leading, spacing: 0) {
                 Text(habit.title)
                     .font(.s20Medium)
                     .foregroundStyle(Color.white)
+                    .lineLimit(1)
                 
                 Spacer()
-                
-                Group {
-                    if habit.isSystemIcon {
-                        Image(systemName: habit.iconName)
-                            .font(.system(size: 64, weight: .medium))
-                    } else {
-                        Image(habit.iconName)
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 64, height: 64)
-                    }
-                }
-                .foregroundStyle(Color.white.opacity(0.7))
-                .frame(maxWidth: .infinity)
-                
-                Spacer()
-                
-                if let value = habit.value {
-                    HStack(alignment: .firstTextBaseline, spacing: 4) {
-                        Text(value)
-                            .font(.s24Semibold)
-                            .foregroundStyle(Color.white)
-                        
-                        if let unit = habit.unit {
-                            Text(unit)
-                                .font(.s12Light)
-                                .foregroundStyle(Color.white.opacity(0.7))
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                }
             }
             .padding(16)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            
+            // Steps: Center of card
+            if let value = habit.value {
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    Text(value)
+                        .font(.system(size: 28, weight: .semibold, design: .rounded))
+                        .foregroundStyle(Color.white)
+                    
+                    if let unit = habit.unit {
+                        Text(unit)
+                            .font(.s12Light)
+                            .foregroundStyle(Color.white.opacity(0.7))
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            
+            // Icon: Bottom-Trailing corner
+            Group {
+                if habit.isSystemIcon {
+                    Image(systemName: habit.iconName)
+                        .renderingMode(.template)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 60, height: 60)
+                } else {
+                    Image(habit.iconName)
+                        .renderingMode(.template)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 70, height: 70)
+                }
+            }
+            .foregroundStyle(Color.white.opacity(0.7))
+            .offset(x: 260, y: 45)
             
             // Completion checkmark
             Image(systemName: "checkmark.circle")
@@ -436,33 +441,19 @@ struct AdaptiveHabitCard: View {
                 .habitProgressCardFrame()
             
             VStack(alignment: .leading, spacing: 0) {
+                // Title: Top-Leading corner
                 Text(habit.title)
                     .font(.s20Medium)
                     .foregroundStyle(Color.white)
+                    .lineLimit(1)
                 
                 Spacer()
                 
-                Group {
-                    if habit.isSystemIcon {
-                        Image(systemName: habit.iconName)
-                            .font(.s80Regular)
-                    } else {
-                        Image(habit.iconName)
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                    }
-                }
-                .foregroundStyle(Color.white.opacity(0.7))
-                .frame(maxWidth: .infinity)
-                
-                Spacer()
-                
+                // Icon: Centered and large
                 if let value = habit.value {
                     HStack(alignment: .firstTextBaseline, spacing: 4) {
                         Text(value)
-                            .font(.s32Medium)
+                            .font(.system(size: 36, weight: .medium, design: .rounded))
                             .foregroundStyle(Color.white)
                         
                         if let unit = habit.unit {
@@ -472,7 +463,34 @@ struct AdaptiveHabitCard: View {
                         }
                     }
                     .frame(maxWidth: .infinity)
+                    .offset(y: 30)
                 }
+                
+                Spacer()
+                
+                // Steps: Bottom-center
+               
+                
+                Group {
+                    if habit.isSystemIcon {
+                        Image(systemName: habit.iconName)
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                    } else {
+                        Image(habit.iconName)
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                    }
+                }
+                .foregroundStyle(Color.white.opacity(0.7))
+                .offset(x: 235, y: 0)
+                
+                
+         
             }
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -675,122 +693,124 @@ struct AdaptiveHabitCard: View {
 
 #Preview("Design System Catalog - All Habit Variants") {
     ScrollView {
-        VStack(spacing: 48) {
-            // MARK: - WAKE UP VARIANTS
-            VStack(spacing: 16) {
-                HStack {
-                    Text("WAKE UP VARIANTS")
-                        .font(.s16Semibold)
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                }
-                Divider()
-                
-                // Stack: Small -> Wide -> Large
-                VStack(spacing: 16) {
-                    AdaptiveHabitCard(
-                        habit: HabitDisplayData(
-                            title: "Wake up",
-                            value: "7:45",
-                            unit: "PM",
-                            iconName: "sun.max",
-                            isSystemIcon: true,
-                            backgroundColorName: "sec-color-mustard",
-                            textColorName: "brand-color"
-                        ),
-                        layoutType: .small
-                    )
-                    
-                    AdaptiveHabitCard(
-                        habit: HabitDisplayData(
-                            title: "Wake up",
-                            value: "7:45",
-                            unit: "PM",
-                            iconName: "sun.max",
-                            isSystemIcon: true,
-                            backgroundColorName: "sec-color-mustard",
-                            textColorName: "brand-color"
-                        ),
-                        layoutType: .wide
-                    )
-                    
-                    AdaptiveHabitCard(
-                        habit: HabitDisplayData(
-                            title: "Wake up",
-                            value: "7:45",
-                            unit: "PM",
-                            iconName: "sun.max",
-                            isSystemIcon: true,
-                            backgroundColorName: "sec-color-mustard",
-                            textColorName: "brand-color"
-                        ),
-                        layoutType: .large
-                    )
-                }
+        //        VStack(spacing: 48) {
+        //            // MARK: - WAKE UP VARIANTS
+        //            VStack(spacing: 16) {
+        //                HStack {
+        //                    Text("WAKE UP VARIANTS")
+        //                        .font(.s16Semibold)
+        //                        .foregroundStyle(.secondary)
+        //                    Spacer()
+        //                }
+        //                Divider()
+        //
+        //                // Stack: Small -> Wide -> Large
+        //                VStack(spacing: 16) {
+        //                    AdaptiveHabitCard(
+        //                        habit: HabitDisplayData(
+        //                            title: "Wake up",
+        //                            value: "7:45",
+        //                            unit: "PM",
+        //                            iconName: "sun.max",
+        //                            isSystemIcon: true,
+        //                            backgroundColorName: "sec-color-mustard",
+        //                            textColorName: "brand-color"
+        //                        ),
+        //                        layoutType: .small
+        //                    )
+        //
+        //                    AdaptiveHabitCard(
+        //                        habit: HabitDisplayData(
+        //                            title: "Wake up",
+        //                            value: "7:45",
+        //                            unit: "PM",
+        //                            iconName: "sun.max",
+        //                            isSystemIcon: true,
+        //                            backgroundColorName: "sec-color-mustard",
+        //                            textColorName: "brand-color"
+        //                        ),
+        //                        layoutType: .wide
+        //                    )
+        //
+        //                    AdaptiveHabitCard(
+        //                        habit: HabitDisplayData(
+        //                            title: "Wake up",
+        //                            value: "7:45",
+        //                            unit: "PM",
+        //                            iconName: "sun.max",
+        //                            isSystemIcon: true,
+        //                            backgroundColorName: "sec-color-mustard",
+        //                            textColorName: "brand-color"
+        //                        ),
+        //                        layoutType: .large
+        //                    )
+        //                }
+        //            }
+        //            .padding(20)
+        //            .background(Color(.systemBackground))
+        //            .clipShape(RoundedRectangle(cornerRadius: 12))
+        //        }
+        //    }
+        //}
+        //
+        // MARK: - EXERCISE VARIANTS
+        VStack(spacing: 16) {
+            HStack {
+                Text("EXERCISE VARIANTS")
+                    .font(.s16Semibold)
+                    .foregroundStyle(.secondary)
+                Spacer()
             }
-            .padding(20)
-            .background(Color(.systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            Divider()
+            
+            // Stack: Small -> Wide -> Large
+            VStack(spacing: 16) {
+                AdaptiveHabitCard(
+                    habit: HabitDisplayData(
+                        title: "Exercise",
+                        value: "9,565",
+                        unit: "Steps",
+                        iconName: "ic_steps",
+                        isSystemIcon: false,
+                        backgroundColorName: "sec-color-berry",
+                        textColorName: "white"
+                    ),
+                    layoutType: .small
+                )
+                
+                AdaptiveHabitCard(
+                    habit: HabitDisplayData(
+                        title: "Exercise",
+                        value: "9,565",
+                        unit: "Steps",
+                        iconName: "ic_steps",
+                        isSystemIcon: false,
+                        backgroundColorName: "sec-color-berry",
+                        textColorName: "white"
+                    ),
+                    layoutType: .wide
+                )
+                
+                AdaptiveHabitCard(
+                    habit: HabitDisplayData(
+                        title: "Exercise",
+                        value: "9,565",
+                        unit: "Steps",
+                        iconName: "ic_steps",
+                        isSystemIcon: false,
+                        backgroundColorName: "sec-color-berry",
+                        textColorName: "white"
+                    ),
+                    layoutType: .large
+                )
+            }
         }
+        .padding(20)
+        .background(Color(.systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
-            
-//            // MARK: - EXERCISE VARIANTS
-//            VStack(spacing: 16) {
-//                HStack {
-//                    Text("EXERCISE VARIANTS")
-//                        .font(.s16Semibold)
-//                        .foregroundStyle(.secondary)
-//                    Spacer()
-//                }
-//                Divider()
-//                
-//                // Stack: Small -> Wide -> Large
-//                VStack(spacing: 16) {
-//                    AdaptiveHabitCard(
-//                        habit: HabitDisplayData(
-//                            title: "Exercise",
-//                            value: "9,565",
-//                            unit: "Steps",
-//                            iconName: "ic_steps",
-//                            isSystemIcon: false,
-//                            backgroundColorName: "sec-color-berry",
-//                            textColorName: "white"
-//                        ),
-//                        layoutType: .small
-//                    )
-//                    
-//                    AdaptiveHabitCard(
-//                        habit: HabitDisplayData(
-//                            title: "Exercise",
-//                            value: "9,565",
-//                            unit: "Steps",
-//                            iconName: "ic_steps",
-//                            isSystemIcon: false,
-//                            backgroundColorName: "sec-color-berry",
-//                            textColorName: "white"
-//                        ),
-//                        layoutType: .wide
-//                    )
-//                    
-//                    AdaptiveHabitCard(
-//                        habit: HabitDisplayData(
-//                            title: "Exercise",
-//                            value: "9,565",
-//                            unit: "Steps",
-//                            iconName: "ic_steps",
-//                            isSystemIcon: false,
-//                            backgroundColorName: "sec-color-berry",
-//                            textColorName: "white"
-//                        ),
-//                        layoutType: .large
-//                    )
-//                }
-//            }
-//            .padding(20)
-//            .background(Color(.systemBackground))
-//            .clipShape(RoundedRectangle(cornerRadius: 12))
-//            
+
 //            // MARK: - PRAYER VARIANTS
 //            VStack(spacing: 16) {
 //                HStack {
