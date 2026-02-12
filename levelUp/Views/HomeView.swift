@@ -7,9 +7,6 @@
 
 import SwiftUI
 
-
-import SwiftUI
-
 struct HomeView: View {
     init(previewPages: [[Habit]]? = nil) {
         let vm = HomeViewModel()
@@ -31,14 +28,11 @@ struct HomeView: View {
             MapSectionView()
             AppLimitCardView()
 
-            HabitsSectionView(pages: viewModel.pages)
+            HabitsSectionView()
 
             Spacer()
         }
         .padding(.horizontal)
-        .onAppear {
-
-        }
     }
 }
 

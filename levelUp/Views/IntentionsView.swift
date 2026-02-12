@@ -45,7 +45,7 @@ struct IntentionsView: View {
                     // Header
                     HStack {
                         Text(consts.intentionpageStr)
-                            .font(.s32Medium)
+                            .font(.s32Bold)
                             .foregroundStyle(.brand)
                         
                         Spacer()
@@ -95,7 +95,7 @@ struct IntentionsView: View {
                     VStack(alignment: .leading, spacing: 16) {
                         
                         if vm.viewMode == .timer {
-                            // Stopwatch Mode: User picked an intention, so we show the running timer
+                            /// Stopwatch Mode: User picked an intention, so we show the running timer
                             
                             VStack(spacing: 16) {
                                 Text(consts.currentIntentionStr)
@@ -109,7 +109,7 @@ struct IntentionsView: View {
                                     .clipShape(Circle())
                                 
                                 Text(formattedStopwatchTime)
-                                    .font(.system(size: 28, weight: .medium, design: .rounded))
+                                    .font(.s28Medium)
                                     .monospacedDigit()
                                     .foregroundStyle(.brand)
                                 
@@ -131,12 +131,12 @@ struct IntentionsView: View {
                         }
                         
                         if vm.viewMode == .main {
-                            // Selection Mode: User has not picked yet, so we show the grid of intentions
+                            /// Selection Mode: User has not picked yet, so we show the grid of intentions
                             Text(consts.startIntentionStr)
                                 .font(.s24Medium)
                                 .foregroundStyle(.brand)
                             
-                            // Max 6 intentions
+                            /// Max 6 intentions
                             LazyVGrid(columns: columns, spacing: 20) {
                                 ForEach(intentions) { intention in
                                     IntentionButton(intention: intention, viewModel: vm)

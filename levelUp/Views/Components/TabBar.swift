@@ -65,10 +65,10 @@ struct CustomTabBar: View {
 
                 VStack(spacing: 4) {
                     Image(systemName: item.icon)
-                        .font(.system(size: 20, weight: .semibold))
+                        .font(.s20Semibold)
 
                     Text(item.title)
-                        .font(.system(size: 10, weight: .medium))
+                        .font(.s10Medium)
                 }
                 .foregroundStyle(
                     isSelected

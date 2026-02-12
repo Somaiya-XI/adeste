@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @AppStorage("userName") private var userName: String = "My Name"
+    @State private var showNameEditor = false
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
 
                 Text(consts.profilepageStr)
-                    .font(.s32Medium)
+                    .font(.s32Bold)
                     .foregroundStyle(Color("brand-color"))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -28,9 +31,23 @@ struct ProfileView: View {
                         .background(Color("base-shade-01"))
                         .clipShape(Circle())
 
-                    Text("User Name")
-                        .font(.s24Medium)
-                        .foregroundStyle(Color("brand-color"))
+                    Button {
+                        showNameEditor = true
+                    } label: {
+                        HStack(spacing: 0) {
+                            Spacer(minLength: 0)
+                            HStack(spacing: 6) {
+                                Image(systemName: "pencil.line")
+                                    .font(.s14Medium)
+                                    .foregroundStyle(Color("brand-color").opacity(0.5))
+                                Text(userName)
+                                    .font(.s24Medium)
+                                    .foregroundStyle(Color("brand-color"))
+                            }
+                            Spacer(minLength: 0)
+                        }
+                    }
+                    .buttonStyle(.plain)
                 }
 
                 Spacer().frame(height: 36)
@@ -71,10 +88,10 @@ struct ProfileView: View {
                     settingsRow(title: consts.selectCycleStr)
                     customDivider
                     
-                    settingsRow(title: consts.manageIntentionsStr)
-                    customDivider
-    
-                    settingsRow(title: consts.manageAccountStr)
+                    NavigationLink(destination: ManageIntentionsView()) {
+                        settingsRow(title: consts.manageIntentionsStr)
+                    }
+                    .buttonStyle(.plain)
                 }
 
                 Spacer(minLength: 32)
@@ -82,6 +99,21 @@ struct ProfileView: View {
             .padding(.horizontal, 16)
         }
         .background(Color.white)
+        .overlay {
+            // Edit Name
+            if showNameEditor {
+                ZStack {
+                     Color.black.opacity(0.45)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            showNameEditor = false
+                        }
+                    
+                    // Popup
+                    EditNamePopup(userName: $userName, isPresented: $showNameEditor)
+                }
+            }
+        }
     }
 
     

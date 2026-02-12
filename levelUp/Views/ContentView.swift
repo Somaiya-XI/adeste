@@ -13,6 +13,9 @@ struct ContentView: View {
     @State private var selectedTab: Tab = .home
     @Namespace private var tabAnimation
     
+    @State private var loader = SymbolLoader()
+    
+    
     init() {
         UITabBar.appearance().isHidden = true
     }
@@ -27,7 +30,9 @@ struct ContentView: View {
                 case .intentions:
                     IntentionsView()
                 case .profile:
-                    ProfileView()
+                    NavigationStack {
+                        ProfileView()
+                    }
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -37,6 +42,7 @@ struct ContentView: View {
             CustomTabBar(selectedTab: $selectedTab, namespace: tabAnimation)
                 .padding(.bottom, 24)
         }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 
