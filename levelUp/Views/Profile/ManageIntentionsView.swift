@@ -31,10 +31,9 @@ struct ManageIntentionsView: View {
                     .ignoresSafeArea()
                 
                 VStack(spacing: 0) {
-                    // Header
-                    ZStack {
+                     ZStack {
                         Text(consts.manageIntentionsStr)
-                            .font(.system(size: 24, weight: .semibold, design: .rounded))
+                            .font(.s24Semibold)
                             .foregroundStyle(Color("brand-color"))
                         
                         HStack {
@@ -48,7 +47,7 @@ struct ManageIntentionsView: View {
                                     selectedIntention = newIntention
                                 } label: {
                                     Image(systemName: "plus")
-                                        .font(.system(size: 16, weight: .semibold, design: .rounded))
+                                        .font(.s16Semibold)
                                         .foregroundStyle(Color("brand-color"))
                                         .frame(width: 40, height: 40)
                                         .background(Color("base-shade-02").opacity(0.5))
@@ -109,7 +108,7 @@ struct ManageIntentionsView: View {
             }
             .ignoresSafeArea(.keyboard, edges: .bottom)
             .overlay {
-                // Edit Intention Popup (centered)
+                // Edit Intention Popup
                 if let intention = selectedIntention {
                     ZStack {
                         Color.black.opacity(0.45)
@@ -140,7 +139,7 @@ struct ManageIntentionsView: View {
     }
 }
 
-// MARK: - IntentionCardRow
+// IntentionCardRow
 private struct IntentionCardRow: View {
     let intention: Intention
     let onTap: () -> Void
@@ -150,13 +149,13 @@ private struct IntentionCardRow: View {
             HStack(spacing: 16) {
                 // Icon (leading)
                 Image(systemName: intention.icon)
-                    .font(.system(size: 20, weight: .semibold))
+                    .font(.s20Semibold)
                     .foregroundStyle(Color("brand-color"))
                     .frame(width: 44, height: 44)
                     .background(Color("base-shade-03"))
                     .clipShape(Circle())
                 
-                // Name (leading)
+                // Name
                 Text(intention.title)
                     .font(.s18Medium)
                     .foregroundStyle(Color("brand-color"))
@@ -179,7 +178,7 @@ private struct IntentionCardRow: View {
     }
 }
 
-// MARK: - EditIntentionPopupWrapper
+// EditIntentionPopupWrapper
 struct EditIntentionPopupWrapper: View {
     let intention: Intention
     @Bindable var viewModel: IntentionsViewModel

@@ -29,7 +29,7 @@ struct EditIntentionPopup: View {
         if editedIcon != intention.icon { editedIcon = intention.icon }
     }
     
-    // Check if title is not empty and not duplicate
+    /// Check if title is not empty and not duplicate
     private var isValid: Bool {
         let trimmedTitle = editedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
         
@@ -40,7 +40,7 @@ struct EditIntentionPopup: View {
         guard let intention = viewModel.currentlyEditing else { return false}
         
         let titleExists = intentions.contains { existingIntention in
-            // When editing, ignore the current intention's own title
+            /// When editing, ignore the current intention's own title
             if !viewModel.isCreating && existingIntention.id == intention.id {
                 return false
             }

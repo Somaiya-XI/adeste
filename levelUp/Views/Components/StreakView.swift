@@ -15,7 +15,7 @@ struct StreakView: View {
                 .frame(width: 80, height: 32)
                 .overlay(
                     Text("Streak")
-                        .font(.caption)
+                        .font(.s12Medium)
                         .foregroundColor(.gray)
                 )
 

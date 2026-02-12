@@ -25,9 +25,8 @@ struct IntentionsSymbolPicker: View {
                        .background(Color("base-shade-03"))
                        .clipShape(Circle())
                    
-                   // Visual hint: Small pencil badge overlay
-                   Image(systemName: "pencil.circle.fill")
-                       .font(.system(size: 16, weight: .medium))
+                    Image(systemName: "pencil.circle.fill")
+                       .font(.s16Medium)
                        .foregroundStyle(Color("brand-color"))
                        .background(Color.white)
                        .clipShape(Circle())

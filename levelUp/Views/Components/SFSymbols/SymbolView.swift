@@ -35,11 +35,11 @@ struct SymbolView: View {
             // Search Bar
             HStack(spacing: 12) {
                 Image(systemName: "magnifyingglass")
-                    .font(.system(size: 16, weight: .medium))
+                    .font(.s16Medium)
                     .foregroundStyle(Color("brand-color"))
                 
                 TextField("Search...", text: $searchText)
-                    .font(.system(size: 16, weight: .medium, design: .rounded))
+                    .font(.s16Medium)
                     .foregroundStyle(Color("brand-color"))
                     .textInputAutocapitalization(.never)
                     .textFieldStyle(.plain)
@@ -49,7 +49,7 @@ struct SymbolView: View {
                         searchText = ""
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 18, weight: .medium))
+                            .font(.s18Medium)
                             .foregroundStyle(Color("brand-color"))
                     }
                     .buttonStyle(.plain)
@@ -72,7 +72,7 @@ struct SymbolView: View {
                             dismiss()
                         } label: {
                             Image(systemName: symbolName)
-                                .font(.system(size: 22, weight: .medium))
+                                .font(.s20Medium)
                                 .foregroundStyle(Color("brand-color"))
                                 .frame(width: 50, height: 50)
                                 .background(symbolName == selectedSymbol ? Color("base-shade-03") : Color.clear)

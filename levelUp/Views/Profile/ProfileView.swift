@@ -16,7 +16,7 @@ struct ProfileView: View {
             VStack(spacing: 0) {
 
                 Text(consts.profilepageStr)
-                    .font(.s32Medium)
+                    .font(.s32Bold)
                     .foregroundStyle(Color("brand-color"))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -38,7 +38,7 @@ struct ProfileView: View {
                             Spacer(minLength: 0)
                             HStack(spacing: 6) {
                                 Image(systemName: "pencil.line")
-                                    .font(.system(size: 14))
+                                    .font(.s14Medium)
                                     .foregroundStyle(Color("brand-color").opacity(0.5))
                                 Text(userName)
                                     .font(.s24Medium)
@@ -100,17 +100,16 @@ struct ProfileView: View {
         }
         .background(Color.white)
         .overlay {
-            // Custom Edit Name Popup (matching EditIntentionPopup style)
+            // Edit Name
             if showNameEditor {
                 ZStack {
-                    // Dimmed background
-                    Color.black.opacity(0.45)
+                     Color.black.opacity(0.45)
                         .ignoresSafeArea()
                         .onTapGesture {
                             showNameEditor = false
                         }
                     
-                    // Popup content
+                    // Popup
                     EditNamePopup(userName: $userName, isPresented: $showNameEditor)
                 }
             }

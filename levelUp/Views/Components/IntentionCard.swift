@@ -31,13 +31,13 @@ struct IntentionCard: View {
                     VStack (alignment: .leading) {
                         HStack(alignment: .center){
                             Text("New Intention")
-                                .font(.title2.bold())
+                                .font(.s24Semibold)
                             Spacer()
                             Button{
                                 
                             }label:{
                                 Image(systemName: "xmark.circle")
-                                    .font(.title)
+                                    .font(.s28Medium)
                             }.tint(.brand)
                         }
                         
@@ -47,7 +47,7 @@ struct IntentionCard: View {
                                     .frame(width: width * 0.16)
                                     .overlay {
                                         Image(systemName: "pencil")
-                                            .font(.largeTitle)
+                                            .font(.s32Bold)
                                     }
                                                            
                                 TextField("e.g, Reading", text: $name)
@@ -55,7 +55,7 @@ struct IntentionCard: View {
                                     .background(.gray.opacity(0.4))
                                     .clipShape(.capsule)
                             }
-                        Text("Apps").font(.title2)
+                        Text("Apps").font(.s20Medium)
                             ScrollView(.vertical){
                                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 60))], alignment: .center, spacing: 8){
                                     ForEach(1...14, id:\.self ){ i in
@@ -76,7 +76,7 @@ struct IntentionCard: View {
                         Button{}
                         label:{
                             Text("Done")
-                                .font(.title3.bold())
+                                .font(.s20Semibold)
                                 .padding(8)
                         }
                             .buttonSizing(.flexible)

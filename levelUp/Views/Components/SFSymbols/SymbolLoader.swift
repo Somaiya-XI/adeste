@@ -7,10 +7,8 @@
 
 import Foundation
 
-/// Simple static list of curated lifestyle icons for intentions
-struct SymbolLoader {
-    // The Best Lifestyle Icons - Curated static list
-    static let symbols: [String] = [
+ struct SymbolLoader {
+     static let symbols: [String] = [
         "target",
         "scope",
         "heart.fill",

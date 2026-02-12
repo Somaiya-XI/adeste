@@ -30,8 +30,7 @@ struct EditNamePopup: View {
                 .foregroundStyle(Color("brand-color"))
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            // TextField with underline style (matching EditIntentionPopup)
-            VStack(alignment: .leading, spacing: 4) {
+             VStack(alignment: .leading, spacing: 4) {
                 TextField("Name", text: $editedName)
                     .font(.s20Medium)
                     .foregroundStyle(Color("brand-color"))
@@ -42,8 +41,7 @@ struct EditNamePopup: View {
                     .frame(height: 1)
             }
             
-            // Action buttons
-            HStack(spacing: 16) {
+             HStack(spacing: 16) {
                 Button(consts.cancelStr) {
                     isPresented = false
                 }
