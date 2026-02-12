@@ -28,7 +28,7 @@ struct HabitPickerView: View {
                 }
                 
                 Text("Pick habits")
-                    .font(.system(size: 40, weight: .bold))
+                    .font(.s32Bold)
                     .foregroundColor(Color("brand-color"))
                 Spacer()
             }
@@ -39,7 +39,7 @@ struct HabitPickerView: View {
             // Content Card
             VStack(spacing: 0) {
                 Text("Pick two habits to start the cycle")
-                    .font(.system(size: 17))
+                    .font(.s16Medium)
                     .foregroundColor(Color("brand-color"))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top, 24)
@@ -116,7 +116,7 @@ struct HabitPickerView: View {
             Button(action: {
             }) {
                 Text("Get Started")
-                    .font(.system(size: 28, weight: .semibold))
+                    .font(.s28Medium)
                     .foregroundColor(Color("brand-color"))
                     .frame(maxWidth: .infinity)
                     .frame(height: 70)
@@ -162,11 +162,11 @@ struct HabitCard: View {
              
                 HStack(spacing: 20) {
                     Image(systemName: "sun.max.fill")
-                        .font(.system(size: 70))
+                        .font(.s48Heavy)
                         .foregroundColor(Color("brand-color"))
                     
                     Text(title)
-                        .font(.system(size: 29, weight: .regular))
+                        .font(.s28Medium)
                         .foregroundColor(Color("brand-color"))
                     
                     Spacer()
@@ -190,7 +190,7 @@ struct HabitCard: View {
                         switch icon {
                         case .system(let systemName):
                             Image(systemName: systemName)
-                                .font(.system(size: iconSize))
+                                .font(.s48Heavy)
                                 .foregroundColor(Color("brand-color"))
                         case .custom(let imageName):
                             Image(imageName)
@@ -201,10 +201,10 @@ struct HabitCard: View {
                         case .doubleBottle:
                             HStack(spacing: 4) {
                                 Image(systemName: "waterbottle.fill")
-                                    .font(.system(size: 65))
+                                    .font(.s48Heavy)
                                     .foregroundColor(Color("brand-color"))
                                 Image(systemName: "waterbottle.fill")
-                                    .font(.system(size: 65))
+                                    .font(.s48Heavy)
                                     .foregroundColor(Color("brand-color"))
                             }
                         }
@@ -212,7 +212,7 @@ struct HabitCard: View {
                     
                     // Title
                     Text(title)
-                        .font(.system(size: 28, weight: .regular))
+                        .font(.s28Medium)
                         .foregroundColor(Color("brand-color"))
                     
                     Spacer()
@@ -226,17 +226,6 @@ struct HabitCard: View {
                         .stroke(isSelected ? Color("brand-color") : Color.clear, lineWidth: 3)
                 )
             }
-        }
-    }
-    
-    private var iconSize: CGFloat {
-        switch title {
-        case "Walk":
-            return 75
-        case "Athkar":
-            return 70
-        default:
-            return 65
         }
     }
     

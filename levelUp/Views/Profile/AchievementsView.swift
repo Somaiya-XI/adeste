@@ -21,7 +21,7 @@ struct AchievementsView: View {
             VStack(spacing: 24) {
                 ZStack {
                     Text(consts.achievementsStr)
-                        .font(.system(size: 24, weight: .semibold, design: .rounded))
+                        .font(.s24Semibold)
                         .foregroundStyle(Color("brand-color"))
 
                     HStack {

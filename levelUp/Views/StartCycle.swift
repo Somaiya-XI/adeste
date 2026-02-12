@@ -27,7 +27,7 @@ struct StartCycle: View {
                                 .frame(width: 60, height: 60)
 
                             Text("our slogan")
-                                .font(.system(size: 14))
+                                .font(.s14Medium)
                                 .foregroundColor(.black.opacity(0.6))
                         }
                         .padding(.top, 50)
@@ -121,7 +121,7 @@ struct CycleCard: View {
                 }
 
                 Text(title)
-                    .font(.system(size: 28, weight: .bold))
+                    .font(.s28Medium)
                     .foregroundColor(Color(red: 0.35, green: 0.08, blue: 0.08))
                     .lineLimit(1)
             }
@@ -134,11 +134,11 @@ struct CycleCard: View {
             VStack(alignment: .leading, spacing: 0) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Description of the cycle")
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(.s14Medium)
                         .foregroundColor(.black.opacity(0.9))
 
                     Text("aaaaaaaaaaovkfbojopjbo prekbopjeropbjoperjbopkrbopkeropbk")
-                        .font(.system(size: 13))
+                        .font(.s14Medium)
                         .foregroundColor(.black.opacity(0.7))
                         .lineLimit(2)
                 }
@@ -147,7 +147,7 @@ struct CycleCard: View {
 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Features:")
-                        .font(.system(size: 26, weight: .bold))
+                        .font(.s28Medium)
                         .foregroundColor(Color(red: 0.35, green: 0.08, blue: 0.08))
 
                     FeatureRow(
@@ -176,7 +176,7 @@ struct CycleCard: View {
                     onGetStarted()
                 } label: {
                     Text("Get Started")
-                        .font(.system(size: 18, weight: .semibold))
+                        .font(.s18Medium)
                         .foregroundColor(Color(red: 0.35, green: 0.08, blue: 0.08))
                         .frame(maxWidth: .infinity)
                         .frame(height: 54)
@@ -206,12 +206,12 @@ struct FeatureRow: View {
     var body: some View {
         HStack(spacing: 14) {
             Image(systemName: icon)
-                .font(.system(size: 20, weight: .medium))
+                .font(.s20Medium)
                 .foregroundColor(iconColor)
                 .frame(width: 28, height: 28)
 
             Text(text)
-                .font(.system(size: 18, weight: .medium))
+                .font(.s18Medium)
                 .foregroundColor(iconColor)
         }
         .padding(.vertical, 2)

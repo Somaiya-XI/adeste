@@ -7,42 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FB84554A2F3A04C70045993A /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = FB8455492F3A04C70045993A /* Adhan */; };
+		2E0335BF2F3CC7B80006A239 /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = 2E0335BE2F3CC7B80006A239 /* Adhan */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		531EE8AF2F3C94D9006C52A2 /* Embed ExtensionKit Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			name = "Embed ExtensionKit Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		53BF30B42F3ABD8E00FA12B9 /* Embed Foundation Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-			);
-			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		531EE86F2F3C24A8006C52A2 /* ManagedSettings.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ManagedSettings.framework; path = System/Library/Frameworks/ManagedSettings.framework; sourceTree = SDKROOT; };
-		531EE8712F3C24A8006C52A2 /* ManagedSettingsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ManagedSettingsUI.framework; path = System/Library/Frameworks/ManagedSettingsUI.framework; sourceTree = SDKROOT; };
-		531EE8842F3C24CC006C52A2 /* DeviceActivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceActivity.framework; path = System/Library/Frameworks/DeviceActivity.framework; sourceTree = SDKROOT; };
 		533B00542F338289009B8771 /* adeste.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = adeste.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		53BF309A2F3AB8EE00FA12B9 /* adeste.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = adeste.entitlements; sourceTree = "<group>"; };
-		53BF30A12F3ABD8D00FA12B9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
-		53BF30A32F3ABD8D00FA12B9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		53BF30B52F3ABDAD00FA12B9 /* adesteWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = adesteWidgetExtension.entitlements; sourceTree = "<group>"; };
-		80983B402F3DFCF90029B12F /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -64,11 +33,6 @@
 			path = levelUp;
 			sourceTree = "<group>";
 		};
-		53BF30A52F3ABD8D00FA12B9 /* adesteWidget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = adesteWidget;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB84554A2F3A04C70045993A /* Adhan in Frameworks */,
+				2E0335BF2F3CC7B80006A239 /* Adhan in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,11 +50,7 @@
 		533B004B2F338289009B8771 = {
 			isa = PBXGroup;
 			children = (
-				53BF30B52F3ABDAD00FA12B9 /* adesteWidgetExtension.entitlements */,
-				53BF309A2F3AB8EE00FA12B9 /* adeste.entitlements */,
 				533B00562F338289009B8771 /* levelUp */,
-				53BF30A52F3ABD8D00FA12B9 /* adesteWidget */,
-				53BF30A02F3ABD8D00FA12B9 /* Frameworks */,
 				533B00552F338289009B8771 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -103,19 +63,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		53BF30A02F3ABD8D00FA12B9 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				80983B402F3DFCF90029B12F /* HealthKit.framework */,
-				53BF30A12F3ABD8D00FA12B9 /* WidgetKit.framework */,
-				53BF30A32F3ABD8D00FA12B9 /* SwiftUI.framework */,
-				531EE86F2F3C24A8006C52A2 /* ManagedSettings.framework */,
-				531EE8712F3C24A8006C52A2 /* ManagedSettingsUI.framework */,
-				531EE8842F3C24CC006C52A2 /* DeviceActivity.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -126,8 +73,6 @@
 				533B00502F338289009B8771 /* Sources */,
 				533B00512F338289009B8771 /* Frameworks */,
 				533B00522F338289009B8771 /* Resources */,
-				53BF30B42F3ABD8E00FA12B9 /* Embed Foundation Extensions */,
-				531EE8AF2F3C94D9006C52A2 /* Embed ExtensionKit Extensions */,
 			);
 			buildRules = (
 			);
@@ -138,6 +83,7 @@
 			);
 			name = adeste;
 			packageProductDependencies = (
+				2E0335BE2F3CC7B80006A239 /* Adhan */,
 			);
 			productName = "level-up";
 			productReference = 533B00542F338289009B8771 /* adeste.app */;
@@ -169,7 +115,7 @@
 			mainGroup = 533B004B2F338289009B8771;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				FB8455482F3A04C70045993A /* XCRemoteSwiftPackageReference "adhan-swift" */,
+				2E0335BD2F3CC7B80006A239 /* XCRemoteSwiftPackageReference "adhan-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 533B00552F338289009B8771 /* Products */;
@@ -330,17 +276,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = adeste.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CKP2ZXN8KU;
+				DEVELOPMENT_TEAM = 65WKCCK99N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationLandscapeLeft;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -349,15 +295,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.joryAlkhamees.adeste.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -366,17 +309,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = adeste.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CKP2ZXN8KU;
+				DEVELOPMENT_TEAM = 65WKCCK99N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationLandscapeLeft;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -385,15 +328,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.joryAlkhamees.adeste.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -421,9 +361,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FB8455482F3A04C70045993A /* XCRemoteSwiftPackageReference "adhan-swift" */ = {
+		2E0335BD2F3CC7B80006A239 /* XCRemoteSwiftPackageReference "adhan-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/batoulapps/adhan-swift?utm_source=chatgpt.com";
+			repositoryURL = "https://github.com/batoulapps/adhan-swift";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.4.0;
@@ -432,9 +372,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		FB8455492F3A04C70045993A /* Adhan */ = {
+		2E0335BE2F3CC7B80006A239 /* Adhan */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FB8455482F3A04C70045993A /* XCRemoteSwiftPackageReference "adhan-swift" */;
+			package = 2E0335BD2F3CC7B80006A239 /* XCRemoteSwiftPackageReference "adhan-swift" */;
 			productName = Adhan;
 		};
 /* End XCSwiftPackageProductDependency section */

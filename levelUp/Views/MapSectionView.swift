@@ -15,7 +15,7 @@ struct MapSectionView: View {
             .overlay(
                 VStack {
                     Text("Character / Time")
-                        .font(.caption)
+                        .font(.s12Medium)
                         .foregroundColor(.gray)
                 }
             )
