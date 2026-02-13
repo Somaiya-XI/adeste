@@ -10,6 +10,8 @@ import SwiftUI
 
 struct HabitsSectionView: View {
     let pages:[[Habit]]
+    let prayerManager: PrayerManager
+    let athkarManager: AthkarManager
     var body: some View {
            VStack(alignment: .leading, spacing: 6) {
 
@@ -19,7 +21,12 @@ struct HabitsSectionView: View {
                if pages.count > 1 {
                    TabView {
                        ForEach(pages.indices, id: \.self) { index in
-                           HabitsStaticLayoutView(habits: pages[index])
+                           HabitsStaticLayoutView(
+                               habits: pages[index],
+                               prayerManager: prayerManager,
+                               athkarManager: athkarManager
+                           )
+
                                .padding(.horizontal)
                        }
                    }
@@ -27,7 +34,13 @@ struct HabitsSectionView: View {
                    .tabViewStyle(.page(indexDisplayMode: .automatic))
                                   .frame(height: 320)
                }else if let firstPage = pages.first {
-                   HabitsStaticLayoutView(habits: firstPage)
+                   HabitsStaticLayoutView(
+                       habits: firstPage,
+                       prayerManager: prayerManager,
+                       athkarManager: athkarManager
+                   )
+
+
                }
                
 
@@ -36,16 +49,32 @@ struct HabitsSectionView: View {
        }
 }
 #Preview("HabitsSection – Single Page") {
-
+    let prayerManager = PrayerManager(
+        timesProvider: AdhanPrayerTimesProvider(
+            latitude: 24.7136,
+            longitude: 46.6753
+        ),
+        store: UserDefaultsPrayerStore()
+    )
+    
+    let athkarManager = AthkarManager(  // ← ADD THIS
+        timesProvider: AdhanPrayerTimesProvider(
+            latitude: 24.7136,
+            longitude: 46.6753
+        ),
+        store: UserDefaultsAthkarStore()
+    )
+    
     HabitsSectionView(
         pages: [
             [
                 Habit(title: "Water", type: .water),
                 Habit(title: "Steps", type: .steps),
-                Habit(title: "Wake Up", type: .wakeUp)
+                Habit(title: "Prayer", type: .prayer)
             ]
-        ]
+        ],
+        prayerManager: prayerManager,
+        athkarManager: athkarManager  // ← Pass the variable
     )
     .padding()
-  
 }

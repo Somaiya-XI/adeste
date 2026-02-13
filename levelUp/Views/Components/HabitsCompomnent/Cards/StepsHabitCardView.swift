@@ -8,64 +8,65 @@
 import SwiftUI
 
 struct StepsHabitCardView: View {
-    @StateObject  var viewModel: StepsViewModel
+    @StateObject var viewModel: StepsViewModel
+    let layoutType: HabitLayoutType  // ← NEW: Add this parameter
     
-    init(habit: Habit) {
-           _viewModel = StateObject(wrappedValue: StepsViewModel(habit: habit))
-       }
+    init(habit: Habit, layoutType: HabitLayoutType = .wide) {
+        _viewModel = StateObject(wrappedValue: StepsViewModel(habit: habit))
+        self.layoutType = layoutType
+    }
+    
     var body: some View {
-           VStack(alignment: .leading, spacing: 8) {
+        // Format steps count with comma separator
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        let stepsString = formatter.string(from: NSNumber(value: viewModel.stepsCount)) ?? "\(viewModel.stepsCount)"
+        
+        // Convert ViewModel state to HabitDisplayData
+        let displayData = HabitDisplayData(
+            title: "Exercise",
+            value: stepsString,
+            unit: "Steps",
+            iconName: "ic_steps",
+            isSystemIcon: false,
+            backgroundColorName: "sec-color-berry",
+            textColorName: "white"
+        )
+        
+        // ← FIX: Just return the view directly
+        return AdaptiveHabitCard(
+            habit: displayData,
+            layoutType: layoutType
+        )
+        .onAppear {
+            // Fetch steps when view appears
+            Task {
+                viewModel.fetchSteps()
+            }
+        }
+        .overlay(alignment: .bottomLeading) {
+            // Show loading indicator
+            if viewModel.isLoading {
+                ProgressView()
+                    .tint(.white)
+                    .padding(16)
+            }
+        }
+    }
+}
 
-               VStack(alignment: .leading) {
-                   HStack {
-                       Text("Steps")
-                           .font(.headline)
-                           .foregroundColor(.white)
+#Preview {
+    let habit = Habit(
+        id: UUID().uuidString,
+        title: "Steps",
+        type: .steps,
+        isEnabled: true
+    )
 
-                       Spacer()
-                   }
-
-                   HStack(alignment: .lastTextBaseline, spacing: 4) {
-                       Text("\(viewModel.stepsCount)")
-                           .font(.title.bold())
-                           .foregroundColor(.white)
-
-                       Text("steps")
-                           .font(.subheadline)
-                           .foregroundColor(.white.opacity(0.8))
-                   }
-               }
-
-               HStack {
-                   Spacer()
-                   Image(systemName: "shoeprints.fill")
-                       .font(.system(size: 40))
-                       .foregroundColor(.white.opacity(0.7))
-               }
-           }.onAppear{
-               Task {
-                   viewModel.fetchSteps()
-               }
-           }
-           .padding()
-           .frame(maxWidth: .infinity, maxHeight: .infinity)
-           .background(Color.secColorBerry)
-           .cornerRadius(16)
-       }
-   }
-
-
-//#Preview {
-//    let habit = Habit(
-//        id: UUID().uuidString,
-//        title: "Steps",
-//        type: .steps,
-//        isEnabled: true
-//    )
-//
-//    StepsHabitCardView(habit: habit)
-//        .padding()
-//}
-
-
-
+    VStack(spacing: 16) {
+        StepsHabitCardView(habit: habit, layoutType: .small)
+        StepsHabitCardView(habit: habit, layoutType: .wide)
+        StepsHabitCardView(habit: habit, layoutType: .large)
+    }
+    .padding()
+}

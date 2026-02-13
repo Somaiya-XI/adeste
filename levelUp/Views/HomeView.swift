@@ -1,14 +1,30 @@
+////
+////  HomeView.swift
+////  levelUp
+////
+////  Created by Somaiya on 20/08/1447 AH.
+////
 //
-//  HomeView.swift
-//  levelUp
 //
-//  Created by Somaiya on 20/08/1447 AH.
-//
-
-
 import SwiftUI
 
 struct HomeView: View {
+    let prayerManager = PrayerManager(
+          timesProvider: AdhanPrayerTimesProvider(
+              latitude: 24.7136,
+              longitude: 46.6753
+          ),
+          store: UserDefaultsPrayerStore()
+      )
+    let athkarManager = AthkarManager(  // ✅ You already have this
+          timesProvider: AdhanPrayerTimesProvider(
+              latitude: 24.7136,
+              longitude: 46.6753
+          ),
+          store: UserDefaultsAthkarStore()
+      )
+
+
     init(previewPages: [[Habit]]? = nil) {
         let vm = HomeViewModel()
         if let previewPages {
@@ -29,17 +45,36 @@ struct HomeView: View {
             MapSectionView()
             AppLimitCardView()
 
-            HabitsSectionView(pages: viewModel.pages)
+            HabitsSectionView(
+                pages: viewModel.pages,
+                prayerManager: prayerManager,
+                athkarManager: athkarManager
+            )
+
 
             Spacer()
         }
         .padding(.horizontal)
         .onAppear {
-
+                // ← ADD THIS: Temporary permission request
+                // TODO: Move this to onboarding later
+                requestHealthKitPermission()
+            }
+        }
+        
+        // ← ADD THIS FUNCTION
+        private func requestHealthKitPermission() {
+            Task {
+                do {
+                    print("🔍 Requesting HealthKit permission from HomeView...")
+                    try await HealthManager.shared.requestAuthorization()
+                    print("✅ HealthKit permission granted!")
+                } catch {
+                    print("❌ HealthKit permission failed: \(error)")
+                }
+            }
         }
     }
-}
-
 #Preview("HomeView – Mock Data") {
 
     let page1: [Habit] = [
@@ -51,14 +86,14 @@ struct HomeView: View {
     let page2: [Habit] = [
 //        Habit(title: "Water", type: .water)
 //        Habit(title: "Athkar صباح", type: .athkar)
-        Habit(title: "Wake Up", type: .wakeUp),
-        Habit(title: "Water", type: .water),
+        Habit(title: "Prayer", type: .prayer),
+//        Habit(title: "Water", type: .water),
     ]
     let page3: [Habit] = [
 //        Habit(title: "Water", type: .water)
-//        Habit(title: "Athkar صباح", type: .athkar)
+//        Habit(title: "Prayer", type: .prayer),
        
-        Habit(title: "Water", type: .water),
+        Habit(title: "athkar ", type: .athkar),
     ]
 
     HomeView(previewPages: [page1, page2, page3])

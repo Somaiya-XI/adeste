@@ -10,8 +10,8 @@ import Combine
 
 class StepsViewModel: ObservableObject {
     let habit : Habit
-    @Published var stepsCount: Int = 0
-    @Published var isLoading: Bool = false
+    @Published private(set) var stepsCount: Int = 0
+    @Published private(set) var isLoading: Bool = false
     @Published var errorMessage: String?
     init(habit: Habit) {
         self.habit = habit

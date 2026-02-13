@@ -17,7 +17,7 @@ class WakeUpViewModel: ObservableObject{
   
      var wakeUpWindow: TimeInterval = 1800 // 30 دقيقة
  
-   @Published var didCheckIn: Bool = false
+   @Published private(set) var didCheckIn: Bool = false
  
     @Published var checkInDate: Date? = nil
     

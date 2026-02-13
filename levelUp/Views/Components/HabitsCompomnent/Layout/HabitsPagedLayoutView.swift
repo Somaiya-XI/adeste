@@ -9,9 +9,17 @@ import SwiftUI
 
 struct HabitsPagedLayoutView: View {
     let pages: [[Habit]]
+    let prayerManager: PrayerManager
+    let athkarManager: AthkarManager
     var body: some View {
         TabView {
-            ForEach(pages.indices,id: \.self) { index in HabitsStaticLayoutView(habits: pages[index])
+            ForEach(pages.indices,id: \.self) { index in HabitsStaticLayoutView(
+                habits: pages[index],
+                prayerManager: prayerManager,
+                athkarManager: athkarManager
+                
+            )
+
                     .padding(.horizontal)
                 
             }

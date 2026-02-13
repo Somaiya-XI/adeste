@@ -9,10 +9,10 @@ import Combine
 
 class WaterViewModel: ObservableObject {
     let habit: Habit
-       @Published var waterIntake: Int = 0
+       @Published private(set) var waterIntake: Int = 0
      var lastWaterDate: Date?
       var increaseCount: Int = 0
-     let maxCups = 8
+    private(set) var maxCups = 8
 
     private let limit: TimeInterval = 5400
     
