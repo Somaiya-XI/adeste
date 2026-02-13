@@ -37,6 +37,13 @@ struct AdaptiveHabitCard: View {
     let layoutType: HabitLayoutType
     let waterFilledBottles: Int?  // For water habit in large layout
     
+    // Add this computed property
+    private var shouldShowCheckmark: Bool {
+        let titleLower = habit.title.lowercased()
+        return titleLower.contains("athkar") ||
+        titleLower.contains("prayer") ||
+        titleLower.contains("wake up")
+    }
     init(
         habit: HabitDisplayData,
         layoutType: HabitLayoutType,
@@ -127,7 +134,10 @@ struct AdaptiveHabitCard: View {
             .foregroundStyle(Color.white.opacity(0.7))
             .offset(x: 90, y: 67)
             
-            checkmarkOverlay
+            // Conditional checkmark
+            if shouldShowCheckmark {
+                checkmarkOverlay
+            }
         }
         .smallHabitFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -227,7 +237,9 @@ struct AdaptiveHabitCard: View {
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             
-            checkmarkOverlay
+            if shouldShowCheckmark {
+                checkmarkOverlay
+            }
         }
         .wideHabitFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -268,7 +280,9 @@ struct AdaptiveHabitCard: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             }
             
-            checkmarkOverlay
+            if shouldShowCheckmark {
+                checkmarkOverlay
+            }
         }
         .wideHabitFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -316,7 +330,9 @@ struct AdaptiveHabitCard: View {
                 .foregroundStyle(Color.white.opacity(0.7))
                 .offset(x: 260, y: 35)
             
-            checkmarkOverlay
+            if shouldShowCheckmark {
+                checkmarkOverlay
+            }
         }
         .wideHabitFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -373,7 +389,9 @@ struct AdaptiveHabitCard: View {
             .foregroundStyle(Color.white.opacity(0.7))
             .offset(x: 260, y: 45)
             
-            checkmarkOverlay
+            if shouldShowCheckmark {
+                checkmarkOverlay
+            }
         }
         .wideHabitFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -406,7 +424,9 @@ struct AdaptiveHabitCard: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .offset(y: 10)
             
-            checkmarkOverlay
+            if shouldShowCheckmark {
+                checkmarkOverlay
+            }
             
         }
         .wideHabitFrame()
@@ -476,7 +496,9 @@ struct AdaptiveHabitCard: View {
                 .foregroundStyle(Color.white.opacity(0.7))
                 .offset(x: 210, y: 110)
             
-            checkmarkOverlay
+            if shouldShowCheckmark {
+                checkmarkOverlay
+            }
         }
         .habitProgressCardFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -540,7 +562,9 @@ struct AdaptiveHabitCard: View {
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             
-            checkmarkOverlay
+            if shouldShowCheckmark {
+                checkmarkOverlay
+            }
         }
         .habitProgressCardFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -557,7 +581,7 @@ struct AdaptiveHabitCard: View {
                 Text(habit.title)
                     .font(.s20Medium)
                     .foregroundStyle(Color.white)
-
+                
                 Spacer()
                 
                 Image(systemName: habit.iconName)
@@ -578,7 +602,9 @@ struct AdaptiveHabitCard: View {
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             
-            checkmarkOverlay
+            if shouldShowCheckmark {
+                checkmarkOverlay
+            }
         }
         .habitProgressCardFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -619,7 +645,9 @@ struct AdaptiveHabitCard: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             }
             
-            checkmarkOverlay
+            if shouldShowCheckmark {
+                checkmarkOverlay
+            }
         }
         .habitProgressCardFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -662,8 +690,10 @@ struct AdaptiveHabitCard: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .offset(y: 10)
-
-            checkmarkOverlay
+            
+            if shouldShowCheckmark {
+                checkmarkOverlay
+            }
         }
         .habitProgressCardFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -680,7 +710,7 @@ struct AdaptiveHabitCard: View {
                 Text(habit.title)
                     .font(.s20Medium)
                     .foregroundStyle(Color.white.opacity(0.7))
-
+                
                 Spacer()
                 
                 Group {
@@ -703,12 +733,22 @@ struct AdaptiveHabitCard: View {
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             
-            checkmarkOverlay
+            if shouldShowCheckmark {
+                checkmarkOverlay
+            }
         }
         .habitProgressCardFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }
+
+
+
+
+
+
+
+
 
 #Preview("Design System Catalog - All Habit Variants") {
     ScrollView {
@@ -722,7 +762,7 @@ struct AdaptiveHabitCard: View {
                     Spacer()
                 }
                 Divider()
-
+                
                 // Stack: Small -> Wide -> Large
                 VStack(spacing: 16) {
                     AdaptiveHabitCard(
@@ -737,7 +777,7 @@ struct AdaptiveHabitCard: View {
                         ),
                         layoutType: .small
                     )
-
+                    
                     AdaptiveHabitCard(
                         habit: HabitDisplayData(
                             title: "Wake up",
@@ -750,7 +790,7 @@ struct AdaptiveHabitCard: View {
                         ),
                         layoutType: .wide
                     )
-
+                    
                     AdaptiveHabitCard(
                         habit: HabitDisplayData(
                             title: "Wake up",
@@ -768,7 +808,7 @@ struct AdaptiveHabitCard: View {
             .padding(20)
             .background(Color(.systemBackground))
             .clipShape(RoundedRectangle(cornerRadius: 12))
-
+            
             // MARK: - WATER VARIANTS
             VStack(spacing: 16) {
                 HStack {
@@ -825,3 +865,4 @@ struct AdaptiveHabitCard: View {
     .padding(.horizontal, 16)
     .background(Color(.systemGroupedBackground))
 }
+

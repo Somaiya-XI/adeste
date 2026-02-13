@@ -4,14 +4,6 @@
 //
 //  Created by Jory on 25/08/1447 AH.
 //
-
-//
-//  HabitDisplayData.swift
-//  levelUp
-//
-//  Data structure for displaying habits in AdaptiveHabitCard
-//
-
 import Foundation
 
 struct HabitDisplayData {

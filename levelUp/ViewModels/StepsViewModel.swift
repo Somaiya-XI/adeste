@@ -15,39 +15,39 @@ class StepsViewModel: ObservableObject {
     @Published var errorMessage: String?
     init(habit: Habit) {
         self.habit = habit
-
-        #if DEBUG
+        
+#if DEBUG
         if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
             self.stepsCount = 4321
             return
         }
-        #endif
-
+#endif
+        
     }
     func fetchSteps() {
         
-           isLoading = true
-           errorMessage = nil
-
-           Task {
-               do {
-                   print("Requesting HealthKit authorization...")
-                   try await HealthManager.shared.requestAuthorization()
-                   let steps = try await HealthManager.shared.fetchSteps()
-
-                   self.stepsCount = steps
-                   self.isLoading = false
-
-               } catch {
-                   self.errorMessage = "Failed to fetch steps"
-                   self.isLoading = false
-                   print("Health error:", error)
-               }
-           }
-       }
-
-       func refreshSteps() {
-           fetchSteps()
-       }
+        isLoading = true
+        errorMessage = nil
+        
+        Task {
+            do {
+                print("Requesting HealthKit authorization...")
+                try await HealthManager.shared.requestAuthorization()
+                let steps = try await HealthManager.shared.fetchSteps()
+                
+                self.stepsCount = steps
+                self.isLoading = false
+                
+            } catch {
+                self.errorMessage = "Failed to fetch steps"
+                self.isLoading = false
+                print("Health error:", error)
+            }
+        }
+    }
+    
+    func refreshSteps() {
+        fetchSteps()
+    }
 }
 

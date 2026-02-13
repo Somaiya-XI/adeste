@@ -1,11 +1,5 @@
-//
-//  WaterHabitCardView.swift
-//  HomePageUI
-//
-//  Created by Jory on 21/08/1447 AH.
-//
-//
 
+//
 //  WaterHabitCardView.swift
 //  HomePageUI
 //
@@ -17,28 +11,31 @@ import SwiftUI
 struct WaterHabitCardView: View {
     @StateObject var viewModel: WaterViewModel
     @State private var showAlert = false
-    let layoutType: HabitLayoutType  // ← NEW: Add this parameter
+    let layoutType: HabitLayoutType
     
     init(habit: Habit, layoutType: HabitLayoutType = .wide) {
+        // Ensure water is never small
+        let validLayoutType = layoutType == .small ? .wide : layoutType
+        
         _viewModel = StateObject(
             wrappedValue: WaterViewModel(habit: habit)
         )
-        self.layoutType = layoutType
+        self.layoutType = validLayoutType
     }
     
     var body: some View {
         // Convert ViewModel state to HabitDisplayData
         let displayData = HabitDisplayData(
-            title: layoutType == .small ? "Water" : "Water intake",
+            title: "Water intake",
             value: "\(viewModel.waterIntake)",
-            unit: layoutType == .small ? "Bottles" : nil,
+            unit: nil,
             iconName: "waterbottle.fill",
             isSystemIcon: true,
             backgroundColorName: "sec-color-blue",
             textColorName: "white"
         )
         
-        ZStack {
+        ZStack(alignment: .topLeading) {
             // Use AdaptiveHabitCard for beautiful UI
             AdaptiveHabitCard(
                 habit: displayData,
@@ -46,49 +43,48 @@ struct WaterHabitCardView: View {
                 waterFilledBottles: viewModel.waterIntake
             )
             
-            // Overlay interactive controls (only for wide/large)
-            if layoutType != .small {
-                interactiveControls
-            }
-        }
+            
+            interactiveControls        }
+        
+        
+        // Match the card frame size
+        .frame(
+            width: 345,
+            height: layoutType == .wide ? 117.5 : 243
+        )
         .alert("Wait", isPresented: $showAlert) {
             Button("OK") {}
         } message: {
             Text("You can increase the number of water bottles only twice every 90 minutes")
         }
     }
-    
     @ViewBuilder
     private var interactiveControls: some View {
-        HStack {
-            // Decrease button (left side)
-            Button {
-                viewModel.decreaseWater()
-            } label: {
-                Image(systemName: "minus.circle.fill")
-                    .font(.title2)
-                    .foregroundStyle(Color.white)
-            }
-            .padding(.leading, 16)
-            
-            Spacer()
-            
-            // Increase button (right side)
-            Button {
-                if viewModel.canIncreaseWater() {
-                    viewModel.increaseWater()
-                } else {
-                    showAlert = true
-                }
-            } label: {
-                Image(systemName: "plus.circle.fill")
-                    .font(.title2)
-                    .foregroundStyle(Color.white)
-            }
-            .padding(.trailing, 16)
+        // Decrease button (bottom-left corner)
+        Button {
+            viewModel.decreaseWater()
+        } label: {
+            Image(systemName: "minus.circle.fill")
+                .font(.title2)
+                .foregroundStyle(Color.white)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-        .padding(.bottom, layoutType == .wide ? 12 : 16)
+        .padding(16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+        
+        // Increase button (bottom-right corner)
+        Button {
+            if viewModel.canIncreaseWater() {
+                viewModel.increaseWater()
+            } else {
+                showAlert = true
+            }
+        } label: {
+            Image(systemName: "plus.circle.fill")
+                .font(.title2)
+                .foregroundStyle(Color.white)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
     }
 }
 
@@ -99,12 +95,12 @@ struct WaterHabitCardView: View {
         type: .water,
         isEnabled: true
     )
-
+    
     VStack(spacing: 16) {
         WaterHabitCardView(habit: habit, layoutType: .small)
         WaterHabitCardView(habit: habit, layoutType: .wide)
         WaterHabitCardView(habit: habit, layoutType: .large)
     }
     .padding()
+    
 }
-

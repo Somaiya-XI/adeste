@@ -24,8 +24,6 @@ class HomeViewModel: ObservableObject {
             currentPage.append(habit)
             
             if currentPage.count == 3 {
-                //               resultPages.append(currentPage)
-                //               currentPage = []
                 resultPages.append(arrangeHabitsForLayout(currentPage))
                 currentPage = []
             }

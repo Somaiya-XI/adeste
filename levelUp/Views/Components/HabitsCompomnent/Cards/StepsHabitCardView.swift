@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StepsHabitCardView: View {
     @StateObject var viewModel: StepsViewModel
-    let layoutType: HabitLayoutType  // ← NEW: Add this parameter
+    let layoutType: HabitLayoutType  
     
     init(habit: Habit, layoutType: HabitLayoutType = .wide) {
         _viewModel = StateObject(wrappedValue: StepsViewModel(habit: habit))
@@ -27,8 +27,8 @@ struct StepsHabitCardView: View {
             title: "Exercise",
             value: stepsString,
             unit: "Steps",
-            iconName: "ic_steps",
-            isSystemIcon: false,
+            iconName: "shoeprints.fill",
+            isSystemIcon: true ,
             backgroundColorName: "sec-color-berry",
             textColorName: "white"
         )
@@ -62,7 +62,7 @@ struct StepsHabitCardView: View {
         type: .steps,
         isEnabled: true
     )
-
+    
     VStack(spacing: 16) {
         StepsHabitCardView(habit: habit, layoutType: .small)
         StepsHabitCardView(habit: habit, layoutType: .wide)

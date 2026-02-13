@@ -1,10 +1,3 @@
-////
-////  WakeUpHabitCardView.swift
-////  levelUp
-////
-////  Created by Jory on 22/08/1447 AH.
-////
-//
 
 //
 //  WakeUpHabitCardView.swift
@@ -33,7 +26,7 @@ struct WakeUpHabitCardView: View {
         )
         self.layoutType = layoutType
     }
-
+    
     var body: some View {
         // Format time
         let timeFormatter: DateFormatter = {
@@ -71,7 +64,6 @@ struct WakeUpHabitCardView: View {
             
             // Check-in button overlay
             Button {
-//                viewModel.checkIn()
                 handleCheckInTap()
             } label: {
                 Image(systemName: viewModel.didCheckIn ? "checkmark.circle.fill" : "checkmark.circle")
@@ -82,30 +74,30 @@ struct WakeUpHabitCardView: View {
             .disabled(viewModel.didCheckIn)
         }
         .alert("Missed Wake Up Window", isPresented: $showMissedAlert) {
-                 Button("OK", role: .cancel) {
-                     print("❌ User dismissed missed alert")
-                 }
-             } message: {
-                 Text("You can only check in within 30 minutes of your wake up time (\(timeString) \(ampm)).")
-             }
-         }
+            Button("OK", role: .cancel) {
+                print("❌ User dismissed missed alert")
+            }
+        } message: {
+            Text("You can only check in within 30 minutes of your wake up time (\(timeString) \(ampm)).")
+        }
+    }
     // Handle check-in with alert
-       private func handleCheckInTap() {
-           print("🔍 handleCheckInTap called")
-           print("   canCheckIn: \(viewModel.canCheckIn())")
-           print("   didCheckIn: \(viewModel.didCheckIn)")
-           
-           if viewModel.canCheckIn() {
-               print("✅ Within window - checking in")
-               viewModel.checkIn()
-           } else if !viewModel.didCheckIn {
-               print("⚠️ Outside window - showing alert")
-               showMissedAlert = true
-           } else {
-               print("ℹ️ Already checked in - doing nothing")
-           }
-       }
-   }
+    private func handleCheckInTap() {
+        print("🔍 handleCheckInTap called")
+        print("   canCheckIn: \(viewModel.canCheckIn())")
+        print("   didCheckIn: \(viewModel.didCheckIn)")
+        
+        if viewModel.canCheckIn() {
+            print("✅ Within window - checking in")
+            viewModel.checkIn()
+        } else if !viewModel.didCheckIn {
+            print("⚠️ Outside window - showing alert")
+            showMissedAlert = true
+        } else {
+            print("ℹ️ Already checked in - doing nothing")
+        }
+    }
+}
 
 #Preview {
     let habit = Habit(
@@ -114,7 +106,7 @@ struct WakeUpHabitCardView: View {
         type: .wakeUp,
         isEnabled: true
     )
-
+    
     VStack(spacing: 16) {
         WakeUpHabitCardView(habit: habit, layoutType: .small)
         WakeUpHabitCardView(habit: habit, layoutType: .wide)
