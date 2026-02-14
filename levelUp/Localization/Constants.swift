@@ -73,7 +73,8 @@ struct consts {
     static let stopTimerIconStr = "clock.badge.xmark"
     
     static let emptyIntentionChartIconStr = "chart.bar.xaxis.ascending.badge.clock" //"chart.line.text.clipboard"
-    
-    static let emptyIntentionSummaryStr = "start interacting with intentions\n to get your summary"
 
+
+    static let emptyIntentionSummaryStr = "start interacting with intentions\n to get your summary"
+ 
 }

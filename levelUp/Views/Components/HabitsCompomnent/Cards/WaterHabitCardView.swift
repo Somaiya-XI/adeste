@@ -8,27 +8,31 @@
 
 import SwiftUI
 struct WaterHabitCardView: View {
-    var habit: Habit
-    @State private var showAlert = false
+//    var habit: Habit
+    @StateObject var viewModel: WaterViewModel
+    @State  var showAlert = false
 
-    let maxBottles = 8
-
+    
+    init(habit: Habit) {
+            _viewModel = StateObject(
+                wrappedValue: WaterViewModel(habit: habit)
+            )
+        }
+    
     var body: some View {
         VStack(spacing: 12) {
-
-            // العنوان
+ 
             Text("Water Intake")
                 .font(.headline)
                 .foregroundColor(.white)
 
             // الصف اللي فيه الأزرار والقوارير
+            
             HStack(spacing: 12) {
 
                 // ➖ زر النقصان
                 Button {
-                    if habit.waterIntake > 0 {
-                        habit.waterIntake -= 1
-                    }
+                    viewModel.decreaseWater()
                 } label: {
                     Image(systemName: "minus")
                         .foregroundColor(.white)
@@ -37,9 +41,9 @@ struct WaterHabitCardView: View {
 
                 // 🧴 القوارير
                 HStack(spacing: 6) {
-                    ForEach(0..<maxBottles, id: \.self) { index in
+                    ForEach(0..<viewModel.maxCups, id: \.self) { index in
                         Image(systemName:
-                            index < habit.waterIntake
+                                index < viewModel.waterIntake
                             ? "waterbottle.fill"
                             : "waterbottle"
                         )
@@ -49,12 +53,11 @@ struct WaterHabitCardView: View {
 
                 // ➕ زر الزيادة
                 Button {
-                    if habit.canIncreaseWater() {
-                        habit.waterIntake += 1
-                    } else {
-                        showAlert = true
+                    if viewModel.canIncreaseWater(){
+                        viewModel.increaseWater()
+                    } else { showAlert = true
                     }
-                } label: {
+                }label:{
                     Image(systemName: "plus")
                         .foregroundColor(.white)
                         .font(.title3)
@@ -62,8 +65,8 @@ struct WaterHabitCardView: View {
             }
         }
         .padding()
-        .frame(height: 120)
-        .frame(maxWidth: .infinity)
+//        .frame(height: 120)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)  
         .background(Color.secColorBlue)
         .cornerRadius(16)
         .alert("wait", isPresented: $showAlert) {
@@ -77,12 +80,14 @@ struct WaterHabitCardView: View {
 #Preview {
     let habit = Habit(
         id: UUID().uuidString,
-        title: "Water",
+        title: "Water Intake",
         type: .water,
         isEnabled: true
     )
 
-    WaterHabitCardView(habit: habit)
+     WaterHabitCardView(habit: habit)
         .padding()
 }
+
+
 

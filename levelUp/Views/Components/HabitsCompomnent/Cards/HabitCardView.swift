@@ -29,7 +29,7 @@ struct HabitCardView: View {
                .padding()
                .frame(height: 120)
                .frame(maxWidth: .infinity)
-               .background(type.color)
+               
                .cornerRadius(20)
            }
     }
