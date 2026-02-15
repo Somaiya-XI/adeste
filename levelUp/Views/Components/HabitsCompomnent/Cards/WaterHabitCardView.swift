@@ -1,3 +1,4 @@
+
 //
 //  WaterHabitCardView.swift
 //  HomePageUI
@@ -5,75 +6,85 @@
 //  Created by Jory on 21/08/1447 AH.
 //
 
-
 import SwiftUI
-struct WaterHabitCardView: View {
-//    var habit: Habit
-    @StateObject var viewModel: WaterViewModel
-    @State  var showAlert = false
 
+struct WaterHabitCardView: View {
+    @StateObject var viewModel: WaterViewModel
+    @State private var showAlert = false
+    let layoutType: HabitLayoutType
     
-    init(habit: Habit) {
-            _viewModel = StateObject(
-                wrappedValue: WaterViewModel(habit: habit)
-            )
-        }
+    init(habit: Habit, layoutType: HabitLayoutType = .wide) {
+        // Ensure water is never small
+        let validLayoutType = layoutType == .small ? .wide : layoutType
+        
+        _viewModel = StateObject(
+            wrappedValue: WaterViewModel(habit: habit)
+        )
+        self.layoutType = validLayoutType
+    }
     
     var body: some View {
-        VStack(spacing: 12) {
- 
-            Text("Water Intake")
-                .font(.headline)
-                .foregroundColor(.white)
-
-            // الصف اللي فيه الأزرار والقوارير
+        // Convert ViewModel state to HabitDisplayData
+        let displayData = HabitDisplayData(
+            title: "Water intake",
+            value: "\(viewModel.waterIntake)",
+            unit: nil,
+            iconName: "waterbottle.fill",
+            isSystemIcon: true,
+            backgroundColorName: "sec-color-blue",
+            textColorName: "white"
+        )
+        
+        ZStack(alignment: .topLeading) {
+            // Use AdaptiveHabitCard for beautiful UI
+            AdaptiveHabitCard(
+                habit: displayData,
+                layoutType: layoutType,
+                waterFilledBottles: viewModel.waterIntake
+            )
             
-            HStack(spacing: 12) {
-
-                // ➖ زر النقصان
-                Button {
-                    viewModel.decreaseWater()
-                } label: {
-                    Image(systemName: "minus")
-                        .foregroundColor(.white)
-                        .font(.title3)
-                }
-
-                // 🧴 القوارير
-                HStack(spacing: 6) {
-                    ForEach(0..<viewModel.maxCups, id: \.self) { index in
-                        Image(systemName:
-                                index < viewModel.waterIntake
-                            ? "waterbottle.fill"
-                            : "waterbottle"
-                        )
-                        .foregroundColor(.white)
-                    }
-                }
-
-                // ➕ زر الزيادة
-                Button {
-                    if viewModel.canIncreaseWater(){
-                        viewModel.increaseWater()
-                    } else { showAlert = true
-                    }
-                }label:{
-                    Image(systemName: "plus")
-                        .foregroundColor(.white)
-                        .font(.title3)
-                }
-            }
-        }
-        .padding()
-//        .frame(height: 120)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)  
-        .background(Color.secColorBlue)
-        .cornerRadius(16)
-        .alert("wait", isPresented: $showAlert) {
-            Button("okey") {}
+            
+            interactiveControls        }
+        
+        
+        // Match the card frame size
+        .frame(
+            width: 345,
+            height: layoutType == .wide ? 117.5 : 243
+        )
+        .alert("Wait", isPresented: $showAlert) {
+            Button("OK") {}
         } message: {
-            Text("you can increase the number of water bottles only twice every 90 minutes")
+            Text("You can increase the number of water bottles only twice every 90 minutes")
         }
+    }
+    @ViewBuilder
+    private var interactiveControls: some View {
+        // Decrease button (bottom-left corner)
+        Button {
+            viewModel.decreaseWater()
+        } label: {
+            Image(systemName: "minus.circle.fill")
+                .font(.title2)
+                .foregroundStyle(Color.white)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+        
+        // Increase button (bottom-right corner)
+        Button {
+            if viewModel.canIncreaseWater() {
+                viewModel.increaseWater()
+            } else {
+                showAlert = true
+            }
+        } label: {
+            Image(systemName: "plus.circle.fill")
+                .font(.title2)
+                .foregroundStyle(Color.white)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
     }
 }
 
@@ -84,10 +95,12 @@ struct WaterHabitCardView: View {
         type: .water,
         isEnabled: true
     )
-
-     WaterHabitCardView(habit: habit)
-        .padding()
+    
+    VStack(spacing: 16) {
+        WaterHabitCardView(habit: habit, layoutType: .small)
+        WaterHabitCardView(habit: habit, layoutType: .wide)
+        WaterHabitCardView(habit: habit, layoutType: .large)
+    }
+    .padding()
+    
 }
-
-
-

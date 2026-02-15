@@ -282,6 +282,9 @@
 				DEVELOPMENT_TEAM = 65WKCCK99N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "This app needs access to your health data to read your step count and track your daily activity.\n";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app needs access to your health data to read your step count and track your daily activity.\n";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -315,6 +318,9 @@
 				DEVELOPMENT_TEAM = 65WKCCK99N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "This app needs access to your health data to read your step count and track your daily activity.\n";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app needs access to your health data to read your step count and track your daily activity.\n";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
