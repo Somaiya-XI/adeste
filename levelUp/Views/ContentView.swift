@@ -12,7 +12,7 @@ struct ContentView: View {
     @Environment(\.modelContext) private var context
     @State private var selectedTab: Tab = .home
     @Namespace private var tabAnimation
-    
+
     init() {
         UITabBar.appearance().isHidden = true
     }
@@ -23,7 +23,8 @@ struct ContentView: View {
             Group {
                 switch selectedTab {
                 case .home:
-                    HomeView()
+//                    HomeView()
+                    IntentionsView()
                 case .intentions:
                     IntentionsView()
                 case .profile:

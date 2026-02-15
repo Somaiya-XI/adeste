@@ -16,7 +16,8 @@ struct HabitsSectionView: View {
         VStack(alignment: .leading, spacing: 8) {
             
             Text("Daily habit")
-                .font(.title2.bold())
+                .font(.s32Medium)
+//                .font(.title2.bold())
                 .foregroundColor(.brand)
             if pages.count > 1 {
                 TabView {
