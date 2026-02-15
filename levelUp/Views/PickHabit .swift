@@ -28,7 +28,7 @@ struct HabitPickerView: View {
                 }
                 
                 Text("Pick habits")
-                    .font(.system(size: 40, weight: .bold))
+                    .font(.s32Bold)
                     .foregroundColor(Color("brand-color"))
                 Spacer()
             }

@@ -65,8 +65,8 @@ struct EditIntentionPopup: View {
                 .buttonStyle(.plain)
                 
                  VStack(alignment: .leading, spacing: 4) {
-                    TextField("Intention Name", text: $editedTitle)
-                        .font(.s20Medium)
+                     TextField(consts.newIntentionNameStr, text: $editedTitle)
+                         .font(.s16Medium)
                         .foregroundStyle(.brand)
                         .textFieldStyle(.plain)
                     Rectangle()

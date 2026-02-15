@@ -41,11 +41,13 @@ struct consts {
     // Intentions View
     static let weeklySummaryStr = "Intention summary"
     static let currentIntentionStr = "Current intention"
-    static let startIntentionStr = "Start an intention"
+    static let startIntentionStr = "Pick your intention"
     static let newIntentionStr = "New Intention"
     static let editIntentionStr = "Edit Intention"
     static let managedAppsStr = "Managed Apps"
     static let focusedStr = "Focused"
+    
+    static let newIntentionNameStr = "Name your intention"
     
     // Profile & Achievements
     static let achievementsStr = "Achievements"
@@ -74,6 +76,16 @@ struct consts {
     
     static let emptyIntentionChartIconStr = "chart.bar.xaxis.ascending.badge.clock" //"chart.line.text.clipboard"
 
-    static let emptyIntentionSummaryStr = "start interacting with intentions\n to get your summary"
+    static let emptyIntentionSummaryStr = "Track an intention to unlock your summary"
  
+    
+    //alerts
+    static let WaterAlertTitleStr = "Slow Down!"
+    static let WaterAlertMessageStr = "Drinking too much at once isn't healthy. You can add more in 90 minutes."
+    
+    static let WakeUpAlertTitleStr = "Better Luck Tomorrow"
+    static let WakeUpAlertMessageStr = "Remember to check in within 30 minutes of waking up!"
+    
+    static let IntentionAlertMessageStr = "If you stop now, this session won't be added to your summary."
+    
 }

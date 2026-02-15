@@ -52,10 +52,10 @@ struct WaterHabitCardView: View {
             width: 345,
             height: layoutType == .wide ? 117.5 : 243
         )
-        .alert("Wait", isPresented: $showAlert) {
+        .alert(consts.WakeUpAlertTitleStr, isPresented: $showAlert) {
             Button("OK") {}
         } message: {
-            Text("You can increase the number of water bottles only twice every 90 minutes")
+            Text(consts.WaterAlertMessageStr)
         }
     }
     @ViewBuilder
