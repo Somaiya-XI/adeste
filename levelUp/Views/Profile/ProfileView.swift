@@ -10,7 +10,8 @@ import SwiftUI
 struct ProfileView: View {
     @AppStorage("userName") private var userName: String = "My Name"
     @State private var showNameEditor = false
-    
+    @State private var showSettings = false
+    @State private var achievements: [String] = []
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
@@ -63,16 +64,26 @@ struct ProfileView: View {
                     }
                 }
                 .buttonStyle(.plain)
+                .disabled(achievements.isEmpty)
 
                 Spacer().frame(height: 16)
 
-                HStack(spacing: 24) {
-                    ForEach(0..<3, id: \.self) { _ in
-                        Circle()
-                            .fill(Color("base-shade-01"))
-                            .frame(width: 90, height: 90)
+                if achievements.isEmpty{
+                    VStack{
+                        EmptyStateUI(sfSymbol: "heart.circle.fill",
+                                     text: "Complete cycles to earn stamps", iconSize: 70)
+                    }.frame(height: 140)
+                   
+                } else {
+                    HStack(spacing: 24) {
+                        ForEach(0..<3, id: \.self) { _ in
+                            Circle()
+                                .fill(Color("base-shade-01"))
+                                .frame(width: 90, height: 90)
+                        }
                     }
                 }
+                
  
                 Spacer().frame(height: 36)
 
@@ -92,13 +103,23 @@ struct ProfileView: View {
                         settingsRow(title: consts.manageIntentionsStr)
                     }
                     .buttonStyle(.plain)
+                    
+                    customDivider
+    
+                    Button{ showSettings = true } label:
+                    { settingsRow(title: consts.manageScreenActivitiesStr)}
+                    .buttonStyle(.plain)
                 }
-
                 Spacer(minLength: 32)
             }
             .padding(.horizontal, 16)
         }
         .background(Color.white)
+        .sheet(isPresented: $showSettings) {
+            ScreenTimeSettingsView()
+                .padding(.horizontal, 16)
+                .padding(.top, 40)
+        }
         .overlay {
             // Edit Name
             if showNameEditor {

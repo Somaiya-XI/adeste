@@ -93,7 +93,7 @@ class IntentionManager {
         
         NotificationManager.obj.triggerScheduledIntentionNotification(
         for: intention,
-        triggerInterval: 5)
+        triggerInterval: intention.duration)
         
     }
     

@@ -53,7 +53,8 @@ struct consts {
     static let selectCycleStr = "Select New Cycle"
     static let manageIntentionsStr = "Manage Intentions"
     static let manageAccountStr = "Manage Account"
-    
+    static let manageScreenActivitiesStr = "Manage screen activities"
+
     // Actions
     static let addMoreStr = "Add more"
     static let cancelStr = "Cancel"
