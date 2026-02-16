@@ -41,20 +41,24 @@ struct HomeView: View {
     var body: some View {
         VStack(spacing: 24) {
             NavigationStack{
-                StreakView()
-                MapSectionView()
-                AppLimitCardView()
-                
-                HabitsSectionView(
-                    pages: viewModel.pages,
-                    prayerManager: prayerManager,
-                    athkarManager: athkarManager
-                )
-                
+                VStack{
+                    StreakView()
+                    MapSectionView(cycle: Cycle(
+                        cycleType: .starter, cycleDuration: .starter
+                    ))
+                    AppLimitCardView()
+                    
+                    HabitsSectionView(
+                        pages: viewModel.pages,
+                        prayerManager: prayerManager,
+                        athkarManager: athkarManager
+                    )
+                    
+                }.padding(.horizontal)
+               
                 
                 Spacer()
             }
-            .padding(.horizontal)
             .onAppear {
                 
                 // TODO: Move this to onboarding later

@@ -6,189 +6,187 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct StartCycle: View {
-    @State private var currentPage = 0
-    @State private var goToPickHabit = false
-    @State private var selectedLimit = 2
-
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: [
+        SortDescriptor(\Cycle.title),
+    ]) var cycles: [Cycle]
+    
+    @State var vm: CycleViewModel = .init()
+    @State var currentPage = 0
+    @State var goToNext: Bool = false
+    @State private var userManager = UserManager.shared
+    
     var body: some View {
-        NavigationStack {
-            GeometryReader { geometry in
-                ZStack {
-                    Color(red: 0.98, green: 0.98, blue: 0.98)
-                        .ignoresSafeArea()
-
-                    VStack(spacing: 0) {
-                        // Top Logo Section
-                        VStack(spacing: 10) {
-                            Circle()
-                                .fill(Color(red: 0.85, green: 0.55, blue: 0.70))
-                                .frame(width: 60, height: 60)
-
-                            Text("our slogan")
-                                .font(.s14Medium)
-                                .foregroundColor(.black.opacity(0.6))
-                        }
-                        .padding(.top, 50)
-                        .padding(.bottom, 30)
-
-                        // Card Carousel
-                        ZStack {
-                            HStack(spacing: 0) {
-                                if currentPage > 0 {
-                                    Color.clear
-                                        .frame(width: 40)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 24)
-                                                .fill(Color(red: 0.87, green: 0.76, blue: 0.61).opacity(0.3))
-                                                .padding(.vertical, 40)
-                                        )
-                                }
-
-                                Spacer()
-
-                                if currentPage < 2 {
-                                    Color.clear
-                                        .frame(width: 40)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 24)
-                                                .fill(Color(red: 0.87, green: 0.76, blue: 0.61).opacity(0.3))
-                                                .padding(.vertical, 40)
-                                        )
-                                }
+        @Bindable var vm = vm
+        GeometryReader {
+            let size = $0.size
+            let h = size.height
+            
+            VStack(spacing: 0) {
+                // Top Logo Section
+                Text("Pick your commitment style")
+                    .font(.system(size: 36, weight: .bold, design: .rounded))
+                    .foregroundColor(.brandGrey)
+                    .padding(.bottom, 30)
+                
+                // Card Carousel
+                VStack {
+                    
+                    // Main cards - Limits
+                    TabView(selection: $currentPage) {
+                        ForEach(Array(cycles.enumerated()), id: \.element.id) { index, cycle in
+                            CycleCard(cycle: cycle) {
+                                vm.currentCycle = cycle
+                                // Save cycle to user
+                                userManager.updateCycle(cycle.id)
+                                userManager.setOnboardingStep(.selectHabits)
+                                vm.isCompleted = true
                             }
-
-                            // Main cards - Limits
-                            TabView(selection: $currentPage) {
-                                CycleCard(title: "7 Days Cycle") {
-                                    selectedLimit = 2
-                                    goToPickHabit = true
-                                }
-                                .tag(0)
-
-                                CycleCard(title: "14 Days Cycle") {
-                                    selectedLimit = 3
-                                    goToPickHabit = true
-                                }
-                                .tag(1)
-
-                                CycleCard(title: "21 Days Cycle", customIcon: "Fire-expression") {
-                                    selectedLimit = 5
-                                    goToPickHabit = true
-                                }
-                                .tag(2)
-                            }
-                            .tabViewStyle(.page(indexDisplayMode: .never))
+                            .tag(index)
                         }
-                        .frame(height: 520)
-
-                        // Page Indicator
-                        PageIndicator(numberOfPages: 3, currentPage: currentPage)
-                            .padding(.top, 30)
-
-                        Spacer()
                     }
+                    .tabViewStyle(.page(indexDisplayMode: .never))
                 }
+                // Page Indicator
+                PageIndicator(numberOfPages: cycles.count, currentPage: currentPage)
+                    .padding(.top, 30)
+                
+                Spacer()
             }
-            .navigationDestination(isPresented: $goToPickHabit) {
-                HabitPickerView(habitLimit: selectedLimit)
-            }
+            
         }
+        .navigationBarBackButtonHidden(true)
+        .navigationDestination(isPresented: $goToNext) {
+            HabitPickerView(habitLimit: vm.currentCycle?.maxHabits ?? 2)
+        }
+        .onAppear {
+            vm.configure(with: modelContext)
+
+        }
+        .sheet(isPresented: $vm.isCompleted) {
+            ScreenTimeSettingsView()
+                .padding(.horizontal, 16)
+                .padding(.top, 40)
+                .onDisappear {
+                    goToNext = true
+                }
+        }
+    }
+    
+}
+
+
+struct TopRoundedRectangle: Shape {
+    var radius: CGFloat = 30
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let r = min(radius, rect.width / 2, rect.height / 2)
+        path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.minY + r))
+        path.addQuadCurve(to: CGPoint(x: rect.minX + r, y: rect.minY),
+                          control: CGPoint(x: rect.minX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX - r, y: rect.minY))
+        path.addQuadCurve(to: CGPoint(x: rect.maxX, y: rect.minY + r),
+                          control: CGPoint(x: rect.maxX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        path.closeSubpath()
+        return path
     }
 }
 
+
 // CycleCard Component
 struct CycleCard: View {
-    let title: String
-    var customIcon: String? = nil
+    var cycle: Cycle
+
     let onGetStarted: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
+            
+            ZStack(alignment: .center) {
+                ZStack(alignment: .bottom){
+                                            
+                    // Header Section
+                    HStack(alignment:.bottom) {
+                        Spacer().frame(width: 100)
+                        Text(cycle.title)
+                            .padding(.leading, 8)
+                            .font(.system(size: 28, weight: .heavy, design: .rounded))
+                            .foregroundColor(.brand)
+                        Spacer()
 
-            // Header Section
-            HStack(spacing: 16) {
-                if let iconName = customIcon {
-                    Image(iconName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 50, height: 50)
-                } else {
-                    Circle()
-                        .fill(Color.gray.opacity(0.4))
-                        .frame(width: 50, height: 50)
+                    }.padding(.horizontal, 28)
+                        .frame(height: 100)
+                        .background(.baseShade02)
+                        .clipShape(TopRoundedRectangle(radius: 24))
+
+                    HStack{
+                        Image(cycle.image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 140)
+                            .offset(x: -100)
+                    }
+                    
                 }
-
-                Text(title)
-                    .font(.s28Medium)
-                    .foregroundColor(Color(red: 0.35, green: 0.08, blue: 0.08))
-                    .lineLimit(1)
             }
-            .padding(.horizontal, 28)
-            .padding(.vertical, 28)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color(red: 0.87, green: 0.76, blue: 0.61))
-
             // Content Section
             VStack(alignment: .leading, spacing: 0) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Description of the cycle")
-                        .font(.s14Medium)
-                        .foregroundColor(.black.opacity(0.9))
+                    Text("Know your cycle")
+                        .font(.s24Medium)
+                        .foregroundColor(.brandGrey)
+                        .padding(.bottom, 8)
 
-                    Text("aaaaaaaaaaovkfbojopjbo prekbopjeropbjoperjbopkrbopkeropbk")
-                        .font(.s14Medium)
-                        .foregroundColor(.black.opacity(0.7))
-                        .lineLimit(2)
+                    Text(cycle.desc)
+                        .font(.system(size: 14, weight: .light, design: .rounded))
+                        .multilineTextAlignment(.leading)
+                        .foregroundColor(.brandGrey.opacity(0.9))
                 }
-                .padding(.top, 20)
-                .padding(.bottom, 24)
+                .padding(.top, 24)
+                .padding(.bottom, 32)
 
+                HStack(alignment: .center, spacing: 4) {
+                  Image(systemName: "cloud.rainbow.crop")
+                        .symbolRenderingMode(.hierarchical)
+                        .font(.system(size: 27, weight: .semibold))
+                        .foregroundStyle(.secColorBerry)
+
+
+                    Text("Build up to \(cycle.maxHabits) habits")
+                        .font(.system(size: 16, weight: .heavy, design: .rounded))
+                        .foregroundStyle(.secColorPink)
+                    
+                }.foregroundStyle(.secColorPink)
+
+                
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Features:")
-                        .font(.s28Medium)
-                        .foregroundColor(Color(red: 0.35, green: 0.08, blue: 0.08))
-
-                    FeatureRow(
-                        icon: "heart.fill",
-                        iconColor: Color(red: 0.65, green: 0.35, blue: 0.45),
-                        text: "Reward"
-                    )
-
-                    FeatureRow(
-                        icon: "clock.fill",
-                        iconColor: Color(red: 0.45, green: 0.60, blue: 0.70),
-                        text: "Mood"
-                    )
-
-                    FeatureRow(
-                        icon: "star.fill",
-                        iconColor: Color(red: 0.95, green: 0.70, blue: 0.35),
-                        text: "Reward"
-                    )
-                }
-
-                Spacer(minLength: 20)
+                    
+                    
+                }.padding(.bottom, 30)
 
                 // Get Started Button
                 Button {
                     onGetStarted()
                 } label: {
                     Text("Get Started")
-                        .font(.s18Medium)
-                        .foregroundColor(Color(red: 0.35, green: 0.08, blue: 0.08))
+                        .font(.s18Semibold)
+                        .foregroundColor(.brand)
                         .frame(maxWidth: .infinity)
                         .frame(height: 54)
-                        .background(
-                            Capsule()
-                                .stroke(Color(red: 0.35, green: 0.08, blue: 0.08), lineWidth: 2.5)
-                        )
+                        .overlay{
+                            RoundedRectangle(cornerRadius: 12) .stroke(Color(red: 0.35, green: 0.08, blue: 0.08), lineWidth: 2.5)
+                        }
                 }
                 .padding(.bottom, 34)
             }
             .padding(.horizontal, 28)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .frame(maxWidth: .infinity, alignment: .topLeading)
             .background(Color(red: 0.96, green: 0.91, blue: 0.84))
         }
         .clipShape(RoundedRectangle(cornerRadius: 24))
@@ -241,4 +239,6 @@ struct PageIndicator: View {
 // MARK: - Preview
 #Preview {
     StartCycle()
+        .modelContainer(previewContainer2)
+
 }

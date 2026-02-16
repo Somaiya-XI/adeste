@@ -96,7 +96,10 @@ struct ProfileView: View {
                 Spacer().frame(height: 16)
 
                 VStack(spacing: 0) {
-                    settingsRow(title: consts.selectCycleStr)
+                    NavigationLink(destination: CycleView()) {
+                        settingsRow(title: consts.selectCycleStr)
+                    }
+                    .buttonStyle(.plain)
                     customDivider
                     
                     NavigationLink(destination: ManageIntentionsView()) {
