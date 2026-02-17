@@ -23,7 +23,6 @@ struct CycleTestingView: View {
         @Bindable var vm = vm
         GeometryReader {
             let size = $0.size
-            let w = size.width
             let h = size.height
             ZStack {
                 Color(red: 0.98, green: 0.98, blue: 0.98)
@@ -65,7 +64,7 @@ struct CycleTestingView: View {
             }
         }
         .navigationDestination(isPresented: $vm.isCompleted) {
-            HabitPickerView(habitLimit: vm.currentCycle?.maxHabits ?? 0 )
+            HabitPickerView(habitLimit: vm.currentCycle?.maxHabits ?? 0, userName: "Test", cycleId: vm.currentCycle?.id ?? "")
         }
     }
 }

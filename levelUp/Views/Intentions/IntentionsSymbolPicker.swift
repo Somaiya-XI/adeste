@@ -36,8 +36,8 @@ struct IntentionsSymbolPicker: View {
            .buttonStyle(.plain)
            
             VStack(alignment: .leading, spacing: 4) {
-                TextField("Intention Name", text: $title)
-                   .font(.s20Medium)
+                TextField(consts.newIntentionNameStr, text: $title)
+                   .font(.s16Medium)
                    .foregroundStyle(Color("brand-color"))
                    .textFieldStyle(.plain)
                Rectangle()

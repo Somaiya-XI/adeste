@@ -74,12 +74,12 @@ struct WakeUpHabitCardView: View {
             .padding(8)
             .disabled(viewModel.didCheckIn)
         }
-        .alert("Missed Wake Up Window", isPresented: $showMissedAlert) {
+        .alert(consts.WakeUpAlertTitleStr, isPresented: $showMissedAlert) {
             Button("OK", role: .cancel) {
                 print("❌ User dismissed missed alert")
             }
         } message: {
-            Text("You can only check in within 30 minutes of your wake up time (\(timeString) \(ampm)).")
+            Text(consts.WakeUpAlertMessageStr)
         }
     }
     // Handle check-in with alert

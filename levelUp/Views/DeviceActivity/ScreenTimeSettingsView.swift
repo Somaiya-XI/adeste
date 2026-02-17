@@ -10,6 +10,7 @@ import SwiftData
 import FamilyControls
 
 struct ScreenTimeSettingsView: View {
+    @State private var userManager = UserManager.shared
     @State var activityManager = DeviceActivityManager()
     @State var selectedApps = FamilyActivitySelection()
     @State var isPresented: Bool = false
@@ -106,6 +107,13 @@ struct ScreenTimeSettingsView: View {
             }
             .navigationBarBackButtonHidden(true)
             .onAppear {
+                
+                if !userManager.isOnboardingComplete {
+                    if activityManager.isMonitoring {
+                        activityManager.stopMonitoring()
+                    }
+                }
+
                 Task {
                     await activityManager.requestFamilyControlAuthorization()
                 }

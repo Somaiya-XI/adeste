@@ -38,7 +38,9 @@ struct ContentView: View {
             Group {
                 switch selectedTab {
                 case .home:
-                    HomeView()
+                    NavigationStack {
+                        HomeView()
+                    }
                 case .intentions:
                     IntentionsView()
                 case .profile:

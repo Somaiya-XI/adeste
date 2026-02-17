@@ -12,6 +12,7 @@ import FamilyControls
 struct AppLimitCardView: View {
     @State private var activityManager = DeviceActivityManager()
     @State private var showSettings = false
+    @State private var reportID = UUID() // Force refresh key
     
     var body: some View {
         VStack{ RoundedRectangle(cornerRadius: 20)
@@ -25,6 +26,7 @@ struct AppLimitCardView: View {
                                     activityManager.reportContext,
                                     filter: activityManager.reportFilter
                                 )
+                                .id(reportID) // Force re-render when ID changes
                                 .frame(height: 50)
                                 .font(.s32Bold)
                                 .foregroundStyle(.brand)
@@ -58,10 +60,22 @@ struct AppLimitCardView: View {
                 .padding(.top, 40)
         }
         .onAppear {
-            // Refresh filter when view appears
-            activityManager.configureReportFilter()
+            refreshReport()
         }
-        
+        .onChange(of: showSettings) { _, isPresented in
+            // Refresh when settings sheet closes
+            if !isPresented {
+                refreshReport()
+            }
+        }
+    }
+    
+    private func refreshReport() {
+        // Reload selection and reconfigure filter
+        activityManager.selectedActivities = DeviceActivityManager.loadSelection() ?? FamilyActivitySelection()
+        activityManager.configureReportFilter()
+        // Generate new ID to force DeviceActivityReport to re-fetch
+        reportID = UUID()
     }
 }
 

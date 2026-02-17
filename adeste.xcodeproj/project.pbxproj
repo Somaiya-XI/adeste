@@ -622,6 +622,7 @@
 				DEVELOPMENT_TEAM = CATUKJ98AS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Adeste;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "This app needs access to your health data to read your step count and track your daily activity.\n";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app needs access to your health data to read your step count and track your daily activity.\n";
@@ -658,6 +659,7 @@
 				DEVELOPMENT_TEAM = CATUKJ98AS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Adeste;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "This app needs access to your health data to read your step count and track your daily activity.\n";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app needs access to your health data to read your step count and track your daily activity.\n";

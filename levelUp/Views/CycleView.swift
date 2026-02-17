@@ -10,6 +10,7 @@ import SwiftData
 
 struct CycleView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     @Query(sort: [
         SortDescriptor(\Cycle.title),
     ]) var cycles: [Cycle]
@@ -19,14 +20,12 @@ struct CycleView: View {
     
     var body: some View {
         @Bindable var vm = vm
-        NavigationStack{
-            GeometryReader {
-                let size = $0.size
-                let h = size.height
-                
-                VStack(spacing: 0) {
+        GeometryReader {
+            let size = $0.size
+            
+            VStack(spacing: 0) {
                     // Top Logo Section
-                    Text("Pick your commitment style")
+                    Text("Find your flow")
                         .font(.system(size: 36, weight: .bold, design: .rounded))
                         .foregroundColor(.brandGrey)
                         .padding(.bottom, 30)
@@ -38,8 +37,9 @@ struct CycleView: View {
                         TabView(selection: $currentPage) {
                             ForEach(Array(cycles.enumerated()), id: \.element.id) { index, cycle in
                                 CycleCard(cycle: cycle) {
-                                    vm.currentCycle = cycle
-                                    vm.isCompleted = true
+                                    // Update cycle in UserManager and dismiss
+                                    UserManager.shared.updateCycle(cycle.id)
+                                    dismiss()
                                 }
                                 .tag(index)
                             }
@@ -50,17 +50,13 @@ struct CycleView: View {
                     PageIndicator(numberOfPages: cycles.count, currentPage: currentPage)
                         .padding(.top, 30)
                     
-                    Spacer()
-                }
-                
+                Spacer()
             }
-            .navigationDestination(isPresented: $vm.isCompleted) {
-                HabitPickerView(habitLimit: vm.currentCycle?.maxHabits ?? 0 )
-            }
-            .onAppear {
-                vm.configure(with: modelContext)
-                
-            }
+            
+        }
+        .onAppear {
+            vm.configure(with: modelContext)
+            
         }
     }
 }

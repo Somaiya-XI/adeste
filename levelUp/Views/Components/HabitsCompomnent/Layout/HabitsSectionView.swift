@@ -65,7 +65,7 @@ struct HabitsSectionView: View {
             [
                 Habit(title: "Water", type: .water),
                 Habit(title: "Steps", type: .steps),
-                Habit(title: "Prayer", type: .prayer)
+                Habit(title: "Wake Up", type: .wakeUp)
             ]
         ],
         prayerManager: prayerManager,

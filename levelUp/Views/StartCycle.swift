@@ -17,50 +17,46 @@ struct StartCycle: View {
     @State var vm: CycleViewModel = .init()
     @State var currentPage = 0
     @State var goToNext: Bool = false
-    @State private var userManager = UserManager.shared
+    
+    let userName: String
     
     var body: some View {
         @Bindable var vm = vm
-        GeometryReader {
-            let size = $0.size
-            let h = size.height
+        VStack(spacing: 0) {
+            // Top Logo Section
+            Text("Find your flow")
+                .font(.system(size: 36, weight: .bold, design: .rounded))
+                .foregroundColor(.brandGrey)
+                .padding(.bottom, 30)
             
-            VStack(spacing: 0) {
-                // Top Logo Section
-                Text("Pick your commitment style")
-                    .font(.system(size: 36, weight: .bold, design: .rounded))
-                    .foregroundColor(.brandGrey)
-                    .padding(.bottom, 30)
+            // Card Carousel
+            VStack {
                 
-                // Card Carousel
-                VStack {
-                    
-                    // Main cards - Limits
-                    TabView(selection: $currentPage) {
-                        ForEach(Array(cycles.enumerated()), id: \.element.id) { index, cycle in
-                            CycleCard(cycle: cycle) {
-                                vm.currentCycle = cycle
-                                // Save cycle to user
-                                userManager.updateCycle(cycle.id)
-                                userManager.setOnboardingStep(.selectHabits)
-                                vm.isCompleted = true
-                            }
-                            .tag(index)
+                // Main cards - Limits
+                TabView(selection: $currentPage) {
+                    ForEach(Array(cycles.enumerated()), id: \.element.id) { index, cycle in
+                        CycleCard(cycle: cycle) {
+                            vm.currentCycle = cycle
+                            vm.isCompleted = true
                         }
+                        .tag(index)
                     }
-                    .tabViewStyle(.page(indexDisplayMode: .never))
                 }
-                // Page Indicator
-                PageIndicator(numberOfPages: cycles.count, currentPage: currentPage)
-                    .padding(.top, 30)
-                
-                Spacer()
+                .tabViewStyle(.page(indexDisplayMode: .never))
             }
+            // Page Indicator
+            PageIndicator(numberOfPages: cycles.count, currentPage: currentPage)
+                .padding(.top, 30)
             
+            Spacer()
         }
         .navigationBarBackButtonHidden(true)
         .navigationDestination(isPresented: $goToNext) {
-            HabitPickerView(habitLimit: vm.currentCycle?.maxHabits ?? 2)
+            HabitPickerView(
+                habitLimit: vm.currentCycle?.maxHabits ?? 2,
+                userName: userName,
+                cycleId: vm.currentCycle?.id ?? ""
+            )
         }
         .onAppear {
             vm.configure(with: modelContext)
@@ -116,7 +112,7 @@ struct CycleCard: View {
                         Spacer().frame(width: 100)
                         Text(cycle.title)
                             .padding(.leading, 8)
-                            .font(.system(size: 28, weight: .heavy, design: .rounded))
+                            .font(.system(size: 24, weight: .heavy, design: .rounded))
                             .foregroundColor(.brand)
                         Spacer()
 
@@ -238,7 +234,7 @@ struct PageIndicator: View {
 
 // MARK: - Preview
 #Preview {
-    StartCycle()
+    StartCycle(userName: "Test")
         .modelContainer(previewContainer2)
 
 }

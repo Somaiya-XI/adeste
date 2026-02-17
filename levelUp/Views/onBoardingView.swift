@@ -9,19 +9,18 @@ import SwiftUI
 import SwiftData
 
 struct OnBoarding: View {
-    @State private var userManager = UserManager.shared
     @State private var showStartCycle = false
+    @State private var userName = ""
     
     var body: some View {
         NavigationStack {
             StartingView(onContinue: { name in
-                // Save user name and proceed
-                userManager.createUser(name: name)
-                userManager.setOnboardingStep(.selectCycle)
+                userName = name
                 showStartCycle = true
             })
             .navigationDestination(isPresented: $showStartCycle) {
-                StartCycle()
+                StartCycle(userName: userName)
+                    .frame(height: 600)
             }
         }
     }
@@ -37,7 +36,7 @@ struct StartingView: View {
     @State private var userName: String = ""
     @FocusState private var isNameFocused: Bool
     
-    var onContinue: (String) -> Void
+    @State var onContinue: (String) -> Void
     
     var body: some View {
         GeometryReader { geo in

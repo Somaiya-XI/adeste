@@ -6,8 +6,10 @@ import SwiftUI
 struct HabitPickerView: View {
     @State private var selectedHabits: Set<String> = []
     @Environment(\.dismiss) var dismiss
-    @State private var userManager = UserManager.shared
+    
     let habitLimit: Int
+    let userName: String
+    let cycleId: String
     
     // Map habit names to HabitType
     private let habitTypeMap: [String: HabitType] = [
@@ -161,8 +163,12 @@ struct HabitPickerView: View {
             return Habit(title: habitName, type: habitType, isEnabled: true)
         }
         
-        // Save habits to user
-        userManager.updateHabits(habits)
+        // Save all user data at once (single write)
+        let userManager = UserManager.shared
+        userManager.createUser(name: userName)
+        userManager.currentUser?.currentCycleId = cycleId
+        userManager.currentUser?.habits = habits
+        userManager.saveUser()
         
         // Complete onboarding
         userManager.completeOnboarding()
@@ -269,6 +275,6 @@ struct HabitCard: View {
 
 struct HabitPickerView_Previews: PreviewProvider {
     static var previews: some View {
-        HabitPickerView(habitLimit: 2)
+        HabitPickerView(habitLimit: 2, userName: "Test", cycleId: "test-cycle")
     }
 }

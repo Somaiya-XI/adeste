@@ -13,7 +13,7 @@ struct UserCategoryReportView: View {
     
     var body: some View {
          Text(usageData.formattedDuration)
-            .font(.s32Bold)
+            .font(.system(size: 40, weight: .bold, design: .rounded))
             .foregroundStyle(.brandGrey)
     }
 }

@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State private var userManager = UserManager.shared
+    
     let prayerManager = PrayerManager(
         timesProvider: AdhanPrayerTimesProvider(
             latitude: 24.7136,
@@ -37,12 +39,12 @@ struct HomeView: View {
     }
     
     @StateObject private var viewModel = HomeViewModel()
+    @State private var hasLoadedHabits = false
     
     var body: some View {
         VStack(spacing: 24) {
-            NavigationStack{
-                VStack{
-                    StreakView()
+            VStack{
+                StreakView()
                     MapSectionView(cycle: Cycle(
                         cycleType: .starter, cycleDuration: .starter
                     ))
@@ -53,17 +55,21 @@ struct HomeView: View {
                         prayerManager: prayerManager,
                         athkarManager: athkarManager
                     )
-                    
-                }.padding(.horizontal)
-               
                 
-                Spacer()
+            }.padding(.horizontal)
+           
+            
+            Spacer()
+        }
+        .onAppear {
+            // Load user's selected habits only once
+            if !hasLoadedHabits, let habits = userManager.currentUser?.habits {
+                viewModel.loadHabits(habits)
+                hasLoadedHabits = true
             }
-            .onAppear {
-                
-                // TODO: Move this to onboarding later
-                requestHealthKitPermission()
-            }
+            
+            // TODO: Move this to onboarding later
+            requestHealthKitPermission()
         }
     }
  
