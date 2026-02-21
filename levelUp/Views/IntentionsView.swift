@@ -188,12 +188,6 @@ struct IntentionsView: View {
             }.onAppear {
                 vm.configure(with: modelContext)
                 
-                if !intentions.isEmpty {
-                    for intention in intentions {
-                        print("main view, intent: \(intention.title): \(intention.id)")
-                    }
-                }
-                
             }
         }
     }

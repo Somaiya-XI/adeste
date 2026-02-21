@@ -8,7 +8,7 @@ import SwiftUI
 
 struct MapSectionView: View {
     @State private var navigateToMap = false
-    
+    let cycle: Cycle
     var body: some View {
         RoundedRectangle(cornerRadius: 24)
             .fill(Color.baseShade01)
@@ -18,7 +18,7 @@ struct MapSectionView: View {
                     Button(action: {
                         navigateToMap = true
                     }) {
-                        Image("Fire-expression") 
+                        Image("Fire-expression")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 80, height: 80)
@@ -30,13 +30,14 @@ struct MapSectionView: View {
                 }
             )
             .navigationDestination(isPresented: $navigateToMap) {
-                MapView()
+                MapView(cycle: cycle, currentDay: 1)
             }
     }
 }
 
 #Preview {
+    let cycle = Cycle(cycleType: .starter, cycleDuration: .starter)
     NavigationStack {
-        MapSectionView()
+        MapSectionView(cycle: cycle)
     }
 }

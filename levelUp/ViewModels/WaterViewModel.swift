@@ -22,40 +22,64 @@ class WaterViewModel: ObservableObject {
     
 }
 extension WaterViewModel {
-    
+
     func canIncreaseWater() -> Bool {
-        print("can increase water called ")
+        print("can increase water called")
+        
+        guard waterIntake < maxCups else {
+            print("already at max cups")
+            return false
+        }
+        
         let now = Date()
         
         guard let last = lastWaterDate else {
-            print("no previous water date= allowing increase ")
-            lastWaterDate = now
-            increaseCount = 0
+            print("no previous water date - allowing increase")
             return true
         }
         
+        // If time limit passed, allow increase (but don't reset here!)
         if now.timeIntervalSince(last) > limit {
-            print("time limmit passed- allowing increase ")
-            lastWaterDate = now
-            increaseCount = 0
+            print("time limit passed - allowing increase")
             return true
         }
         
+        // Within time limit - check the count
         return increaseCount < 2
     }
-    
-    
+
     func increaseWater() {
-        print(" increase water called+ current \(waterIntake) ")
+        print("increase water called + current \(waterIntake)")
+        
         guard waterIntake < maxCups else {
             print("already at max cups")
-            return }
-        guard canIncreaseWater() else {
-            print("cannot increase water limit reached ")
-            return }
+            return
+        }
+        
+        let now = Date()
+        
+        // Check if we need to reset the time window
+        if let last = lastWaterDate {
+            if now.timeIntervalSince(last) > limit {
+                print("time limit passed - resetting counter")
+                lastWaterDate = now
+                increaseCount = 0
+            }
+        } else {
+            // First time tracking
+            lastWaterDate = now
+            increaseCount = 0
+        }
+        
+        // Now check if we can actually increase
+        guard increaseCount < 2 else {
+            print("cannot increase water - limit reached")
+            return
+        }
+        
         waterIntake += 1
         increaseCount += 1
-        print("water increased to \(waterIntake) ")
+        print("water increased to \(waterIntake)")
     }
     
     
@@ -71,13 +95,12 @@ extension WaterViewModel {
         print("already at 0")
         waterIntake -= 1
         
-        // نعدل العداد عشان ما يكسر منطق ال limit
+    
         if increaseCount > 0 {
             increaseCount -= 1
         }
     }
     
 }
-
 
 

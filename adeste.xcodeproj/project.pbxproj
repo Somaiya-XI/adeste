@@ -8,13 +8,84 @@
 
 /* Begin PBXBuildFile section */
 		2E0335BF2F3CC7B80006A239 /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = 2E0335BE2F3CC7B80006A239 /* Adhan */; };
+		531B31662F41E0F400D2232F /* DeviceActivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 531B31652F41E0F400D2232F /* DeviceActivity.framework */; };
+		531B316E2F41E0F400D2232F /* DeviceActivityMonitor.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 531B31632F41E0F400D2232F /* DeviceActivityMonitor.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		531B31842F41E13800D2232F /* ActivityReport.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = 531B31782F41E13800D2232F /* ActivityReport.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		531B316C2F41E0F400D2232F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 533B004C2F338289009B8771 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 531B31622F41E0F400D2232F;
+			remoteInfo = DeviceActivityMonitor;
+		};
+		531B31822F41E13800D2232F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 533B004C2F338289009B8771 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 531B31772F41E13800D2232F;
+			remoteInfo = ActivityReport;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		531B31732F41E0F400D2232F /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				531B316E2F41E0F400D2232F /* DeviceActivityMonitor.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		531B31892F41E13800D2232F /* Embed ExtensionKit Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+				531B31842F41E13800D2232F /* ActivityReport.appex in Embed ExtensionKit Extensions */,
+			);
+			name = "Embed ExtensionKit Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		531B31632F41E0F400D2232F /* DeviceActivityMonitor.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DeviceActivityMonitor.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		531B31652F41E0F400D2232F /* DeviceActivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceActivity.framework; path = System/Library/Frameworks/DeviceActivity.framework; sourceTree = SDKROOT; };
+		531B31782F41E13800D2232F /* ActivityReport.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = ActivityReport.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		531B32562F41E31800D2232F /* adeste.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = adeste.entitlements; sourceTree = "<group>"; };
+		532E6ACF2F48F7C000AFE849 /* adeste-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "adeste-Info.plist"; sourceTree = "<group>"; };
 		533B00542F338289009B8771 /* adeste.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = adeste.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		531B31722F41E0F400D2232F /* Exceptions for "DeviceActivityMonitor" folder in "DeviceActivityMonitor" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 531B31622F41E0F400D2232F /* DeviceActivityMonitor */;
+		};
+		531B31882F41E13800D2232F /* Exceptions for "ActivityReport" folder in "ActivityReport" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 531B31772F41E13800D2232F /* ActivityReport */;
+		};
+		531B32542F41E1DC00D2232F /* Exceptions for "levelUp" folder in "ActivityReport" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Extentions/SwiftUI+Font.swift",
+			);
+			target = 531B31772F41E13800D2232F /* ActivityReport */;
+		};
 		533B026B2F37E797009B8771 /* Exceptions for "levelUp" folder in "adeste" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -24,11 +95,39 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		532E6AD02F48FBB800AFE849 /* Exceptions for "levelUp" folder in "Compile Sources" phase from "ActivityReport" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 531B31742F41E13800D2232F /* Sources */;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		531B31672F41E0F400D2232F /* DeviceActivityMonitor */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				531B31722F41E0F400D2232F /* Exceptions for "DeviceActivityMonitor" folder in "DeviceActivityMonitor" target */,
+			);
+			path = DeviceActivityMonitor;
+			sourceTree = "<group>";
+		};
+		531B31792F41E13800D2232F /* ActivityReport */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				531B31882F41E13800D2232F /* Exceptions for "ActivityReport" folder in "ActivityReport" target */,
+			);
+			path = ActivityReport;
+			sourceTree = "<group>";
+		};
 		533B00562F338289009B8771 /* levelUp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				533B026B2F37E797009B8771 /* Exceptions for "levelUp" folder in "adeste" target */,
+				531B32542F41E1DC00D2232F /* Exceptions for "levelUp" folder in "ActivityReport" target */,
+				532E6AD02F48FBB800AFE849 /* Exceptions for "levelUp" folder in "Compile Sources" phase from "ActivityReport" target */,
 			);
 			path = levelUp;
 			sourceTree = "<group>";
@@ -36,6 +135,21 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		531B31602F41E0F400D2232F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				531B31662F41E0F400D2232F /* DeviceActivity.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		531B31752F41E13800D2232F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		533B00512F338289009B8771 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -47,10 +161,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		531B31642F41E0F400D2232F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				531B31652F41E0F400D2232F /* DeviceActivity.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		533B004B2F338289009B8771 = {
 			isa = PBXGroup;
 			children = (
+				532E6ACF2F48F7C000AFE849 /* adeste-Info.plist */,
+				531B32562F41E31800D2232F /* adeste.entitlements */,
 				533B00562F338289009B8771 /* levelUp */,
+				531B31672F41E0F400D2232F /* DeviceActivityMonitor */,
+				531B31792F41E13800D2232F /* ActivityReport */,
+				531B31642F41E0F400D2232F /* Frameworks */,
 				533B00552F338289009B8771 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -59,6 +186,8 @@
 			isa = PBXGroup;
 			children = (
 				533B00542F338289009B8771 /* adeste.app */,
+				531B31632F41E0F400D2232F /* DeviceActivityMonitor.appex */,
+				531B31782F41E13800D2232F /* ActivityReport.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -66,6 +195,50 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		531B31622F41E0F400D2232F /* DeviceActivityMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 531B316F2F41E0F400D2232F /* Build configuration list for PBXNativeTarget "DeviceActivityMonitor" */;
+			buildPhases = (
+				531B315F2F41E0F400D2232F /* Sources */,
+				531B31602F41E0F400D2232F /* Frameworks */,
+				531B31612F41E0F400D2232F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				531B31672F41E0F400D2232F /* DeviceActivityMonitor */,
+			);
+			name = DeviceActivityMonitor;
+			packageProductDependencies = (
+			);
+			productName = DeviceActivityMonitor;
+			productReference = 531B31632F41E0F400D2232F /* DeviceActivityMonitor.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		531B31772F41E13800D2232F /* ActivityReport */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 531B31852F41E13800D2232F /* Build configuration list for PBXNativeTarget "ActivityReport" */;
+			buildPhases = (
+				531B31742F41E13800D2232F /* Sources */,
+				531B31752F41E13800D2232F /* Frameworks */,
+				531B31762F41E13800D2232F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				531B31792F41E13800D2232F /* ActivityReport */,
+			);
+			name = ActivityReport;
+			packageProductDependencies = (
+			);
+			productName = ActivityReport;
+			productReference = 531B31782F41E13800D2232F /* ActivityReport.appex */;
+			productType = "com.apple.product-type.extensionkit-extension";
+		};
 		533B00532F338289009B8771 /* adeste */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 533B005F2F33828B009B8771 /* Build configuration list for PBXNativeTarget "adeste" */;
@@ -73,10 +246,14 @@
 				533B00502F338289009B8771 /* Sources */,
 				533B00512F338289009B8771 /* Frameworks */,
 				533B00522F338289009B8771 /* Resources */,
+				531B31732F41E0F400D2232F /* Embed Foundation Extensions */,
+				531B31892F41E13800D2232F /* Embed ExtensionKit Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				531B316D2F41E0F400D2232F /* PBXTargetDependency */,
+				531B31832F41E13800D2232F /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				533B00562F338289009B8771 /* levelUp */,
@@ -99,6 +276,12 @@
 				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					531B31622F41E0F400D2232F = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					531B31772F41E13800D2232F = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
 					533B00532F338289009B8771 = {
 						CreatedOnToolsVersion = 26.0.1;
 					};
@@ -123,11 +306,27 @@
 			projectRoot = "";
 			targets = (
 				533B00532F338289009B8771 /* adeste */,
+				531B31622F41E0F400D2232F /* DeviceActivityMonitor */,
+				531B31772F41E13800D2232F /* ActivityReport */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		531B31612F41E0F400D2232F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		531B31762F41E13800D2232F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		533B00522F338289009B8771 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -138,6 +337,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		531B315F2F41E0F400D2232F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		531B31742F41E13800D2232F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		533B00502F338289009B8771 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -147,7 +360,152 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		531B316D2F41E0F400D2232F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 531B31622F41E0F400D2232F /* DeviceActivityMonitor */;
+			targetProxy = 531B316C2F41E0F400D2232F /* PBXContainerItemProxy */;
+		};
+		531B31832F41E13800D2232F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 531B31772F41E13800D2232F /* ActivityReport */;
+			targetProxy = 531B31822F41E13800D2232F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		531B31702F41E0F400D2232F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = DeviceActivityMonitor/DeviceActivityMonitor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.1;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DeviceActivityMonitor/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DeviceActivityMonitor;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app.DeviceActivityMonitor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		531B31712F41E0F400D2232F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = DeviceActivityMonitor/DeviceActivityMonitor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.1;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DeviceActivityMonitor/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DeviceActivityMonitor;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app.DeviceActivityMonitor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		531B31862F41E13800D2232F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ActivityReport/ActivityReport.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.1;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ActivityReport/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ActivityReport;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app.ActivityReport;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		531B31872F41E13800D2232F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ActivityReport/ActivityReport.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.1;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ActivityReport/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ActivityReport;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app.ActivityReport;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		533B005D2F33828B009B8771 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -276,15 +634,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = adeste.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 65WKCCK99N;
+				CURRENT_PROJECT_VERSION = 0.1;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "adeste-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Adeste;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "This app needs access to your health data to read your step count and track your daily activity.\n";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app needs access to your health data to read your step count and track your daily activity.\n";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "This app needs to access your steps";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -295,15 +656,19 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.joryAlkhamees.adeste.app;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -312,15 +677,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = adeste.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 65WKCCK99N;
+				CURRENT_PROJECT_VERSION = 0.1;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "adeste-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Adeste;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "This app needs access to your health data to read your step count and track your daily activity.\n";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app needs access to your health data to read your step count and track your daily activity.\n";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "This app needs to access your steps";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -331,21 +699,43 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.joryAlkhamees.adeste.app;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		531B316F2F41E0F400D2232F /* Build configuration list for PBXNativeTarget "DeviceActivityMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				531B31702F41E0F400D2232F /* Debug */,
+				531B31712F41E0F400D2232F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		531B31852F41E13800D2232F /* Build configuration list for PBXNativeTarget "ActivityReport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				531B31862F41E13800D2232F /* Debug */,
+				531B31872F41E13800D2232F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		533B004F2F338289009B8771 /* Build configuration list for PBXProject "adeste" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
