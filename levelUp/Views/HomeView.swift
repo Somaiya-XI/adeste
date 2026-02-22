@@ -27,7 +27,8 @@ struct HomeView: View {
     )
     
     
-    init(previewPages: [[Habit]]? = nil) {
+    init(previewPages: [[Habit]]? = nil, cycle: Cycle) {
+        self.cycle = cycle
         let vm = HomeViewModel()
         if let previewPages {
             vm.pages = previewPages
@@ -86,7 +87,9 @@ struct HomeView: View {
     }
 }
 #Preview("HomeView – Mock Data") {
-    
+    // Create a sample cycle
+       let cycle = Cycle(id: "1", cycleType: .Basic, cycleDuration: .basic)
+       
     let page1: [Habit] = [
         Habit(title: "Water", type: .water),
         Habit(title: "Steps", type: .steps),
@@ -101,7 +104,7 @@ struct HomeView: View {
         Habit(title: "athkar ", type: .athkar),
     ]
     
-    HomeView(previewPages: [page1, page2, page3])
+    HomeView(previewPages: [page1, page2, page3],cycle: cycle)
 }
 
 

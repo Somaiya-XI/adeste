@@ -11,7 +11,7 @@ struct StreakView: View {
     var body: some View {
         HStack {
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color.gray.opacity(0.2))
+                .fill(Color.baseShade01)
                 .frame(width: 80, height: 32)
                 .overlay(
                     Text("Streak")
