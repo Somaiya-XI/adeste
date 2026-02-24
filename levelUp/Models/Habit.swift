@@ -48,6 +48,13 @@ class Habit: Identifiable, Codable {
         self.typeRawValue = type.rawValue
         self.isEnabled = isEnabled
     }
+    
+    init(title: String, type: HabitType, isEnabled: Bool = false)  {
+        self.id = UUID().uuidString
+        self.title = title
+        self.typeRawValue = type.rawValue
+        self.isEnabled = isEnabled
+    }
 }
 
 
@@ -87,5 +94,3 @@ extension Habit {
         HabitType(rawValue: typeRawValue) ?? .water
     }
 }
-
-
