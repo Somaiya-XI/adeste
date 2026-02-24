@@ -32,6 +32,10 @@ extension Font {
     static var s24Semibold: Font {
         .system(size: 24, weight: .semibold, design: .rounded)
     }
+    
+    static var s24Light: Font {
+        .system(size: 24, weight: .light, design: .rounded)
+    }
 
     static var s20Medium: Font {
         .system(size: 20, weight: .medium, design: .rounded)
@@ -43,6 +47,10 @@ extension Font {
 
     static var s18Medium: Font {
         .system(size: 18, weight: .medium, design: .rounded)
+    }
+    
+    static var s18Semibold: Font {
+        .system(size: 18, weight: .semibold, design: .rounded)
     }
 
     static var s16Medium: Font {

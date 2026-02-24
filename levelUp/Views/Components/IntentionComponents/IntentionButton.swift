@@ -17,6 +17,7 @@ struct IntentionButton: View {
             if !viewModel.isEditing {
                 viewModel.currentIntention = intention
                 viewModel.viewMode = .timer
+                viewModel.triggerNotification(for: intention)
             } else {
                 viewModel.currentlyEditing = intention
             }

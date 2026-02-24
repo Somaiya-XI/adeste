@@ -42,7 +42,7 @@ class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
             let descriptor = FetchDescriptor<Intention>(
                 predicate: #Predicate { $0.id == intentionId }
             )
-            
+            print("delegate intent: \(intentionId)")
             //Record user choice foucs/distraction based on the click
             if let intention = try? context.fetch(descriptor).first {
                 switch actionIdentifier {
