@@ -121,3 +121,6 @@ fabric.properties
 # =========================
 *~
 *.orig
+# Localizable (temporary)
+**/Localizable.strings
+**/Localizable.xcstrings
