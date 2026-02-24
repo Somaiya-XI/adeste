@@ -56,6 +56,7 @@ struct WaterHabitCardView: View {
             Button("OK") {}
         } message: {
             Text(consts.WaterAlertMessageStr)
+            Text(consts.WaterAlertMessageStr)
         }
     }
     @ViewBuilder

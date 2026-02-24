@@ -42,6 +42,7 @@ struct consts {
     static let weeklySummaryStr = "Intention summary"
     static let currentIntentionStr = "Current intention"
     static let startIntentionStr = "Pick your intention"
+    static let startIntentionStr = "Pick your intention"
     static let newIntentionStr = "New Intention"
     static let editIntentionStr = "Edit Intention"
     static let managedAppsStr = "Managed Apps"
