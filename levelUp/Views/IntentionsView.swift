@@ -139,7 +139,9 @@ struct IntentionsView: View {
                             /// Max 6 intentions
                             LazyVGrid(columns: columns, spacing: 20) {
                                 ForEach(intentions) { intention in
+                                    
                                     IntentionButton(intention: intention, viewModel: vm)
+
                                 }
                                 
                                 if intentions.count < vm.allowedIntentions {

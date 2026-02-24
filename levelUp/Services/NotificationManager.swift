@@ -97,7 +97,7 @@ class NotificationManager {
         let content = UNMutableNotificationContent()
         content.title = "Intention Check"
 //        content.body = "How did you handle '\(intention.title)'?"
-        content.body = "You opened your phone to '\(intention.title)' Did you finish?"
+        content.body = "You opened your phone for '\(intention.title)' Did you finish?"
         content.sound = UNNotificationSound.default
         content.categoryIdentifier = "INTENTION_CATEGORY"
         

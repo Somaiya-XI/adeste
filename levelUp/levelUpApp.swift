@@ -16,6 +16,7 @@ struct adesteApp: App {
         let schema = Schema([
             Habit.self,
             Intention.self,
+            Cycle.self,
         ])
         
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)

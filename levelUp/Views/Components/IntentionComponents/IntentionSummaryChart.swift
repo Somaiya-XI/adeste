@@ -28,7 +28,7 @@ struct IntentionSummaryChart: View {
             VStack {
                 
                 Image(systemName: consts.emptyIntentionChartIconStr)
-                    .font(.s28Medium)
+                    .font(.system(size: h * 0.28))
                     .foregroundStyle(.secColorPink)
                     .opacity(0.5)
                 
@@ -36,7 +36,6 @@ struct IntentionSummaryChart: View {
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.secondary)
                     .font(.s16Medium)
-                    .padding(8)
                     
             }.frame(width: w, height: h * 0.7)
             

@@ -38,7 +38,7 @@ struct intentionAlert: View {
                        dismiss()
             }
                } message: {
-                   Text("If you tap stop now, your intention summary won't be calculated.")
+                   Text(consts.IntentionAlertMessageStr)
                }
                .padding(.horizontal, 17)
                .padding(.vertical, 32)

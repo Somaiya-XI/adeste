@@ -11,20 +11,46 @@ import Adhan
 
 
 @Model
-class Habit: Identifiable {
+class Habit: Identifiable, Codable {
     var id = UUID().uuidString
     var title: String
     var isEnabled: Bool = true
     var typeRawValue: String
-    
-    // Habit-specific data
-    var waterIntake: Int = 0
-    var stepsCount: Int = 0
-    var wakeUpTime: Date?
 
+    enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case isEnabled
+        case typeRawValue
+    }
+    
+    // MARK: - Codable Conformance
+
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.title = try container.decode(String.self, forKey: .title)
+        self.isEnabled = try container.decode(Bool.self, forKey: .isEnabled)
+        self.typeRawValue = try container.decode(String.self, forKey: .typeRawValue)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(title, forKey: .title)
+        try container.encode(isEnabled, forKey: .isEnabled)
+        try container.encode(typeRawValue, forKey: .typeRawValue)
+    }
     
     init(id: String, title: String, type: HabitType, isEnabled: Bool)  {
         self.id = id
+        self.title = title
+        self.typeRawValue = type.rawValue
+        self.isEnabled = isEnabled
+    }
+    
+    init(title: String, type: HabitType, isEnabled: Bool = false)  {
+        self.id = UUID().uuidString
         self.title = title
         self.typeRawValue = type.rawValue
         self.isEnabled = isEnabled
@@ -68,5 +94,3 @@ extension Habit {
         HabitType(rawValue: typeRawValue) ?? .water
     }
 }
-
-
