@@ -76,6 +76,9 @@ struct PrayerHabitCardView: View {
             
             if canCheck {
                 await viewModel.checkIn()
+                let generator = UINotificationFeedbackGenerator()
+                    generator.notificationOccurred(.success)
+                AppToastCenter.shared.show(message: "Prayer completed!")
             } else if !viewModel.isCheckedIn {
                 // Outside prayer window
                 viewModel.errorMessage = "You can only check in during \(viewModel.currentPrayer.displayName) prayer time."
