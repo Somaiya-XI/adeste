@@ -66,6 +66,7 @@ class IntentionsViewModel {
     }
     
     func triggerNotification(for intention: Intention){
+        print("triggering notification for \(intention.id)")
         manager?.triggerNotification(for: intention)
     }
 }

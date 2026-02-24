@@ -6,7 +6,19 @@ import SwiftUI
 struct HabitPickerView: View {
     @State private var selectedHabits: Set<String> = []
     @Environment(\.dismiss) var dismiss
+    
     let habitLimit: Int
+    let userName: String
+    let cycleId: String
+    
+    // Map habit names to HabitType
+    private let habitTypeMap: [String: HabitType] = [
+        "Pray": .prayer,
+        "Drink water": .water,
+        "Walk": .steps,
+        "Athkar": .athkar,
+        "Wake Up": .wakeUp
+    ]
     
     var body: some View {
         VStack(spacing: 0) {
@@ -38,7 +50,7 @@ struct HabitPickerView: View {
             
             // Content Card
             VStack(spacing: 0) {
-                Text("Pick two habits to start the cycle")
+                Text("Pick \(habitLimit) habits to start the cycle")
                     .font(.s16Medium)
                     .foregroundColor(Color("brand-color"))
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -114,15 +126,17 @@ struct HabitPickerView: View {
             
             // Get Started Button
             Button(action: {
+                saveHabitsAndCompleteOnboarding()
             }) {
                 Text("Get Started")
                     .font(.s28Medium)
-                    .foregroundColor(Color("brand-color"))
+                    .foregroundColor(.baseShade01)
                     .frame(maxWidth: .infinity)
                     .frame(height: 70)
-                    .background(Color("base-shade-02"))
+                    .background(selectedHabits.count >= 1 ? .brand : Color.gray)
                     .cornerRadius(16)
             }
+            .disabled(selectedHabits.isEmpty)
             .padding(.horizontal, 20)
             .padding(.bottom, 40)
         }
@@ -140,6 +154,24 @@ struct HabitPickerView: View {
                 selectedHabits.insert(habit)
             }
         }
+    }
+    
+    private func saveHabitsAndCompleteOnboarding() {
+        // Convert selected habit names to Habit objects
+        let habits: [Habit] = selectedHabits.compactMap { habitName in
+            guard let habitType = habitTypeMap[habitName] else { return nil }
+            return Habit(title: habitName, type: habitType, isEnabled: true)
+        }
+        
+        // Save all user data at once (single write)
+        let userManager = UserManager.shared
+        userManager.createUser(name: userName)
+        userManager.currentUser?.currentCycleId = cycleId
+        userManager.currentUser?.habits = habits
+        userManager.saveUser()
+        
+        // Complete onboarding
+        userManager.completeOnboarding()
     }
 }
 
@@ -243,6 +275,6 @@ struct HabitCard: View {
 
 struct HabitPickerView_Previews: PreviewProvider {
     static var previews: some View {
-        HabitPickerView(habitLimit: 2)
+        HabitPickerView(habitLimit: 2, userName: "Test", cycleId: "test-cycle")
     }
 }
