@@ -1,3 +1,4 @@
+
 //
 //  WakeUpHabitCardView.swift
 //  levelUp
@@ -7,72 +8,113 @@
 
 import SwiftUI
 
+
 struct WakeUpHabitCardView: View {
-   
-        var habit: Habit
-
-        var body: some View {
-                        VStack(alignment: .leading, spacing: 8) {
-                            VStack(alignment: .leading) {
-                                
-                                
-                                HStack{
-                                    Text("Wake up")
-                                        .font(.headline)
-                                        .foregroundColor(.white)
-                                    Spacer()
-                                    Button {
-                                        habit.checkInWakeUp()
-                                    } label: {
-                                        Image(systemName: habit.didCheckIn ?  "checkmark.circle.fill" : "checkmark.circle")
-                                            .font(.title2)
-                                            .foregroundColor(.white)
-                                        
-                                    }
-                                }
-                                Text(habit.wakeUpTime?.formatted(date: .omitted, time: .shortened) ?? "Not set")
-                                    .font(.title2.bold())
-                                    .foregroundColor(.white)
-                            }
-                            
-                            HStack {
-                                           Spacer()
-                                           Image(systemName: "sun.max")
-                                               .font(.system(size: 60))
-                                               .foregroundColor(.white.opacity(0.7))
-                                       }
-                
-
-//                switch habit.wakeUpStatus {
-//
-//                case .active:
-//                    Button("I'm awake") {
-//                        habit.checkInWakeUp()
-//                    }
-//
-//                case .completed:
-//                    Text("proud!")
-//
-//                case .missed:
-//                    Text("try again tomorrow")
-//
-//                case .upcoming:
-//                    Text(" Not yet")
-//
-//                case .notSet:
-//                    Text("Set your wake up time")
-//                }
+    @StateObject var viewModel: WakeUpViewModel
+    let layoutType: HabitLayoutType  // ← NEW: Add this parameter
+    @State private var showMissedAlert = false
+    init(habit: Habit, layoutType: HabitLayoutType = .wide) {
+        _viewModel = StateObject(
+            wrappedValue: WakeUpViewModel(
+                habit: habit,
+                wakeUpTime: Calendar.current.date(
+                    bySettingHour: 7,
+                    minute: 45,
+                    second: 0,
+                    of: Date()
+                )!
+            )
+        )
+        self.layoutType = layoutType
+    }
+    
+    var body: some View {
+        // Format time
+        let timeFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "h:mm"
+            return formatter
+        }()
+        
+        let ampmFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "a"
+            return formatter
+        }()
+        
+        let timeString = timeFormatter.string(from: viewModel.wakeUpTime)
+        let ampm = ampmFormatter.string(from: viewModel.wakeUpTime)
+        
+        // Convert ViewModel state to HabitDisplayData
+        let displayData = HabitDisplayData(
+            title: "Wake up",
+            value: timeString,
+            unit: ampm,
+            iconName: "sun.max",
+            isSystemIcon: true,
+            backgroundColorName: "sec-color-mustard",
+            textColorName: "brand-color"
+        )
+        
+        ZStack(alignment: .topTrailing) {
+            // Use AdaptiveHabitCard for beautiful UI
+            AdaptiveHabitCard(
+                habit: displayData,
+                layoutType: layoutType
+            )
+            
+            // Check-in button overlay
+            Button {
+                handleCheckInTap()
+            } label: {
+                Image(systemName: viewModel.didCheckIn ? "checkmark.circle.fill" : "checkmark.circle")
+                    .font(.s20Medium)
+                    .foregroundStyle(viewModel.didCheckIn ? Color.white : Color.white.opacity(0.7))
             }
-            .padding()
-            .background(habit.type.color)
-            .frame(width: 168, height: 146)
-            .cornerRadius(16)
+            .padding(8)
+            .disabled(viewModel.didCheckIn)
+        }
+        .alert(consts.WakeUpAlertTitleStr, isPresented: $showMissedAlert) {
+            Button("OK", role: .cancel) {
+                print("❌ User dismissed missed alert")
+            }
+        } message: {
+            Text(consts.WakeUpAlertMessageStr)
         }
     }
-
-
+    // Handle check-in with alert
+    private func handleCheckInTap() {
+        print("🔍 handleCheckInTap called")
+        print("   canCheckIn: \(viewModel.canCheckIn())")
+        print("   didCheckIn: \(viewModel.didCheckIn)")
+        
+        if viewModel.canCheckIn() {
+            print("✅ Within window - checking in")
+            viewModel.checkIn()
+        } else if !viewModel.didCheckIn {
+            print("⚠️ Outside window - showing alert")
+            showMissedAlert = true
+        } else {
+            print("ℹ️ Already checked in - doing nothing")
+        }
+    }
+}
 
 #Preview {
-    WakeUpHabitCardView(habit: PreviewData.wakeUpHabit)
-        .padding()
+    let habit = Habit(
+        id: UUID().uuidString,
+        title: "Wake Up",
+        type: .wakeUp,
+        isEnabled: true
+    )
+    
+    VStack(spacing: 16) {
+        WakeUpHabitCardView(habit: habit, layoutType: .small)
+        WakeUpHabitCardView(habit: habit, layoutType: .wide)
+        WakeUpHabitCardView(habit: habit, layoutType: .large)
+    }
+    .padding()
 }
+
+
+

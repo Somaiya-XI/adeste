@@ -23,7 +23,13 @@ struct EditIntentionPopup: View {
 //    @State private var familyActivitySelection = FamilyActivitySelection()
 
     
-    // Check if title is not empty and not duplicate
+    private func syncFromIntention() {
+        guard let intention = viewModel.currentlyEditing else { return }
+        if editedTitle != intention.title { editedTitle = intention.title }
+        if editedIcon != intention.icon { editedIcon = intention.icon }
+    }
+    
+    /// Check if title is not empty and not duplicate
     private var isValid: Bool {
         let trimmedTitle = editedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
         
@@ -34,7 +40,7 @@ struct EditIntentionPopup: View {
         guard let intention = viewModel.currentlyEditing else { return false}
         
         let titleExists = intentions.contains { existingIntention in
-            // When editing, ignore the current intention's own title
+            /// When editing, ignore the current intention's own title
             if !viewModel.isCreating && existingIntention.id == intention.id {
                 return false
             }
@@ -51,29 +57,7 @@ struct EditIntentionPopup: View {
                 .foregroundStyle(.brand)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-             HStack(spacing: 16) {
-                 Button {
-                    print("Open Icon Picker")
-                } label: {
-                    Image(systemName: editedIcon)
-                        .font(.s24Medium)
-                        .foregroundStyle(.brand)
-                        .frame(width: 48, height: 48)
-                        .background(.baseShade03)
-                        .clipShape(Circle())
-                }
-                .buttonStyle(.plain)
-                
-                 VStack(alignment: .leading, spacing: 4) {
-                    TextField("Intention Name", text: $editedTitle)
-                        .font(.s20Medium)
-                        .foregroundStyle(.brand)
-                        .textFieldStyle(.plain)
-                    Rectangle()
-                        .fill(.brand)
-                        .frame(height: 1)
-                }
-            }
+            IntentionsSymbolPicker(icon: $editedIcon, title: $editedTitle)
             
              HStack(spacing: 16) {
                 Button(consts.cancelStr) {
@@ -135,12 +119,17 @@ struct EditIntentionPopup: View {
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
-        .onAppear{
-            if let intention = viewModel.currentlyEditing {
-                editedTitle = intention.title
-                editedIcon = intention.icon
-            }
+        .onAppear {
+            syncFromIntention()
             viewModel.isEditing = false
+        }
+        .onChange(of: viewModel.currentlyEditing?.id) { _, _ in
+            syncFromIntention()
+        }
+        .onChange(of: viewModel.currentlyEditing) { oldValue, newValue in
+            if newValue != nil {
+                syncFromIntention()
+            }
         }
     }
 }

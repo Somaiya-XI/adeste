@@ -112,7 +112,7 @@ struct AthkarManager {
         Calendar.current.startOfDay(for: now)
     }
 
-    private func windowsForToday(now: Date) async throws -> [AthkarWindow] {
+     func windowsForToday(now: Date) async throws -> [AthkarWindow] {
         let cal = Calendar.current
         let todayStart = todayStart(now)
         let tomorrowStart = cal.date(byAdding: .day, value: 1, to: todayStart)!

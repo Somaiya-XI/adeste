@@ -14,7 +14,7 @@ struct BackButton: View {
     var body: some View {
         Button(action: action) {
             Image(consts.chevronBack)
-                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                .font(.s16Semibold)
                 .foregroundStyle(Color("brand-color"))
                 .frame(width: 40, height: 40)
                 .background(Color("base-shade-02").opacity(0.5))

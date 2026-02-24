@@ -13,21 +13,40 @@ struct ContentView: View {
     @State private var selectedTab: Tab = .home
     @Namespace private var tabAnimation
     
+    @State private var loader = SymbolLoader()
+    @State private var userManager = UserManager.shared
+    
     init() {
         UITabBar.appearance().isHidden = true
     }
     
     var body: some View {
+        Group {
+            if userManager.isOnboardingComplete {
+                // Main App Content
+                mainAppView
+            } else {
+                // Onboarding Flow
+                OnBoarding()
+            }
+        }
+    }
+    
+    private var mainAppView: some View {
         ZStack(alignment: .bottom) {
             // Main content
             Group {
                 switch selectedTab {
                 case .home:
-                    HomeView(previewPages: PreviewData.pages)
+                    NavigationStack {
+                        HomeView()
+                    }
                 case .intentions:
                     IntentionsView()
                 case .profile:
-                    ProfileView()
+                    NavigationStack {
+                        ProfileView()
+                    }
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -37,6 +56,7 @@ struct ContentView: View {
             CustomTabBar(selectedTab: $selectedTab, namespace: tabAnimation)
                 .padding(.bottom, 24)
         }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 

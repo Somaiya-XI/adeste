@@ -27,3 +27,26 @@ let previewContainer: ModelContainer = {
         fatalError("Failed to create container")
     }
 }()
+
+
+@MainActor
+let previewContainer2: ModelContainer = {
+     var cycles: [Cycle] = [
+        Cycle(cycleType: .starter, cycleDuration: .starter, desc:
+              "Seven days to interrupt autopilot. \nNotice your habits, reduce distractions, and regain control."),
+        Cycle(cycleType: .basic, cycleDuration: .basic, desc: "Fourteen days to strengthen new patter. \nRepetition builds clarity, control, and focus. Stay consistent and feel the shift"),
+        Cycle(cycleType: .advanced, cycleDuration: .advanced, desc:
+                "Twenty-one days to rewire your routine. \nWith steady practice, focus starts to feel natural. Build habits that last beyond the cycle.")
+    ]
+    do {
+        let container = try ModelContainer(for: Cycle.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        for cycle in cycles {
+            container.mainContext.insert(cycle)
+        }
+        return container
+    } catch {
+        fatalError("Failed to create container")
+    }
+}()
+
+

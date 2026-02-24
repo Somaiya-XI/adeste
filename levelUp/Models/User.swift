@@ -8,13 +8,20 @@
 import Foundation
 
 // it can be a swiftData OR AppStorage
-struct User {
+struct User: Codable {
     var id: String
     var name: String
-    var currentCycle: Cycle
-    var cycleHistory: [Cycle]
+    var currentCycleId: String
+//    var cycleHistory: [Cycle]?
     var streak: Int
-    var listOfHabits: [Habit]
-
+    var habits: [Habit]?
+    
+    init(name: String, currentCycleId: String, streak: Int, habits: [Habit]? = nil) {
+        self.id = UUID().uuidString
+        self.name = name
+        self.currentCycleId = currentCycleId
+        self.streak = streak
+        self.habits = habits
+    }
 }
 
