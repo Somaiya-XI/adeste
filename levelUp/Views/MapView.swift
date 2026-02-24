@@ -209,59 +209,9 @@ struct DashedLine: Shape {
         path.move(to: CGPoint(x: rect.midX, y: 0))
         path.addLine(to: CGPoint(x: rect.midX, y: rect.height))
         return path
-        Image("im_mc") // Your mascot from assets
-            .resizable()
-            .scaledToFit()
-            .frame(width: 60, height: 60)
-            .scaleEffect(isAnimating ? 1.1 : 1.0)
-            .animation(
-                Animation.easeInOut(duration: 0.8)
-                    .repeatForever(autoreverses: true),
-                value: isAnimating
-            )
-            .onAppear {
-                isAnimating = true
-            }
     }
 }
 
-// MARK: - Star Shape
-struct Star: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        let center = CGPoint(x: rect.midX, y: rect.midY)
-        let outerRadius = min(rect.width, rect.height) / 2
-        let innerRadius = outerRadius * 0.4
-        let numberOfPoints = 5
-        
-        for i in 0..<numberOfPoints * 2 {
-            let angle = (Double(i) * .pi) / Double(numberOfPoints) - .pi / 2
-            let radius = i.isMultiple(of: 2) ? outerRadius : innerRadius
-            let x = center.x + CGFloat(cos(angle)) * radius
-            let y = center.y + CGFloat(sin(angle)) * radius
-            
-            if i == 0 {
-                path.move(to: CGPoint(x: x, y: y))
-            } else {
-                path.addLine(to: CGPoint(x: x, y: y))
-            }
-        }
-        path.closeSubpath()
-        return path
-    }
-}
-
-// MARK: - Dashed Line Shape
-struct DashedLine: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.move(to: CGPoint(x: rect.midX, y: 0))
-        path.addLine(to: CGPoint(x: rect.midX, y: rect.height))
-        return path
-    }
-}
-
-// MARK: - Preview
 // MARK: - Preview
 #Preview {
     let cycle = Cycle(cycleType: .starter, cycleDuration: .basic)
