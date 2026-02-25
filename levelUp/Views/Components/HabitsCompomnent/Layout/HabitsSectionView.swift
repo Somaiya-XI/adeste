@@ -9,12 +9,14 @@ import SwiftUI
 
 
 struct HabitsSectionView: View {
-    let pages:[[Habit]]
+    let pages: [[Habit]]
     let prayerManager: PrayerManager
     let athkarManager: AthkarManager
+    @Binding var showWakeUpTimePopup: Bool
+    @Binding var selectedWakeUpTime: Date
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            
             Text("Daily habit")
                 .font(.s24Semibold)
                 .foregroundColor(.brand)
@@ -24,25 +26,29 @@ struct HabitsSectionView: View {
                         HabitsStaticLayoutView(
                             habits: pages[index],
                             prayerManager: prayerManager,
-                            athkarManager: athkarManager
+                            athkarManager: athkarManager,
+                            showWakeUpTimePopup: $showWakeUpTimePopup,
+                            selectedWakeUpTime: $selectedWakeUpTime
                         )
-                        
                         .padding(.horizontal)
                     }
                 }
-                
                 .tabViewStyle(.page(indexDisplayMode: .automatic))
                 .frame(height: 320)
-            }else if let firstPage = pages.first {
+            } else if let firstPage = pages.first {
                 HabitsStaticLayoutView(
                     habits: firstPage,
                     prayerManager: prayerManager,
-                    athkarManager: athkarManager
+                    athkarManager: athkarManager,
+                    showWakeUpTimePopup: $showWakeUpTimePopup,
+                    selectedWakeUpTime: $selectedWakeUpTime
                 )
             }
         }
     }
 }
+
+
 #Preview("HabitsSection – Single Page") {
     let prayerManager = PrayerManager(
         timesProvider: AdhanPrayerTimesProvider(
@@ -69,7 +75,9 @@ struct HabitsSectionView: View {
             ]
         ],
         prayerManager: prayerManager,
-        athkarManager: athkarManager
+        athkarManager: athkarManager,
+        showWakeUpTimePopup: .constant(false),
+        selectedWakeUpTime: .constant(Date())
     )
     .padding()
 }

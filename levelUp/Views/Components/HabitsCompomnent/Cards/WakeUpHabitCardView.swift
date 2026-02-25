@@ -7,25 +7,31 @@
 //
 
 import SwiftUI
-
+import UIKit
 
 struct WakeUpHabitCardView: View {
+    @ObservedObject private var wakeUpManager = AppHabitWakeUpManager.shared
     @StateObject var viewModel: WakeUpViewModel
-    let layoutType: HabitLayoutType  // ← NEW: Add this parameter
+    let layoutType: HabitLayoutType
+    @Binding var showWakeUpTimePopup: Bool
+    @Binding var selectedWakeUpTime: Date
     @State private var showMissedAlert = false
-    init(habit: Habit, layoutType: HabitLayoutType = .wide) {
+
+    init(
+        habit: Habit,
+        layoutType: HabitLayoutType = .wide,
+        showWakeUpTimePopup: Binding<Bool>,
+        selectedWakeUpTime: Binding<Date>
+    ) {
         _viewModel = StateObject(
             wrappedValue: WakeUpViewModel(
                 habit: habit,
-                wakeUpTime: Calendar.current.date(
-                    bySettingHour: 7,
-                    minute: 45,
-                    second: 0,
-                    of: Date()
-                )!
+                wakeUpTime: AppHabitWakeUpManager.shared.wakeUpTime
             )
         )
         self.layoutType = layoutType
+        _showWakeUpTimePopup = showWakeUpTimePopup
+        _selectedWakeUpTime = selectedWakeUpTime
     }
     
     var body: some View {
@@ -57,22 +63,31 @@ struct WakeUpHabitCardView: View {
         )
         
         ZStack(alignment: .topTrailing) {
-            // Use AdaptiveHabitCard for beautiful UI
             AdaptiveHabitCard(
                 habit: displayData,
                 layoutType: layoutType
             )
-            
+            .onTapGesture {
+                selectedWakeUpTime = wakeUpManager.wakeUpTime
+                showWakeUpTimePopup = true
+            }
+            .onAppear {
+                viewModel.wakeUpTime = wakeUpManager.wakeUpTime
+            }
+            .onChange(of: wakeUpManager.wakeUpTime) { _, newTime in
+                viewModel.wakeUpTime = newTime
+            }
+
             // Check-in button overlay
             Button {
                 handleCheckInTap()
             } label: {
-                Image(systemName: viewModel.didCheckIn ? "checkmark.circle.fill" : "checkmark.circle")
+                Image(systemName: wakeUpManager.didCheckInToday ? "checkmark.circle.fill" : "checkmark.circle")
                     .font(.s20Medium)
-                    .foregroundStyle(viewModel.didCheckIn ? Color.white : Color.white.opacity(0.7))
+                    .foregroundStyle(wakeUpManager.didCheckInToday ? Color.white : Color.white.opacity(0.7))
             }
             .padding(8)
-            .disabled(viewModel.didCheckIn)
+            .disabled(wakeUpManager.didCheckInToday)
         }
         .alert(consts.WakeUpAlertTitleStr, isPresented: $showMissedAlert) {
             Button("OK", role: .cancel) {
@@ -84,18 +99,16 @@ struct WakeUpHabitCardView: View {
     }
     // Handle check-in with alert
     private func handleCheckInTap() {
-        print("🔍 handleCheckInTap called")
-        print("   canCheckIn: \(viewModel.canCheckIn())")
-        print("   didCheckIn: \(viewModel.didCheckIn)")
-        
+        if wakeUpManager.didCheckInToday {
+            return
+        }
         if viewModel.canCheckIn() {
-            print("✅ Within window - checking in")
-            viewModel.checkIn()
-        } else if !viewModel.didCheckIn {
-            print("⚠️ Outside window - showing alert")
-            showMissedAlert = true
+            wakeUpManager.checkIn()
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+            AppToastCenter.shared.show(message: "Progress Saved")
         } else {
-            print("ℹ️ Already checked in - doing nothing")
+            showMissedAlert = true
         }
     }
 }
@@ -107,11 +120,25 @@ struct WakeUpHabitCardView: View {
         type: .wakeUp,
         isEnabled: true
     )
-    
     VStack(spacing: 16) {
-        WakeUpHabitCardView(habit: habit, layoutType: .small)
-        WakeUpHabitCardView(habit: habit, layoutType: .wide)
-        WakeUpHabitCardView(habit: habit, layoutType: .large)
+        WakeUpHabitCardView(
+            habit: habit,
+            layoutType: .small,
+            showWakeUpTimePopup: .constant(false),
+            selectedWakeUpTime: .constant(Date())
+        )
+        WakeUpHabitCardView(
+            habit: habit,
+            layoutType: .wide,
+            showWakeUpTimePopup: .constant(false),
+            selectedWakeUpTime: .constant(Date())
+        )
+        WakeUpHabitCardView(
+            habit: habit,
+            layoutType: .large,
+            showWakeUpTimePopup: .constant(false),
+            selectedWakeUpTime: .constant(Date())
+        )
     }
     .padding()
 }
