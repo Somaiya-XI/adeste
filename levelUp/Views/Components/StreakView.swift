@@ -8,15 +8,22 @@
 import SwiftUI
 
 struct StreakView: View {
+    @ObservedObject private var streakManager = AppStreakManager.shared
+
     var body: some View {
         HStack {
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color.baseShade01)
-                .frame(width: 80, height: 32)
+                .frame(width: 110, height: 32)
                 .overlay(
-                    Text("Streak")
-                        .font(.s12Medium)
-                        .foregroundColor(.gray)
+                    HStack(spacing: 6) {
+                        Image(systemName:"flame.fill")
+                            .font(.s12Medium)
+                            .foregroundColor(.brand)
+                        Text("\(streakManager.streakCount)")
+                            .font(.s12Medium)
+                            .foregroundStyle(.brand)
+                    }
                 )
 
             Spacer()
