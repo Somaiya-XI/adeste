@@ -104,6 +104,11 @@ struct WakeUpHabitCardView: View {
         }
         if viewModel.canCheckIn() {
             wakeUpManager.checkIn()
+             
+            if let allHabits = UserManager.shared.currentUser?.habits {
+                AppStreakManager.shared.refreshForToday(habits: allHabits)
+            }
+            
             let generator = UINotificationFeedbackGenerator()
             generator.notificationOccurred(.success)
             AppToastCenter.shared.show(message: "Progress Saved")

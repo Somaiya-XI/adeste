@@ -89,6 +89,7 @@ struct HomeView: View {
             if !hasLoadedHabits, let habits = userManager.currentUser?.habits {
                 viewModel.loadHabits(habits)
                 hasLoadedHabits = true
+                AppStreakManager.shared.refreshForToday(habits: habits)
             }
             
             // TODO: Move this to onboarding later
