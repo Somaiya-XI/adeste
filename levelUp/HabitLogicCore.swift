@@ -23,102 +23,77 @@ protocol HabitEngine {
     var isHabitQualified: Bool { get }
 }
 
+/// Keys for persistent storage
 private enum HabitStorageKeys {
     static let wakeUpTime = "saved_wake_up_time"
     static let lastCheckInDate = "last_wake_up_checkin"
 }
 
 // Wake Up Manager
-
-/// Engine for the "Wake Up" habit (30‑minute).
+/// Engine for the "Wake Up" habit.
 final class AppHabitWakeUpManager: ObservableObject, HabitEngine {
     static let shared = AppHabitWakeUpManager()
 
     let habitName: String = "Wake Up"
     @Published var status: HabitStatusModel
     @Published var wakeUpTime: Date
-    /// True when the last persisted check-in date is today
     @Published var didCheckInToday: Bool = false
-    /// 1800 seconds = 30 minutes.
-    var wakeUpWindow: TimeInterval = 1800
+    var wakeUpWindow: TimeInterval = 1800 // 30 minutes
 
     private init() {
-        let defaults = UserDefaults.standard
+            let defaults = UserDefaults.standard
 
-        if let savedDate = defaults.object(forKey: HabitStorageKeys.wakeUpTime) as? Date {
-            self.wakeUpTime = savedDate
-        } else {
-            let now = Date()
-            let calendar = Calendar.current
-            self.wakeUpTime = calendar.date(
-                bySettingHour: 6,
-                minute: 0,
-                second: 0,
-                of: now
-            ) ?? now
+            let savedTime = defaults.object(forKey: HabitStorageKeys.wakeUpTime) as? Date
+            let initialWakeUpTime = savedTime ?? Calendar.current.date(bySettingHour: 6, minute: 0, second: 0, of: Date()) ?? Date()
+            self.wakeUpTime = initialWakeUpTime
+
+            let isChecked: Bool
+            if let lastCheckIn = defaults.object(forKey: HabitStorageKeys.lastCheckInDate) as? Date {
+                isChecked = Calendar.current.isDateInToday(lastCheckIn)
+            } else {
+                isChecked = false
+            }
+            
+            self.didCheckInToday = isChecked
+            self.status = HabitStatusModel(
+                currentCount: isChecked ? 1 : 0,
+                goalCount: 1,
+                lastUpdated: nil
+            )
         }
 
-        if let lastCheckIn = defaults.object(forKey: HabitStorageKeys.lastCheckInDate) as? Date {
-            self.didCheckInToday = Calendar.current.isDateInToday(lastCheckIn)
-        } else {
-            self.didCheckInToday = false
-        }
-
-        self.status = HabitStatusModel(
-            currentCount: 0,
-            goalCount: 1,
-            lastUpdated: nil
-        )
-    }
-
-    /// Persist check-in so the checkmark stays green after app restart.
     func checkIn() {
         let now = Date()
         let defaults = UserDefaults.standard
         defaults.set(now, forKey: HabitStorageKeys.lastCheckInDate)
         defaults.synchronize()
+        
         didCheckInToday = true
         status.currentCount = 1
         status.lastUpdated = now
-        print("✅ Habit System: Wake Up check-in saved at \(now)")
+        print("✅ Habit System: Wake Up check-in saved and memory updated")
     }
 
-    /// Update and persist the target wake‑up time.
     func updateTargetTime(to newTime: Date) {
         wakeUpTime = newTime
-
-        let defaults = UserDefaults.standard
-        defaults.set(newTime, forKey: HabitStorageKeys.wakeUpTime)
-        defaults.synchronize()
-
+        UserDefaults.standard.set(newTime, forKey: HabitStorageKeys.wakeUpTime)
+        UserDefaults.standard.synchronize()
         status.lastUpdated = Date()
-        print("✅ Habit System: Wake Up time updated to \(newTime)")
     }
 
-    /// Backwards-compatible helper if older code still calls `setTargetTime`.
-    func setTargetTime(newTime: Date) {
-        updateTargetTime(to: newTime)
-    }
-
-    /// True when the current time is within 30 minutes of the target time.
+    /// This property ensures the character stays on the bar all day if check-in is done
     var isHabitQualified: Bool {
-        let now = Date()
-        let window = wakeUpTime ... wakeUpTime.addingTimeInterval(wakeUpWindow)
-        let qualified = window.contains(now)
-        print("✅ Habit System: Check status (Wake Up) → \(qualified)")
-        return qualified
+        return didCheckInToday
     }
 }
 
 // Prayer Manager
-
-/// Engine for the daily prayer habit, backed by the core PrayerManager.
+/// Engine for the daily prayer habit.
 final class AppHabitPrayerManager: ObservableObject, HabitEngine {
     static let shared = AppHabitPrayerManager()
 
     let habitName: String = "Prayer"
     @Published var status: HabitStatusModel
-
     private let coreManager: PrayerManager
 
     private init() {
@@ -130,22 +105,23 @@ final class AppHabitPrayerManager: ObservableObject, HabitEngine {
             goalCount: Double(Prayer.allCases.count),
             lastUpdated: nil
         )
-    }
-
-    /// Refresh status from the underlying prayer system.
-    func refreshStatus(now: Date = Date()) async throws {
-        let checked = try await coreManager.checkedPrayersForToday(now: now)
-        status.currentCount = Double(checked.count)
-        status.lastUpdated = now
-    }
-
-    /// True only when all prayers are completed in their valid windows.
-    var isHabitQualified: Bool {
-        // Kick off a background refresh so our status stays in sync.
+        
         Task {
             try? await self.refreshStatus()
-            print("✅ Habit System: Check status (Prayer) → \(self.status.currentCount)/\(Prayer.allCases.count)")
         }
-        return status.currentCount >= Double(Prayer.allCases.count)
+    }
+
+    func refreshStatus(now: Date = Date()) async throws {
+        let checked = try await coreManager.checkedPrayersForToday(now: now)
+        await MainActor.run {
+            self.status.currentCount = Double(checked.count)
+            self.status.lastUpdated = now
+            print("✅ Habit System: Prayers refreshed (\(checked.count)/5)")
+        }
+    }
+
+    var isHabitQualified: Bool {
+        // Any prayer completed will move the character forward
+        return status.currentCount > 0
     }
 }

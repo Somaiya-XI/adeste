@@ -73,6 +73,10 @@ struct WakeUpHabitCardView: View {
             }
             .onAppear {
                 viewModel.wakeUpTime = wakeUpManager.wakeUpTime
+                if let allHabits = UserManager.shared.currentUser?.habits {
+                    AppProgressManager.shared.updateProgress(habits: allHabits)
+                }
+                
             }
             .onChange(of: wakeUpManager.wakeUpTime) { _, newTime in
                 viewModel.wakeUpTime = newTime
@@ -107,6 +111,7 @@ struct WakeUpHabitCardView: View {
              
             if let allHabits = UserManager.shared.currentUser?.habits {
                 AppStreakManager.shared.refreshForToday(habits: allHabits)
+                AppProgressManager.shared.updateProgress(habits: allHabits)
             }
             
             let generator = UINotificationFeedbackGenerator()

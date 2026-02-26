@@ -56,6 +56,7 @@ struct HomeView: View {
                 VStack(spacing: 24) {
                     VStack {
                         StreakView()
+                        HabitProgressBar()
                         MapSectionView(cycle: Cycle(
                             cycleType: .starter,
                             cycleDuration: .starter
@@ -90,6 +91,7 @@ struct HomeView: View {
                 viewModel.loadHabits(habits)
                 hasLoadedHabits = true
                 AppStreakManager.shared.refreshForToday(habits: habits)
+                AppProgressManager.shared.updateProgress(habits: habits)
             }
             
             // TODO: Move this to onboarding later
