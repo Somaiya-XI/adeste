@@ -1,106 +1,100 @@
-//
-//  WaterHabitViewModel.swift
-//  adeste
-//
-//  Created by Jory on 23/08/1447 AH.
-//
+
 import Foundation
 import Combine
 
 class WaterViewModel: ObservableObject {
     let habit: Habit
-    @Published private(set) var waterIntake: Int = 0
-    var lastWaterDate: Date?
-    var increaseCount: Int = 0
-    private(set) var maxCups = 8
+    @Published private(set) var waterIntake: Int = 0 {
+        didSet { UserDefaults.standard.set(waterIntake, forKey: storageKey("waterIntake")) }
+    }
     
+    var lastWaterDate: Date? {
+        didSet {
+            if let date = lastWaterDate {
+                UserDefaults.standard.set(date, forKey: storageKey("lastWaterDate"))
+            } else {
+                UserDefaults.standard.removeObject(forKey: storageKey("lastWaterDate"))
+            }
+            UserDefaults.standard.synchronize()
+        }
+    }
+
+    var increaseCount: Int = 0 {
+        didSet {
+            UserDefaults.standard.set(increaseCount, forKey: storageKey("increaseCount"))
+            UserDefaults.standard.synchronize()
+        }
+    }
+    private(set) var maxCups = 8
     private let limit: TimeInterval = 5400
+    
+    private func storageKey(_ field: String) -> String {
+        "water_\(habit.id)_\(field)"
+    }
     
     init(habit: Habit) {
         self.habit = habit
+        loadFromStorage()
     }
     
+    private func loadFromStorage() {
+        let savedIntake = UserDefaults.standard.integer(forKey: storageKey("waterIntake"))
+        let savedCount  = UserDefaults.standard.integer(forKey: storageKey("increaseCount"))
+        let savedDate   = UserDefaults.standard.object(forKey: storageKey("lastWaterDate")) as? Date
+        let savedDay    = UserDefaults.standard.object(forKey: storageKey("lastSavedDay")) as? Date
+
+        if let savedDay, !Calendar.current.isDateInToday(savedDay) {
+            waterIntake   = 0
+            increaseCount = 0
+            lastWaterDate = nil
+            UserDefaults.standard.removeObject(forKey: storageKey("lastWaterDate"))
+        } else {
+            waterIntake   = savedIntake
+            increaseCount = savedCount
+            lastWaterDate = savedDate
+        }
+        
+        UserDefaults.standard.set(Date(), forKey: storageKey("lastSavedDay"))
+    }
 }
+
 extension WaterViewModel {
 
     func canIncreaseWater() -> Bool {
-        print("can increase water called")
-        
-        guard waterIntake < maxCups else {
-            print("already at max cups")
-            return false
-        }
-        
+        guard waterIntake < maxCups else { return false }
         let now = Date()
-        
-        guard let last = lastWaterDate else {
-            print("no previous water date - allowing increase")
-            return true
-        }
-        
-        // If time limit passed, allow increase (but don't reset here!)
-        if now.timeIntervalSince(last) > limit {
-            print("time limit passed - allowing increase")
-            return true
-        }
-        
-        // Within time limit - check the count
+        guard let last = lastWaterDate else { return true }
+        if now.timeIntervalSince(last) > limit { return true }
         return increaseCount < 2
     }
 
     func increaseWater() {
-        print("increase water called + current \(waterIntake)")
-        
-        guard waterIntake < maxCups else {
-            print("already at max cups")
-            return
-        }
-        
+        guard waterIntake < maxCups else { return }
         let now = Date()
-        
-        // Check if we need to reset the time window
         if let last = lastWaterDate {
             if now.timeIntervalSince(last) > limit {
-                print("time limit passed - resetting counter")
                 lastWaterDate = now
                 increaseCount = 0
             }
         } else {
-            // First time tracking
             lastWaterDate = now
             increaseCount = 0
         }
-        
-        // Now check if we can actually increase
-        guard increaseCount < 2 else {
-            print("cannot increase water - limit reached")
-            return
-        }
-        
+        guard increaseCount < 2 else { return }
         waterIntake += 1
         increaseCount += 1
-        print("water increased to \(waterIntake)")
     }
-    
-    
-    private func reset(_ date: Date) {
-        print("reset called ")
-        lastWaterDate = date
-        increaseCount = 1
-    }
-    
+
     func decreaseWater() {
-        print("decrease water called current \(waterIntake)")
         guard waterIntake > 0 else { return }
-        print("already at 0")
         waterIntake -= 1
-        
-    
         if increaseCount > 0 {
             increaseCount -= 1
         }
     }
-    
+
+    private func reset(_ date: Date) {
+        lastWaterDate = date
+        increaseCount = 1
+    }
 }
-
-

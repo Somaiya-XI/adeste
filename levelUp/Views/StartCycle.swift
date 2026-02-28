@@ -55,7 +55,8 @@ struct StartCycle: View {
             HabitPickerView(
                 habitLimit: vm.currentCycle?.maxHabits ?? 2,
                 userName: userName,
-                cycleId: vm.currentCycle?.id ?? ""
+                cycleId: vm.currentCycle?.id ?? "",
+                cycleType: vm.currentCycle?.cycleType ?? .starter
             )
         }
         .onAppear {

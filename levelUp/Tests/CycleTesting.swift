@@ -64,7 +64,12 @@ struct CycleTestingView: View {
             }
         }
         .navigationDestination(isPresented: $vm.isCompleted) {
-            HabitPickerView(habitLimit: vm.currentCycle?.maxHabits ?? 0, userName: "Test", cycleId: vm.currentCycle?.id ?? "")
+            HabitPickerView(
+                habitLimit: vm.currentCycle?.maxHabits ?? 0,
+                userName: "Test",
+                cycleId: vm.currentCycle?.id ?? "",
+                cycleType: vm.currentCycle?.cycleType ?? .starter
+            )
         }
     }
 }

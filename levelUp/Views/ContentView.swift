@@ -61,18 +61,18 @@ struct ContentView: View {
                 .padding(.bottom, 24)
 
             // Wake-up time popup
-            if showWakeUpTimePopup {
-                ZStack {
-                    Color.black.opacity(0.4)
-                        .ignoresSafeArea()
-                        .onTapGesture { showWakeUpTimePopup = false }
-
-                    WakeUpTimePopup(
-                        isPresented: $showWakeUpTimePopup,
-                        selectedWakeUpTime: $selectedWakeUpTime
-                    )
-                }
-            }
+//            if showWakeUpTimePopup {
+//                ZStack {
+//                    Color.black.opacity(0.4)
+//                        .ignoresSafeArea()
+//                        .onTapGesture { showWakeUpTimePopup = false }
+//
+//                    WakeUpTimePopup(
+//                        isPresented: $showWakeUpTimePopup,
+//                        selectedWakeUpTime: $selectedWakeUpTime
+//                    )
+//                }
+//            }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
     }

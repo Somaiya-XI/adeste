@@ -1,15 +1,21 @@
-//
-
 
 import SwiftUI
 
 struct HabitPickerView: View {
     @State private var selectedHabits: Set<String> = []
     @Environment(\.dismiss) var dismiss
-    
+    //
+    @State private var showGoalSheet = false
+    @State private var wakeUpTime: Date = Calendar.current.date(
+        bySettingHour: 7, minute: 0, second: 0, of: Date()
+    ) ?? Date()
+    @State private var stepGoal: Int = 8000
+    @State private var hasCompletedOnboarding = false
+    //
     let habitLimit: Int
     let userName: String
     let cycleId: String
+    let cycleType: CycleType
     
     // Map habit names to HabitType
     private let habitTypeMap: [String: HabitType] = [
@@ -23,7 +29,7 @@ struct HabitPickerView: View {
     var body: some View {
         VStack(spacing: 0) {
             // Header
-           
+            
             HStack(spacing: 12) {
                 
                 
@@ -60,20 +66,20 @@ struct HabitPickerView: View {
                 
                 // Habits
                 HStack(alignment: .top, spacing: 16) {
-               
+                    
                     
                     VStack(spacing: 16) { // prayyyyyyy iocn
                         HabitCard(
                             title: "Pray",
                             icon: .custom("Mosque"),
-                                isSelected: selectedHabits.contains("Pray")
+                            isSelected: selectedHabits.contains("Pray")
                         ) {
                             toggleHabit("Pray")
                         }
                         
                         HabitCard(
                             title: "Drink water",
-        
+                            
                             icon: .doubleBottle,
                             isSelected:
                                 selectedHabits.contains("Drink water")
@@ -95,7 +101,7 @@ struct HabitPickerView: View {
                         HabitCard(
                             title: "Athkar",
                             icon: .system("book.fill"),
-                    
+                            
                             isSelected: selectedHabits.contains("Athkar")
                         ) {
                             toggleHabit("Athkar")
@@ -107,7 +113,7 @@ struct HabitPickerView: View {
                 HabitCard(
                     title: "Wake Up",
                     icon: .system("sun.max.fill"),
-        
+                    
                     isSelected: selectedHabits.contains("Wake Up"),
                     isWide: true
                 ) {
@@ -125,9 +131,16 @@ struct HabitPickerView: View {
             Spacer()
             
             // Get Started Button
+            ///////////hhhhhh
             Button(action: {
-                saveHabitsAndCompleteOnboarding()
-            }) {
+                let needsGoalSheet = selectedHabits.contains("Wake Up") || selectedHabits.contains("Walk")
+                if needsGoalSheet {
+                    showGoalSheet = true
+                } else {
+                    saveHabitsAndCompleteOnboarding()
+                }
+            })///////////
+            {
                 Text("Get Started")
                     .font(.s28Medium)
                     .foregroundColor(.baseShade01)
@@ -142,11 +155,24 @@ struct HabitPickerView: View {
         }
         .background(Color.white)
         .navigationBarBackButtonHidden(true)
-
+        .sheet(isPresented: $showGoalSheet) {
+            HabitsGoalSheet(
+                selectedHabits: selectedHabits,
+                selectedWakeUpTime: $wakeUpTime,
+                stepGoal: $stepGoal,
+                isOnboarding: false,
+                cycleType: cycleType
+            )
+            .presentationDetents([.large])
+            .onDisappear {
+                saveHabitsAndCompleteOnboarding()
+            }
+        }
+        
     }
     
     private func toggleHabit(_ habit: String) {
-
+        
         if selectedHabits.contains(habit) {
             selectedHabits.remove(habit)
         } else {
@@ -157,6 +183,8 @@ struct HabitPickerView: View {
     }
     
     private func saveHabitsAndCompleteOnboarding() {
+        guard !hasCompletedOnboarding else { return }
+        hasCompletedOnboarding = true
         // Convert selected habit names to Habit objects
         let habits: [Habit] = selectedHabits.compactMap { habitName in
             guard let habitType = habitTypeMap[habitName] else { return nil }
@@ -170,10 +198,17 @@ struct HabitPickerView: View {
         userManager.currentUser?.habits = habits
         userManager.saveUser()
         
-        // Complete onboarding
+        // Request HealthKit only if Walk was selected
+        if selectedHabits.contains("Walk") {
+            Task {
+                try? await HealthManager.shared.requestAuthorization()
+            }
+        }
+        
         userManager.completeOnboarding()
     }
 }
+
 
 struct HabitCard: View {
     let title: String
@@ -191,7 +226,7 @@ struct HabitCard: View {
     var body: some View {
         Button(action: action) {
             if isWide {
-             
+                
                 HStack(spacing: 20) {
                     Image(systemName: "sun.max.fill")
                         .font(.s48Heavy)
@@ -275,6 +310,6 @@ struct HabitCard: View {
 
 struct HabitPickerView_Previews: PreviewProvider {
     static var previews: some View {
-        HabitPickerView(habitLimit: 2, userName: "Test", cycleId: "test-cycle")
+        HabitPickerView(habitLimit: 2, userName: "Test", cycleId: "test-cycle", cycleType: .starter)
     }
 }

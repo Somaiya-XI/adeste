@@ -1,11 +1,4 @@
-//
-//  HomeView.swift
-//  levelUp
-//
-//  Created by Somaiya on 20/08/1447 AH.
-//
-//
-//
+
 import SwiftUI
 
 struct HomeView: View {
@@ -93,28 +86,13 @@ struct HomeView: View {
                 AppStreakManager.shared.refreshForToday(habits: habits)
                 AppProgressManager.shared.updateProgress(habits: habits)
             }
-            
-            // TODO: Move this to onboarding later
-            requestHealthKitPermission()
-        }
-    }
- 
-    private func requestHealthKitPermission() {
-        Task {
-            do {
-                print("🔍 Requesting HealthKit permission from HomeView...")
-                try await HealthManager.shared.requestAuthorization()
-                print("✅ HealthKit permission granted!")
-            } catch {
-                print("❌ HealthKit permission failed: \(error)")
-            }
         }
     }
 }
 #Preview("HomeView – Mock Data") {
     let page1: [Habit] = [
         Habit(title: "Water", type: .water),
-        Habit(title: "Steps", type: .steps),
+//        Habit(title: "Steps", type: .steps),
         Habit(title: "Wake Up", type: .wakeUp)
     ]
     let page2: [Habit] = [
