@@ -4,6 +4,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var userManager = UserManager.shared
     @StateObject private var toastCenter = AppToastCenter.shared
+    @State private var navigateToSettings = false
     
     let prayerManager = PrayerManager(
         timesProvider: AdhanPrayerTimesProvider(
@@ -48,13 +49,22 @@ struct HomeView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     VStack {
-                        StreakView()
+                        HStack(alignment: .center) {
+                            StreakView()
+                            
+                            Spacer()
+                            
+                            SettingsButton {
+                                navigateToSettings = true
+                            }
+                        }
+                        .padding(.bottom, 16)
+                        
                         HabitProgressBar()
-                        MapSectionView(cycle: Cycle(
-                            cycleType: .starter,
-                            cycleDuration: .starter
-                        ))
                         AppLimitCardView()
+                        
+                        Spacer().frame(height: 50)
+                        
                         HabitsSectionView(
                             pages: viewModel.pages,
                             prayerManager: prayerManager,
@@ -67,7 +77,7 @@ struct HomeView: View {
                 }
                 .padding(.bottom, 50)
             }
-
+            
             if toastCenter.isPresented {
                 ToastView(
                     message: toastCenter.message,
@@ -78,6 +88,10 @@ struct HomeView: View {
                 .allowsHitTesting(false)
             }
         }
+        .navigationDestination(isPresented: $navigateToSettings) {
+            SettingsView()
+        }
+        
         .onAppear {
             // Load user's selected habits only once
             if !hasLoadedHabits, let habits = userManager.currentUser?.habits {
