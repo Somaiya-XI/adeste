@@ -17,7 +17,7 @@ struct CycleView: View {
     
     @State var vm: CycleViewModel = .init()
     @State var currentPage = 0
-    
+    @State var goToNext: Bool = false
     var body: some View {
         @Bindable var vm = vm
         GeometryReader {
@@ -39,8 +39,10 @@ struct CycleView: View {
                                 CycleCard(cycle: cycle) {
                                     // Update cycle in UserManager and dismiss
                                     UserManager.shared.updateCycle(cycle.id)
+                                   
                                     dismiss()
                                 }
+
                                 .tag(index)
                             }
                         }
@@ -56,8 +58,19 @@ struct CycleView: View {
         }
         .onAppear {
             vm.configure(with: modelContext)
-            
         }
-    }
-}
+        
+        // REPLACE .navigationDestination with this:
+        .navigationDestination(isPresented: $goToNext) {
+            HabitPickerView(
+                habitLimit: vm.currentCycle?.maxHabits ?? 2,
+                userName: UserManager.shared.userName,
+                cycleId: vm.currentCycle?.id ?? "",
+                cycleType: vm.currentCycle?.cycleType ?? .starter
+            )
+        }
+               }
+           }
+        
+    
 

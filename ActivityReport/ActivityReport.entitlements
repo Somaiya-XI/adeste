@@ -6,7 +6,7 @@
 	<true/>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.adeste.app</string>
+		<string>group.joryalkhamees.adeste.app</string>
 	</array>
 </dict>
 </plist>

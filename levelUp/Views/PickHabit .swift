@@ -16,6 +16,7 @@ struct HabitPickerView: View {
     let userName: String
     let cycleId: String
     let cycleType: CycleType
+    var onComplete: (() -> Void)? = nil
     
     // Map habit names to HabitType
     private let habitTypeMap: [String: HabitType] = [
@@ -131,7 +132,7 @@ struct HabitPickerView: View {
             Spacer()
             
             // Get Started Button
-            ///////////hhhhhh
+            
             Button(action: {
                 let needsGoalSheet = selectedHabits.contains("Wake Up") || selectedHabits.contains("Walk")
                 if needsGoalSheet {
@@ -139,7 +140,7 @@ struct HabitPickerView: View {
                 } else {
                     saveHabitsAndCompleteOnboarding()
                 }
-            })///////////
+            })
             {
                 Text("Get Started")
                     .font(.s28Medium)
@@ -195,6 +196,7 @@ struct HabitPickerView: View {
         let userManager = UserManager.shared
         userManager.createUser(name: userName)
         userManager.currentUser?.currentCycleId = cycleId
+        userManager.currentUser?.currentCycleType = cycleType 
         userManager.currentUser?.habits = habits
         userManager.saveUser()
         
@@ -205,7 +207,9 @@ struct HabitPickerView: View {
             }
         }
         
-        userManager.completeOnboarding()
+//        userManager.completeOnboarding()
+        onComplete?()
+        dismiss()
     }
 }
 

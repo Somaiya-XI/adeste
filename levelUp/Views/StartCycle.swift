@@ -17,9 +17,9 @@ struct StartCycle: View {
     @State var vm: CycleViewModel = .init()
     @State var currentPage = 0
     @State var goToNext: Bool = false
-    
+   
     let userName: String
-    
+    var onComplete: (() -> Void)? = nil
     var body: some View {
         @Bindable var vm = vm
         VStack(spacing: 0) {
@@ -56,7 +56,8 @@ struct StartCycle: View {
                 habitLimit: vm.currentCycle?.maxHabits ?? 2,
                 userName: userName,
                 cycleId: vm.currentCycle?.id ?? "",
-                cycleType: vm.currentCycle?.cycleType ?? .starter
+                cycleType: vm.currentCycle?.cycleType ?? .starter,
+                onComplete: onComplete 
             )
         }
         .onAppear {

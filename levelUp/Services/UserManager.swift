@@ -13,6 +13,7 @@ enum UserDefaultsKeys {
     static let userData = "userData"
     static let isOnboardingComplete = "isOnboardingComplete"
     static let onboardingStep = "onboardingStep"
+    static let screenTimeChangeCount = "screenTimeChangeCount"
 }
 
 /// Onboarding steps tracker
@@ -90,8 +91,11 @@ class UserManager {
     /// Update user's current cycle
     func updateCycle(_ cycleId: String) {
         currentUser?.currentCycleId = cycleId
+        currentUser?.currentCycleType = cycleType
         saveUser()
+        resetScreenTimeChangeCount()
     }
+   
     
     /// Update user's habits
     func updateHabits(_ habits: [Habit]) {
@@ -149,6 +153,30 @@ class UserManager {
     
     var userStreak: Int {
         return currentUser?.streak ?? 0
+    }
+    // MARK: - Cycle Type
+
+    var cycleType: CycleType {
+        return currentUser?.currentCycleType ?? .starter
+    }
+
+    // MARK: - Screen Time Change Tracking
+
+    var screenTimeChangeCount: Int {
+        get { userDefaults.integer(forKey: UserDefaultsKeys.screenTimeChangeCount) }
+        set { userDefaults.set(newValue, forKey: UserDefaultsKeys.screenTimeChangeCount) }
+    }
+
+    var canChangeScreenTime: Bool {
+        screenTimeChangeCount < cycleType.screenTimeChangeLimit
+    }
+
+    func incrementScreenTimeChangeCount() {
+        screenTimeChangeCount += 1
+    }
+
+    func resetScreenTimeChangeCount() {
+        screenTimeChangeCount = 0
     }
 }
 

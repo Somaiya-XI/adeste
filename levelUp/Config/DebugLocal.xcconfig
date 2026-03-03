@@ -7,6 +7,6 @@
 
 // Configuration settings file format documentation can be found at:
 // https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
-PRODUCT_BUNDLE_IDENTIFIER = adeste.app.local.$(USER)
+PRODUCT_BUNDLE_IDENTIFIER = JKH.Local.adeste.app.local.$(USER)
 CODE_SIGN_STYLE = Automatic
-DEVELOPMENT_TEAM =
+DEVELOPMENT_TEAM =Jory Alkhamees
