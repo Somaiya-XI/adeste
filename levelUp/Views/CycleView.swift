@@ -40,7 +40,6 @@ struct CycleView: View {
                                     // Update cycle in UserManager and dismiss
                                     UserManager.shared.updateCycle(cycle.id)
                                    
-                                    dismiss()
                                 }
 
                                 .tag(index)
