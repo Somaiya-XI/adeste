@@ -209,6 +209,42 @@ struct HabitPickerView: View {
     }
 }
 
+// MARK: - Reusable habit icon (used by HabitCard and OnboardingStepFourView)
+struct HabitCardIconView: View {
+    let icon: HabitCard.IconType
+    var font: Font = .s48Heavy
+    var customImageSize: CGFloat = 70
+
+    var body: some View {
+        Group {
+            switch icon {
+            case .system(let systemName):
+                Image(systemName: systemName)
+                    .font(font)
+                    .foregroundColor(Color("brand-color"))
+            case .custom(let imageName):
+                Image(imageName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: customImageSize, height: customImageSize)
+                    .foregroundColor(Color("brand-color"))
+            case .doubleBottle:
+                HStack(spacing: 4) {
+                    Image(systemName: "waterbottle.fill")
+                        .font(font)
+                        .foregroundColor(Color("brand-color"))
+                    Image(systemName: "waterbottle.fill")
+                        .font(font)
+                        .foregroundColor(Color("brand-color"))
+                }
+            case .singleBottle:
+                Image(systemName: "waterbottle.fill")
+                    .font(font)
+                    .foregroundColor(Color("brand-color"))
+            }
+        }
+    }
+}
 
 struct HabitCard: View {
     let title: String
@@ -216,13 +252,14 @@ struct HabitCard: View {
     let isSelected: Bool
     var isWide: Bool = false
     let action: () -> Void
-    
+
     enum IconType {
         case system(String)
         case custom(String)
         case doubleBottle
+        case singleBottle  // One water bottle (e.g. OnboardingStepFourView "Drink water")
     }
-    
+
     var body: some View {
         Button(action: action) {
             if isWide {
@@ -231,11 +268,11 @@ struct HabitCard: View {
                     Image(systemName: "sun.max.fill")
                         .font(.s48Heavy)
                         .foregroundColor(Color("brand-color"))
-                    
+
                     Text(title)
                         .font(.s28Medium)
                         .foregroundColor(Color("brand-color"))
-                    
+
                     Spacer()
                 }
                 .padding(.horizontal, 20)
@@ -251,37 +288,10 @@ struct HabitCard: View {
             } else {
                 VStack(spacing: 12) {
                     Spacer()
-                    
-                    // Icon
-                    Group {
-                        switch icon {
-                        case .system(let systemName):
-                            Image(systemName: systemName)
-                                .font(.s48Heavy)
-                                .foregroundColor(Color("brand-color"))
-                        case .custom(let imageName):
-                            Image(imageName)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 70, height: 70)
-                                .foregroundColor(Color("brand-color"))
-                        case .doubleBottle:
-                            HStack(spacing: 4) {
-                                Image(systemName: "waterbottle.fill")
-                                    .font(.s48Heavy)
-                                    .foregroundColor(Color("brand-color"))
-                                Image(systemName: "waterbottle.fill")
-                                    .font(.s48Heavy)
-                                    .foregroundColor(Color("brand-color"))
-                            }
-                        }
-                    }
-                    
-                    // Title
+                    HabitCardIconView(icon: icon)
                     Text(title)
                         .font(.s28Medium)
                         .foregroundColor(Color("brand-color"))
-                    
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
