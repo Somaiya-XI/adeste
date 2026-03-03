@@ -1,9 +1,3 @@
-//
-//  WakeUpViewModel.swift
-//  adeste
-//
-//  Created by Jory on 23/08/1447 AH.
-//
 
 import Foundation
 import Combine

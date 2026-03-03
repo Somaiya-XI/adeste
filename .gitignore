@@ -126,3 +126,29 @@ Network Trash Folder
 Temporary Items
 .apdisk
 .cursor/
+# =========================
+# Code Injection
+# =========================
+iOSInjectionProject/
+
+# =========================
+# Crashlytics
+# =========================
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# =========================
+# Local Tests
+# =========================
+**/Local Tests/
+
+# =========================
+# Backup/Conflict files
+# =========================
+*~
+*.orig
+# Localizable (temporary)
+**/Localizable.strings
+**/Localizable.xcstrings

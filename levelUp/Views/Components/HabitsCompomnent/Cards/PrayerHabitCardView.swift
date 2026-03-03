@@ -70,19 +70,28 @@ struct PrayerHabitCardView: View {
     }
     
     // Handle check-in with error handling
-    private func handleCheckInTap() {
-        Task {
-            let canCheck = await viewModel.canCheckIn()
-            
-            if canCheck {
-                await viewModel.checkIn()
-            } else if !viewModel.isCheckedIn {
-                // Outside prayer window
-                viewModel.errorMessage = "You can only check in during \(viewModel.currentPrayer.displayName) prayer time."
-                showErrorAlert = true
+        private func handleCheckInTap() {
+            Task {
+                let canCheck = await viewModel.canCheckIn()
+                
+                if canCheck {
+                    await viewModel.checkIn()
+                    
+                    if let allHabits = UserManager.shared.currentUser?.habits {
+                        AppStreakManager.shared.refreshForToday(habits: allHabits)
+                        AppProgressManager.shared.updateProgress(habits: allHabits)
+                    }
+                    
+                    let generator = UINotificationFeedbackGenerator()
+                    generator.notificationOccurred(.success)
+                    AppToastCenter.shared.show(message: "Prayer completed!")
+                } else if !viewModel.isCheckedIn {
+                    // Outside prayer window
+                    viewModel.errorMessage = "You can only check in during \(viewModel.currentPrayer.displayName) prayer time."
+                    showErrorAlert = true
+                }
             }
         }
-    }
 }
 
 #Preview {

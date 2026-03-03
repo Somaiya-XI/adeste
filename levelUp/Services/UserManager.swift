@@ -99,18 +99,6 @@ class UserManager {
         saveUser()
     }
     
-    /// Increment streak
-    func incrementStreak() {
-        currentUser?.streak += 1
-        saveUser()
-    }
-    
-    /// Reset streak
-    func resetStreak() {
-        currentUser?.streak = 0
-        saveUser()
-    }
-    
     // MARK: - Onboarding Management
     
     /// Load onboarding state
@@ -175,3 +163,4 @@ extension EnvironmentValues {
         set { self[UserManagerKey.self] = newValue }
     }
 }
+

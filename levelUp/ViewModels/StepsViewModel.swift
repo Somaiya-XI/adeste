@@ -25,19 +25,14 @@ class StepsViewModel: ObservableObject {
         
     }
     func fetchSteps() {
-        
         isLoading = true
         errorMessage = nil
         
         Task {
             do {
-                print("Requesting HealthKit authorization...")
-                try await HealthManager.shared.requestAuthorization()
                 let steps = try await HealthManager.shared.fetchSteps()
-                
                 self.stepsCount = steps
                 self.isLoading = false
-                
             } catch {
                 self.errorMessage = "Failed to fetch steps"
                 self.isLoading = false

@@ -61,6 +61,10 @@ extension Font {
         .system(size: 16, weight: .semibold, design: .rounded)
     }
 
+    static var s16Regular: Font {
+        .system(size: 16, weight: .regular, design: .rounded)
+    }
+
     static var s14Medium: Font {
         .system(size: 14, weight: .medium, design: .rounded)
     }

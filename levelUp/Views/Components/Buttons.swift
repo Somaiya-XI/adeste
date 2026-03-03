@@ -17,23 +17,33 @@ struct BackButton: View {
                 .font(.s16Semibold)
                 .foregroundStyle(Color("brand-color"))
                 .frame(width: 40, height: 40)
-                .background(Color("base-shade-02").opacity(0.5))
+                .background(Color("base-shade-02"))
                 .clipShape(Circle())
         }
         .buttonStyle(.plain)
     }
 }
 
-struct Buttons: View {
+
+/// Settings button
+struct SettingsButton: View {
+    var action: () -> Void
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button(action: action) {
+            Image(systemName: "gearshape.fill")
+                .font(.s18Medium)
+                .foregroundStyle(Color("brand-color"))
+                .frame(width: 40, height: 40)
+                .background(Color("base-shade-02"))
+                .clipShape(Circle())
+        }
+        .buttonStyle(.plain)
     }
 }
 
 #Preview {
     BackButton(action: {})
+    SettingsButton(action: {})
 }
 
-#Preview("Buttons") {
-    Buttons()
-}
