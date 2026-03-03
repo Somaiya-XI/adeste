@@ -13,6 +13,17 @@ enum CycleType: String, Codable, CaseIterable {
     case basic = "Consistency"
     case advanced = "Foundation"
     case premium = "Growth"
+    
+    var displayName: String { self.rawValue }
+    
+    var screenTimeChangeLimit: Int {
+        switch self {
+        case .starter:  return 1
+        case .basic:    return 2
+        case .advanced: return 3
+        case .premium:  return 3 // decide what premium gets
+        }
+    }
 }
 
 enum CycleDuration: Int, Codable, CaseIterable {
