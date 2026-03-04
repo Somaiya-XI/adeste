@@ -28,7 +28,7 @@ struct ContentView: View {
                         }
                     } else {
                         // Onboarding Flow
-                        OnBoarding()
+                        OnBoarding().background(.baseShade01)
                     }
                 }
             }

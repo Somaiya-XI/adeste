@@ -19,221 +19,186 @@ struct StartCycle: View {
     @State var currentPage = 0
     @State var goToNext: Bool = false
     
-    let userName: String
-    let isChangingCycle: Bool // ✅ هل هو يغير سايكل موجود؟
+    /// Tracks if user came from Settings (onboarding already complete)
+    @State private var isChangingCycle = false
     
-    init(userName: String, isChangingCycle: Bool = false) {
-        self.userName = userName
-        self.isChangingCycle = isChangingCycle
-    }
-    
+    /// Shows confirmation alert before resetting progress
+    @State private var showResetConfirmation = false
+        
     var body: some View {
         @Bindable var vm = vm
-        VStack(spacing: 0) {
-            Text("Find your flow")
-                .font(.system(size: 36, weight: .bold, design: .rounded))
-                .foregroundColor(.brandGrey)
-                .padding(.bottom, 30)
+        GeometryReader{ _ in
+            // Back button
+            Button { dismiss() }
+            label:{ Image(.icBack) }
+            .padding(.top, 12)
+            .padding(.leading, 24)
             
-            VStack {
-                TabView(selection: $currentPage) {
-                    ForEach(Array(cycles.enumerated()), id: \.element.id) { index, cycle in
-                        CycleCard(
-                            cycle: cycle,
-                            onGetStarted: {
-                                vm.currentCycle = cycle
-                                vm.isCompleted = true
-                            },
-                            onGoBack: isChangingCycle ? { dismiss() } : nil // ✅ فقط لو يغير
-                        )
-                        .tag(index)
+            
+            VStack(spacing: 0) {
+                // Top Logo Section
+                VStack(spacing: 10) {
+                    Text("Pick your cycle")
+                        .font(.system(size: 36, weight: .bold, design: .rounded))
+                        .foregroundColor(.brand)
+                    
+                    Text("Detox your doomscrolling at your fingertips")
+                        .font(.s18Medium)
+                        .foregroundStyle(.brandGrey)
+                }.multilineTextAlignment(.center)
+                
+                Spacer()
+                
+                VStack(spacing: 24) {
+                    ForEach(cycles) { cycle in
+                        Button{
+                            vm.currentCycle = cycle
+                            vm.isCompleted = true
+                        } label: {
+                            CycleCard(cycle: cycle, isSelected: vm.currentCycle == cycle)
+                        }
                     }
                 }
-                .tabViewStyle(.page(indexDisplayMode: .never))
-            }
-            
-            PageIndicator(numberOfPages: cycles.count, currentPage: currentPage)
-                .padding(.top, 30)
-            
-            Spacer()
-        }
-        .navigationBarBackButtonHidden(true)
-        .navigationDestination(isPresented: $goToNext) {
-            HabitPickerView(
-                habitLimit: vm.currentCycle?.maxHabits ?? 2,
-                userName: userName,
-                cycleId: vm.currentCycle?.id ?? "",
-                cycleType: vm.currentCycle?.cycleType ?? .starter
-            )
-        }
-        .onAppear {
-            vm.configure(with: modelContext)
-        }
-        .sheet(isPresented: $vm.isCompleted) {
-            ScreenTimeSettingsView()
-                .padding(.horizontal, 16)
-                .padding(.top, 40)
-                .onDisappear {
-                    goToNext = true
-                }
-        }
-    }
-}
-
-
-struct TopRoundedRectangle: Shape {
-    var radius: CGFloat = 30
-
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        let r = min(radius, rect.width / 2, rect.height / 2)
-        path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.minX, y: rect.minY + r))
-        path.addQuadCurve(to: CGPoint(x: rect.minX + r, y: rect.minY),
-                          control: CGPoint(x: rect.minX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.maxX - r, y: rect.minY))
-        path.addQuadCurve(to: CGPoint(x: rect.maxX, y: rect.minY + r),
-                          control: CGPoint(x: rect.maxX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-        path.closeSubpath()
-        return path
-    }
-}
-
-
-// MARK: - CycleCard Component
-struct CycleCard: View {
-    var cycle: Cycle
-    let onGetStarted: () -> Void
-    var onGoBack: (() -> Void)? = nil
-
-    @State private var showConfirmation = false
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            
-            ZStack(alignment: .center) {
-                ZStack(alignment: .bottom) {
-                    HStack(alignment: .bottom) {
-                        Spacer().frame(width: 100)
-                        Text(cycle.title)
-                            .padding(.leading, 8)
-                            .font(.system(size: 24, weight: .heavy, design: .rounded))
-                            .foregroundColor(.brand)
-                        Spacer()
-                    }
-                    .padding(.horizontal, 28)
-                    .frame(height: 100)
-                    .background(.baseShade02)
-                    .clipShape(TopRoundedRectangle(radius: 24))
-
-                    HStack {
-                        Image(cycle.image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 140)
-                            .offset(x: -100)
-                    }
-                }
-            }
-
-            VStack(alignment: .leading, spacing: 0) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Know your cycle")
-                        .font(.s24Medium)
-                        .foregroundColor(.brandGrey)
-                        .padding(.bottom, 8)
-
-                    Text(cycle.desc)
-                        .font(.system(size: 14, weight: .light, design: .rounded))
-                        .multilineTextAlignment(.leading)
-                        .foregroundColor(.brandGrey.opacity(0.9))
-                }
-                .padding(.top, 24)
-                .padding(.bottom, 32)
-
-                HStack(alignment: .center, spacing: 4) {
-                    Image(systemName: "cloud.rainbow.crop")
-                        .symbolRenderingMode(.hierarchical)
-                        .font(.system(size: 27, weight: .semibold))
-                        .foregroundStyle(.secColorBerry)
-
-                    Text("Build up to \(cycle.maxHabits) habits")
-                        .font(.system(size: 16, weight: .heavy, design: .rounded))
-                        .foregroundStyle(.secColorPink)
-                }
-                .foregroundStyle(.secColorPink)
-
-                VStack(alignment: .leading, spacing: 12) {
-                }.padding(.bottom, 30)
-
+                
+                
+                
+                Spacer()
+                // Continue Button
                 Button {
-                    if onGoBack != nil {
-                        showConfirmation = true // ✅ يطلع alert لو يغير سايكل
-                    } else {
-                        onGetStarted() // ✅ يكمل مباشرة لو أول مرة
+                    if vm.currentCycle != nil {
+                        if isChangingCycle {
+                            // Show confirmation before resetting progress
+                            showResetConfirmation = true
+                        } else {
+                            vm.isCompleted = true
+                            goToNext = true
+                        }
                     }
                 } label: {
-                    Text("Get Started")
+                    Text("Continue")
                         .font(.s18Semibold)
-                        .foregroundColor(.brand)
+                        .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
-                        .frame(height: 54)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(Color(red: 0.35, green: 0.08, blue: 0.08), lineWidth: 2.5)
-                        }
+                        .frame(height: 52)
+                        .background(RoundedRectangle(cornerRadius: 32)
+                            .fill(vm.currentCycle != nil ? .brand : .gray))
                 }
-                .padding(.bottom, 34)
-            }
-            .padding(.horizontal, 28)
-            .frame(maxWidth: .infinity, alignment: .topLeading)
-            .background(Color(red: 0.96, green: 0.91, blue: 0.84))
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 24))
-        .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 4)
-        .padding(.horizontal, 28)
-        .alert("Start a New Cycle?", isPresented: $showConfirmation) {
-            Button("No, Go Back", role: .cancel) {
-                onGoBack?()
-            }
+                .disabled(vm.currentCycle == nil)
+            }.padding(.top, 68)
+                .padding(.bottom, 26)
+                .padding(.horizontal, 56)
+            
+                .navigationDestination(isPresented: $goToNext) {
+                    
+                if let cycle = vm.currentCycle {
+                    
+                    if UserManager.shared.isOnboardingComplete {
+                        OnboardingStepFourView(cycle: cycle)
+
+                    } else {
+                        OnboardingStepThreeView(cycle: cycle)
+                        }
+                    }
+                }
+                .onAppear {
+                    vm.configure(with: modelContext)
+                    UserManager.shared.loadOnboardingState()
+                    // Capture if user is already onboarded (changing cycle from settings)
+                    isChangingCycle = UserManager.shared.isOnboardingComplete
+                }
+                .onChange(of: goToNext) { oldValue, newValue in
+                    // When returning from child view (goToNext false after being true)
+                    // and we're changing cycle, dismiss back to Settings
+                    if oldValue == true && newValue == false && isChangingCycle {
+                        dismiss()
+                    }
+                }
+        }.background(.baseShade01)
+        .navigationBarBackButtonHidden(true)
+        // Confirmation alert - warns before resetting progress
+        .alert("Start a New Cycle?", isPresented: $showResetConfirmation) {
+            Button("No, Go Back", role: .cancel) { }
             Button("Yes, Start Fresh", role: .destructive) {
-                onGetStarted()
+                vm.isCompleted = true
+                goToNext = true
             }
         } message: {
             Text("Starting a new cycle will reset all your current progress. Are you sure?")
         }
     }
+    
 }
 
 
-// MARK: - FeatureRow Component
-struct FeatureRow: View {
-    let icon: String
-    let iconColor: Color
-    let text: String
 
+// MARK: - CycleCard Component
+struct CycleCard: View {
+    var cycle: Cycle
+    var isSelected: Bool
+    
     var body: some View {
-        HStack(spacing: 14) {
-            Image(systemName: icon)
-                .font(.s20Medium)
-                .foregroundColor(iconColor)
-                .frame(width: 28, height: 28)
-
-            Text(text)
-                .font(.s18Medium)
-                .foregroundColor(iconColor)
+        VStack(alignment: .leading, spacing:32) {
+            
+            HStack{
+                Text("\(cycle.title) Cycle")
+                    .padding(.leading, 8)
+                    .font(.system(size: 20, weight: .semibold, design: .rounded))
+                    .foregroundColor(.brand)
+                Spacer()
+            }
+            
+            
+            
+            if isSelected {
+                HStack(alignment: .top){
+                    // Icons
+                    VStack(alignment: .center){
+                        
+                        Image(systemName: "cloud.rainbow.crop")
+                            .symbolRenderingMode(.hierarchical)
+                            .font(.system(size: 22, weight: .medium))
+                            .foregroundStyle(.secColorBerry)
+                        
+                        Image(systemName: "hourglass")
+                            .symbolRenderingMode(.hierarchical)
+                            .font(.system(size: 24, weight: .medium))
+                            .foregroundStyle(.secColorBerry)
+                    }
+                    
+                    // Text
+                    VStack(alignment: .leading){
+                        Text("Build up to \(cycle.maxHabits) habits")
+                            .font(.system(size: 18, weight: .light, design: .rounded))
+                            .foregroundStyle(.brand)
+                            .padding(.bottom, 1)
+                        
+                        
+                        Text("\(cycle.cycleDuration.rawValue) days journey")
+                            .font(.system(size: 18, weight: .light, design: .rounded))
+                            .foregroundStyle(.brand)
+                        
+                    }.multilineTextAlignment(.center)
+                }
+                
+            }
+            
+            
         }
-        .padding(.vertical, 2)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 26)
+        .background(.baseShade02)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(isSelected ? .brand : Color.clear, lineWidth: 2.5)
+        )
     }
 }
-
-
 // MARK: - PageIndicator Component
 struct PageIndicator: View {
     let numberOfPages: Int
     let currentPage: Int
-
+    
     var body: some View {
         HStack(spacing: 8) {
             ForEach(0..<numberOfPages, id: \.self) { index in
@@ -252,6 +217,7 @@ struct PageIndicator: View {
 
 // MARK: - Preview
 #Preview {
-    StartCycle(userName: "Test", isChangingCycle: true)
+    StartCycle()
         .modelContainer(previewContainer2)
+    
 }
