@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
@@ -16,8 +17,8 @@ struct SettingsView: View {
     @State private var showPrivacyPolicy = false
     @State private var wakeUpTime = Date()
     @State private var stepGoal = 8000
-    @State private var showChangeCycle = false
     @State private var showScreenTimeLimitAlert = false
+    @State private var navigateToChangeCycle = false
     
     private let appLink = URL(string: "https://apple.com")!
     
@@ -43,7 +44,7 @@ struct SettingsView: View {
                     settingsSection(title: "PREFERENCES") {
                         
                         Button {
-                            showChangeCycle = true
+                            navigateToChangeCycle = true
                         } label: {
                             settingsRow(title: "Change Cycle", icon: "arrow.triangle.2.circlepath")
                         }
@@ -146,7 +147,12 @@ struct SettingsView: View {
         .navigationBarBackButtonHidden(true)
         .background(Color.white.ignoresSafeArea())
         
-        // 1. Screen Time ✅ only once, with onDismiss
+        // ✅ navigationDestination لـ StartCycle
+        .navigationDestination(isPresented: $navigateToChangeCycle) {
+            StartCycle(userName: UserManager.shared.userName, isChangingCycle: true)
+        }
+        
+        // 1. Screen Time
         .sheet(isPresented: $showScreenTime, onDismiss: {
             UserManager.shared.incrementScreenTimeChangeCount()
         }) {
@@ -171,17 +177,7 @@ struct SettingsView: View {
             PrivacyPolicyView()
         }
         
-        // 4. Change Cycle
-        .fullScreenCover(isPresented: $showChangeCycle) {
-            NavigationStack {
-                StartCycle(userName: UserManager.shared.userName) {
-                    UserManager.shared.resetScreenTimeChangeCount()
-                    showChangeCycle = false
-                }
-            }
-        }
-        
-        // 5. Limit Alert
+        // 4. Limit Alert
         .alert("Limit Reached", isPresented: $showScreenTimeLimitAlert) {
             Button("OK", role: .cancel) {}
         } message: {
@@ -190,7 +186,7 @@ struct SettingsView: View {
     }
     
     // ==========================================
-    // MARK: - UI Helpers  ✅ inside the struct
+    // MARK: - UI Helpers
     // ==========================================
     
     @ViewBuilder
@@ -243,7 +239,7 @@ struct SettingsView: View {
         .padding(.vertical, 16)
         .contentShape(Rectangle())
     }
-}  // ✅ struct closes here, BEFORE the extension
+}
 
 extension UINavigationController: UIGestureRecognizerDelegate {
     override open func viewDidLoad() {

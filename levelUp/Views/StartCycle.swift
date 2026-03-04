@@ -10,6 +10,7 @@ import SwiftData
 
 struct StartCycle: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) var dismiss
     @Query(sort: [
         SortDescriptor(\Cycle.title),
     ]) var cycles: [Cycle]
@@ -17,9 +18,15 @@ struct StartCycle: View {
     @State var vm: CycleViewModel = .init()
     @State var currentPage = 0
     @State var goToNext: Bool = false
-   
+    
     let userName: String
-    var onComplete: (() -> Void)? = nil
+    let isChangingCycle: Bool // ✅ هل هو يغير سايكل موجود؟
+    
+    init(userName: String, isChangingCycle: Bool = false) {
+        self.userName = userName
+        self.isChangingCycle = isChangingCycle
+    }
+    
     var body: some View {
         @Bindable var vm = vm
         VStack(spacing: 0) {
@@ -31,11 +38,14 @@ struct StartCycle: View {
             VStack {
                 TabView(selection: $currentPage) {
                     ForEach(Array(cycles.enumerated()), id: \.element.id) { index, cycle in
-                        // ✅ بدون onGoBack — أول مرة، ما يطلع alert
-                        CycleCard(cycle: cycle, onGetStarted: {
-                            vm.currentCycle = cycle
-                            vm.isCompleted = true
-                        })
+                        CycleCard(
+                            cycle: cycle,
+                            onGetStarted: {
+                                vm.currentCycle = cycle
+                                vm.isCompleted = true
+                            },
+                            onGoBack: isChangingCycle ? { dismiss() } : nil // ✅ فقط لو يغير
+                        )
                         .tag(index)
                     }
                 }
@@ -53,8 +63,7 @@ struct StartCycle: View {
                 habitLimit: vm.currentCycle?.maxHabits ?? 2,
                 userName: userName,
                 cycleId: vm.currentCycle?.id ?? "",
-                cycleType: vm.currentCycle?.cycleType ?? .starter,
-                onComplete: onComplete 
+                cycleType: vm.currentCycle?.cycleType ?? .starter
             )
         }
         .onAppear {
@@ -96,7 +105,7 @@ struct TopRoundedRectangle: Shape {
 struct CycleCard: View {
     var cycle: Cycle
     let onGetStarted: () -> Void
-    var onGoBack: (() -> Void)? = nil  // ✅ اختياري
+    var onGoBack: (() -> Void)? = nil
 
     @State private var showConfirmation = false
 
@@ -160,11 +169,9 @@ struct CycleCard: View {
 
                 Button {
                     if onGoBack != nil {
-                        // ✅ تغيير سايكل — يطلع alert
-                        showConfirmation = true
+                        showConfirmation = true // ✅ يطلع alert لو يغير سايكل
                     } else {
-                        // ✅ أول مرة — يكمل مباشرة
-                        onGetStarted()
+                        onGetStarted() // ✅ يكمل مباشرة لو أول مرة
                     }
                 } label: {
                     Text("Get Started")
@@ -186,7 +193,6 @@ struct CycleCard: View {
         .clipShape(RoundedRectangle(cornerRadius: 24))
         .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 4)
         .padding(.horizontal, 28)
-        // ✅ الـ alert — فقط لما onGoBack موجود
         .alert("Start a New Cycle?", isPresented: $showConfirmation) {
             Button("No, Go Back", role: .cancel) {
                 onGoBack?()
@@ -246,6 +252,6 @@ struct PageIndicator: View {
 
 // MARK: - Preview
 #Preview {
-    StartCycle(userName: "Test")
+    StartCycle(userName: "Test", isChangingCycle: true)
         .modelContainer(previewContainer2)
 }
