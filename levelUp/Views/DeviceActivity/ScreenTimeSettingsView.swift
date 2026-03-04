@@ -66,7 +66,7 @@ struct ScreenTimeSettingsView: View {
                     }
                     
                     VStack{
-                        Button(activityManager.isMonitoring ? "Update" : "Start"){
+                        Button {
                             do {
                                 try activityManager.startMonitoring(
                                     apps: selectedApps,
@@ -77,26 +77,19 @@ struct ScreenTimeSettingsView: View {
                             } catch {
                                 self.error = error.localizedDescription
                             }
+                        } label: {
+                            Text(activityManager.isMonitoring ? "Update" : "Start")
+                                .font(.s24Semibold)
+                                .foregroundStyle(.baseShade01)
+                                .frame(maxWidth: .infinity)
+                                .padding(16)
+                                .background(.brand)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
-                        .font(.s24Semibold)
-                        .padding(16)
-                        .foregroundStyle(.baseShade01)
-                        
-                    }
-                    .frame(width: w * 0.88)
-                    .background(.brand)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .padding(.top, 28)
+                        .frame(width: w * 0.88)
+                        .padding(.top, 28)}
+
                     
-//                    if activityManager.isMonitoring {
-//                        Button("Stop Monitoring") {
-//                            activityManager.stopMonitoring()
-//                        }
-//                        .foregroundStyle(.red)
-//                        .frame(maxWidth: .infinity)
-//                        .padding(.top, 8)
-//                    }
-//                    
                     if let error = error {
                         Text(error)
                             .foregroundStyle(.red)
