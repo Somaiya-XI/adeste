@@ -20,44 +20,35 @@ struct CycleView: View {
     
     var body: some View {
         @Bindable var vm = vm
-        GeometryReader {
-            let size = $0.size
+        
+        VStack(spacing: 0) {
+            Text("Find your flow")
+                .font(.system(size: 36, weight: .bold, design: .rounded))
+                .foregroundColor(.brandGrey)
+                .padding(.bottom, 30)
             
-            VStack(spacing: 0) {
-                    // Top Logo Section
-                    Text("Find your flow")
-                        .font(.system(size: 36, weight: .bold, design: .rounded))
-                        .foregroundColor(.brandGrey)
-                        .padding(.bottom, 30)
-                    
-                    // Card Carousel
-                    VStack {
-                        
-                        // Main cards - Limits
-                        TabView(selection: $currentPage) {
-                            ForEach(Array(cycles.enumerated()), id: \.element.id) { index, cycle in
-                                CycleCard(cycle: cycle) {
-                                    // Update cycle in UserManager and dismiss
-                                    UserManager.shared.updateCycle(cycle.id)
-                                    dismiss()
-                                }
-                                .tag(index)
-                            }
-                        }
-                        .tabViewStyle(.page(indexDisplayMode: .never))
+            VStack {
+                TabView(selection: $currentPage) {
+                    ForEach(Array(cycles.enumerated()), id: \.element.id) { index, cycle in
+                        CycleCard(cycle: cycle, onGetStarted: {
+                            UserManager.shared.updateCycle(cycle.id)
+                            dismiss()
+                        }, onGoBack: {
+                            dismiss() 
+                        })
+                        .tag(index)
                     }
-                    // Page Indicator
-                    PageIndicator(numberOfPages: cycles.count, currentPage: currentPage)
-                        .padding(.top, 30)
-                    
-                Spacer()
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
             }
             
+            PageIndicator(numberOfPages: cycles.count, currentPage: currentPage)
+                .padding(.top, 30)
+            
+            Spacer()
         }
         .onAppear {
             vm.configure(with: modelContext)
-            
         }
     }
 }
-

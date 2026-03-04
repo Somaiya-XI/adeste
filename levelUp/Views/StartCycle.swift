@@ -23,28 +23,25 @@ struct StartCycle: View {
     var body: some View {
         @Bindable var vm = vm
         VStack(spacing: 0) {
-            // Top Logo Section
             Text("Find your flow")
                 .font(.system(size: 36, weight: .bold, design: .rounded))
                 .foregroundColor(.brandGrey)
                 .padding(.bottom, 30)
             
-            // Card Carousel
             VStack {
-                
-                // Main cards - Limits
                 TabView(selection: $currentPage) {
                     ForEach(Array(cycles.enumerated()), id: \.element.id) { index, cycle in
-                        CycleCard(cycle: cycle) {
+                        // ✅ بدون onGoBack — أول مرة، ما يطلع alert
+                        CycleCard(cycle: cycle, onGetStarted: {
                             vm.currentCycle = cycle
                             vm.isCompleted = true
-                        }
+                        })
                         .tag(index)
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
             }
-            // Page Indicator
+            
             PageIndicator(numberOfPages: cycles.count, currentPage: currentPage)
                 .padding(.top, 30)
             
@@ -61,7 +58,6 @@ struct StartCycle: View {
         }
         .onAppear {
             vm.configure(with: modelContext)
-
         }
         .sheet(isPresented: $vm.isCompleted) {
             ScreenTimeSettingsView()
@@ -72,7 +68,6 @@ struct StartCycle: View {
                 }
         }
     }
-    
 }
 
 
@@ -96,43 +91,42 @@ struct TopRoundedRectangle: Shape {
 }
 
 
-// CycleCard Component
+// MARK: - CycleCard Component
 struct CycleCard: View {
     var cycle: Cycle
-
     let onGetStarted: () -> Void
+    var onGoBack: (() -> Void)? = nil  // ✅ اختياري
+
+    @State private var showConfirmation = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             
             ZStack(alignment: .center) {
-                ZStack(alignment: .bottom){
-                                            
-                    // Header Section
-                    HStack(alignment:.bottom) {
+                ZStack(alignment: .bottom) {
+                    HStack(alignment: .bottom) {
                         Spacer().frame(width: 100)
                         Text(cycle.title)
                             .padding(.leading, 8)
                             .font(.system(size: 24, weight: .heavy, design: .rounded))
                             .foregroundColor(.brand)
                         Spacer()
+                    }
+                    .padding(.horizontal, 28)
+                    .frame(height: 100)
+                    .background(.baseShade02)
+                    .clipShape(TopRoundedRectangle(radius: 24))
 
-                    }.padding(.horizontal, 28)
-                        .frame(height: 100)
-                        .background(.baseShade02)
-                        .clipShape(TopRoundedRectangle(radius: 24))
-
-                    HStack{
+                    HStack {
                         Image(cycle.image)
                             .resizable()
                             .scaledToFit()
                             .frame(height: 140)
                             .offset(x: -100)
                     }
-                    
                 }
             }
-            // Content Section
+
             VStack(alignment: .leading, spacing: 0) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Know your cycle")
@@ -149,35 +143,37 @@ struct CycleCard: View {
                 .padding(.bottom, 32)
 
                 HStack(alignment: .center, spacing: 4) {
-                  Image(systemName: "cloud.rainbow.crop")
+                    Image(systemName: "cloud.rainbow.crop")
                         .symbolRenderingMode(.hierarchical)
                         .font(.system(size: 27, weight: .semibold))
                         .foregroundStyle(.secColorBerry)
 
-
                     Text("Build up to \(cycle.maxHabits) habits")
                         .font(.system(size: 16, weight: .heavy, design: .rounded))
                         .foregroundStyle(.secColorPink)
-                    
-                }.foregroundStyle(.secColorPink)
+                }
+                .foregroundStyle(.secColorPink)
 
-                
                 VStack(alignment: .leading, spacing: 12) {
-                    
-                    
                 }.padding(.bottom, 30)
 
-                // Get Started Button
                 Button {
-                    onGetStarted()
+                    if onGoBack != nil {
+                        // ✅ تغيير سايكل — يطلع alert
+                        showConfirmation = true
+                    } else {
+                        // ✅ أول مرة — يكمل مباشرة
+                        onGetStarted()
+                    }
                 } label: {
                     Text("Get Started")
                         .font(.s18Semibold)
                         .foregroundColor(.brand)
                         .frame(maxWidth: .infinity)
                         .frame(height: 54)
-                        .overlay{
-                            RoundedRectangle(cornerRadius: 12) .stroke(Color(red: 0.35, green: 0.08, blue: 0.08), lineWidth: 2.5)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color(red: 0.35, green: 0.08, blue: 0.08), lineWidth: 2.5)
                         }
                 }
                 .padding(.bottom, 34)
@@ -189,10 +185,22 @@ struct CycleCard: View {
         .clipShape(RoundedRectangle(cornerRadius: 24))
         .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 4)
         .padding(.horizontal, 28)
+        // ✅ الـ alert — فقط لما onGoBack موجود
+        .alert("Start a New Cycle?", isPresented: $showConfirmation) {
+            Button("No, Go Back", role: .cancel) {
+                onGoBack?()
+            }
+            Button("Yes, Start Fresh", role: .destructive) {
+                onGetStarted()
+            }
+        } message: {
+            Text("Starting a new cycle will reset all your current progress. Are you sure?")
+        }
     }
 }
 
-// FeatureRow Component
+
+// MARK: - FeatureRow Component
 struct FeatureRow: View {
     let icon: String
     let iconColor: Color
@@ -212,6 +220,7 @@ struct FeatureRow: View {
         .padding(.vertical, 2)
     }
 }
+
 
 // MARK: - PageIndicator Component
 struct PageIndicator: View {
@@ -233,9 +242,9 @@ struct PageIndicator: View {
     }
 }
 
+
 // MARK: - Preview
 #Preview {
     StartCycle(userName: "Test")
         .modelContainer(previewContainer2)
-
 }
