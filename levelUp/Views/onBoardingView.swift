@@ -14,15 +14,15 @@ struct OnBoarding: View {
     
     var body: some View {
         NavigationStack {
-            StartingView(onContinue: { name in
-                userName = name
+            StartingView(onContinue: {
                 showStartCycle = true
             })
             .navigationDestination(isPresented: $showStartCycle) {
-                StartCycle(userName: userName)
-                    .frame(height: 600)
+                StartCycle().modelContainer(previewContainer2)
+
             }
         }
+            .background(.baseShade01)
     }
 }
 
@@ -33,80 +33,56 @@ struct OnBoarding: View {
 }
 
 struct StartingView: View {
-    @State private var userName: String = ""
-    @FocusState private var isNameFocused: Bool
-    
-    @State var onContinue: (String) -> Void
+    @State var onContinue:() -> Void
     
     var body: some View {
         GeometryReader { geo in
             let size = geo.size
             let w = size.width
-            
-            VStack(alignment: .center, spacing: 24) {
-                Spacer()
+           
+            VStack(spacing: 60) {
                 
-                HStack(alignment: .center, spacing: -8) {
+                VStack(spacing: 0) {
+                    Text("Adeste")
+                        .font(.custom("TBJ Matte Nature DEMO", size: 80, relativeTo: .largeTitle))
+                        .foregroundStyle(.brand)
+                        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
+
+                    Text("Detox your doomscrolling at your fingertips")
+                        .font(.s18Medium)
+                        .foregroundStyle(.brandGrey)
+                }.multilineTextAlignment(.center)
+
                     Image("im_mc")
                         .resizable()
                         .scaledToFit()
-                        .offset(x: -10)
-                        .frame(width: w * 0.25)
-                    
-                    Text("Hi, Ade wants to know your name")
-                        .font(.s24Medium)
-                        .foregroundStyle(.secColorBerry)
-                }
+                        .frame(width: w * 0.49)
                 
-                VStack {
-                    TextField("Enter your name", text: $userName)
-                        .font(.s20Medium)
-                        .foregroundStyle(Color("brand-color"))
-                        .textFieldStyle(.plain)
-                        .textInputAutocapitalization(.words)
-                        .focused($isNameFocused)
-                        .submitLabel(.continue)
-                        .onSubmit {
-                            if !userName.trimmingCharacters(in: .whitespaces).isEmpty {
-                                onContinue(userName)
-                            }
-                        }
-                    
-                    Rectangle()
-                        .fill(.brand)
-                        .frame(height: 1)
-                }
-                .padding(.leading, 26)
-                .frame(maxWidth: w * 0.9)
+                Spacer()
+
                 
                 // Continue Button
                 Button {
-                    if !userName.trimmingCharacters(in: .whitespaces).isEmpty {
-                        onContinue(userName)
-                    }
+onContinue()
                 } label: {
-                    Text("Continue")
+                    Text("Begin")
                         .font(.s18Semibold)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
-                        .frame(height: 54)
+                        .frame(height: 52)
                         .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(userName.trimmingCharacters(in: .whitespaces).isEmpty ? Color.gray : Color.brand)
+                            RoundedRectangle(cornerRadius: 32)
+                                .fill(Color.brand)
                         )
                 }
-                .disabled(userName.trimmingCharacters(in: .whitespaces).isEmpty)
-                .padding(.horizontal, 26)
-                .padding(.top, 20)
-                
-                Spacer()
-                Spacer()
+
+               
             }
-            .frame(maxWidth: w * 0.9)
+            .padding(.top, 145)
+                .padding(.bottom, 26)
+                .padding(.horizontal, 56)
             .frame(maxWidth: .infinity)
         }
-        .onAppear {
-            isNameFocused = true
-        }
+
     }
 }

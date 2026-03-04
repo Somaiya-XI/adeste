@@ -159,10 +159,15 @@ extension DeviceActivityManager {
             do {
                 try await center.requestAuthorization(for: .individual)
             } catch {
-                print("❌ Authorization failed: \(error)")
+                print("❌ Authorization failed: \(error) \(center.authorizationStatus)")
             }
         } else if center.authorizationStatus == .approved {
             print("✅ Family control approved")
         }
+    }
+    
+    func getAuthorizationStatus() -> Bool {
+        let center = AuthorizationCenter.shared
+        return center.authorizationStatus == .approved
     }
 }

@@ -28,45 +28,84 @@ struct ScreenTimeSettingsView: View {
                 let w = size.width
                 let h = size.height
                 
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("Set your daily limit")
-                        .foregroundStyle(.brand)
-                        .font(.s24Medium)
-                        .frame(maxWidth: .infinity)
-                        .padding(.bottom, 28)
-                    
-                    VStack{
-                        ThresholdView(thresholdTimeHour: $thresholdTimeHour, thresholdTimeMin: $thresholdTimeMin)
-                    }.frame(width: w * 0.88, height: h * 0.2)
-                        .background(.baseShade01)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                    
-                    VStack{
-                        Button {
-                            isPresented = true
-                        } label: {
-                            HStack{
-                                Text("Add activities to track")
-                                    .font(.s20Medium)
-                                Spacer()
-                                Image(consts.chevronRight)
-                            }.padding(16)
-                                .foregroundStyle(.secColorBerry)
+                VStack(spacing: 0) {
+                        
+                        VStack(alignment: .leading, spacing: 16) {
+                            
+                            Text("Set your daily screen limit")
+                                .font(.system(size: 20, weight: .semibold))
+                                .fontDesign(.rounded)
+                                .foregroundStyle(Color("brand-color"))
+                            
+                            
+                            VStack(alignment: .leading, spacing: 0) {
+                                HStack(spacing: 16) {
+                                    Image(systemName: "hourglass.badge.lock")
+                                        .font(.system(size: 18))
+                                        .foregroundStyle(Color("brand-color"))
+                                        .frame(width: 24)
+                                    
+                                        Text("Set time limit")
+                                            .font(.s16Medium)
+                                            .foregroundStyle(Color("brand-color"))
+                                        
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 16)
+                        
+                                
+                                    VStack{
+                                        ThresholdView(thresholdTimeHour: $thresholdTimeHour, thresholdTimeMin: $thresholdTimeMin)
+                                    }
+                                    .frame(height: h * 0.2)
+                                    .foregroundStyle(.secColorBerry)
+
+                                    
+                            
+                                    
+                                    Button {
+                                        isPresented = true
+                                    } label: {
+                                        HStack(spacing: 16) {
+                                            Image(systemName: "lock.app.dashed")
+                                                .font(.system(size: 22))
+                                                .foregroundStyle(Color("brand-color"))
+                                                .frame(width: 24)
+                                                .padding(.bottom, 8)
+                                            VStack(alignment: .leading){
+                                                Text("Select apps to limit")
+                                                    .font(.s16Medium)
+                                                    .foregroundStyle(Color("brand-color"))
+                                                
+                                                Text(" ~\(activityManager.selectedActivities.applicationTokens.count + activityManager.selectedActivities.categoryTokens.count) selected \(activityManager.selectedActivities.applicationTokens.count + activityManager.selectedActivities.categoryTokens.count == 1 ? "activity": "activities") ")
+                                                    .font(.caption2)
+                                                    .fontDesign(.rounded)
+                                                    .foregroundStyle(.brandGrey)
+                                            }
+                                            Spacer()
+                                           
+                                            Image(.icChevron)
+                                                    .foregroundStyle(.gray)
+                                            
+                                        }
+                                        .padding(.horizontal, 16)
+                                        .padding(.vertical, 16)
+                                        .contentShape(Rectangle())
+                                        
+                                    }
+                                    .buttonStyle(.plain)
+                             
+                            }
+                            .background(.baseShade01)
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
                         }
                         
-                    }.frame(width: w * 0.88)
-                        .background(.baseShade01)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
                     
-                    // Show selected apps count
-                    if !selectedApps.applicationTokens.isEmpty || !selectedApps.categoryTokens.isEmpty {
-                        Text("\(selectedApps.applicationTokens.count) apps, \(selectedApps.categoryTokens.count) categories selected")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
+                
+                    Spacer()
+
                     
-                    VStack{
-                        Button(activityManager.isMonitoring ? "Update" : "Start"){
+                    Button{
                             do {
                                 try activityManager.startMonitoring(
                                     apps: selectedApps,
@@ -77,16 +116,17 @@ struct ScreenTimeSettingsView: View {
                             } catch {
                                 self.error = error.localizedDescription
                             }
+                        } label: {
+                            Text(activityManager.isMonitoring ? "Update" : "Start")
+                                .font(.s18Semibold)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 52)
+                                    .background(RoundedRectangle(cornerRadius: 32)
+                                        .fill(.brand))
                         }
-                        .font(.s24Semibold)
-                        .padding(16)
-                        .foregroundStyle(.baseShade01)
                         
-                    }
-                    .frame(width: w * 0.88)
-                    .background(.brand)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .padding(.top, 28)
+                   
                     
 //                    if activityManager.isMonitoring {
 //                        Button("Stop Monitoring") {
@@ -104,6 +144,8 @@ struct ScreenTimeSettingsView: View {
                     }
                     
                 }.padding(.horizontal, 24)
+                    .padding(.top, 24)
+                    .padding(.bottom, 26)
             }
             .navigationBarBackButtonHidden(true)
             .onAppear {
@@ -127,6 +169,41 @@ struct ScreenTimeSettingsView: View {
             .familyActivityPicker(isPresented: $isPresented, selection: $selectedApps)
         }
     }
+}
+
+
+public var customDivider: some View {
+    Divider()
+        .background(Color.gray.opacity(0.3))
+        .padding(.leading, 56)
+}
+
+public func settingsRow(title: String, icon: String, trailingText: String? = nil, showChevron: Bool = true) -> some View {
+    HStack(spacing: 16) {
+        Image(systemName: icon)
+            .font(.system(size: 18))
+            .foregroundStyle(Color("brand-color"))
+            .frame(width: 24)
+        
+        Text(title)
+            .font(.s16Medium)
+            .foregroundStyle(Color("brand-color"))
+        
+        Spacer()
+        
+        if let text = trailingText {
+            Text(text)
+                .font(.s14Medium)
+                .foregroundStyle(Color("sec-color-pink"))
+        }
+        else if showChevron {
+            Image("ic_chevron")
+                .foregroundStyle(.gray)
+        }
+    }
+    .padding(.horizontal, 16)
+    .padding(.vertical, 16)
+    .contentShape(Rectangle())
 }
 
 #Preview {

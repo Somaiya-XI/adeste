@@ -36,12 +36,12 @@ struct CycleView: View {
                         // Main cards - Limits
                         TabView(selection: $currentPage) {
                             ForEach(Array(cycles.enumerated()), id: \.element.id) { index, cycle in
-                                CycleCard(cycle: cycle) {
-                                    // Update cycle in UserManager and dismiss
-                                    UserManager.shared.updateCycle(cycle.id)
-                                    dismiss()
-                                }
-                                .tag(index)
+//                                CycleCard(cycle: cycle) {
+//                                    // Update cycle in UserManager and dismiss
+//                                    UserManager.shared.updateCycle(cycle.id)
+//                                    dismiss()
+//                                }
+//                                .tag(index)
                             }
                         }
                         .tabViewStyle(.page(indexDisplayMode: .never))

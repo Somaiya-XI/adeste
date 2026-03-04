@@ -41,7 +41,7 @@ struct SettingsView: View {
                     
                     // 1. SECTION: PREFERENCES
                     settingsSection(title: "PREFERENCES") {
-                        NavigationLink(destination: CycleView()) {
+                        NavigationLink(destination: StartCycle()) {
                             settingsRow(title: "Change Cycle", icon: "arrow.triangle.2.circlepath")
                         }
                         .buttonStyle(.plain)
@@ -163,7 +163,7 @@ struct SettingsView: View {
     // ==========================================
     
     @ViewBuilder
-    private func settingsSection(title: String, @ViewBuilder content: () -> some View) -> some View {
+    public func settingsSection(title: String, @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.system(size: 13, weight: .semibold))
@@ -180,14 +180,14 @@ struct SettingsView: View {
         }
     }
     
-    private var customDivider: some View {
+    public var customDivider: some View {
         Divider()
             .background(Color.gray.opacity(0.3))
             .padding(.leading, 56)
     }
     
     // 🛠️ دالة مبرمجة بذكاء عشان تقبل السهم أو النص بناءً على اللي تحتاجينه
-    private func settingsRow(title: String, icon: String, trailingText: String? = nil, showChevron: Bool = true) -> some View {
+    public func settingsRow(title: String, icon: String, trailingText: String? = nil, showChevron: Bool = true) -> some View {
         HStack(spacing: 16) {
             Image(systemName: icon)
                 .font(.system(size: 18))
