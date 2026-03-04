@@ -1,4 +1,10 @@
 # =========================
+# Local Signing Configuration
+# =========================
+# Each developer's personal signing settings
+Config/Local.xcconfig
+
+# =========================
 # macOS
 # =========================
 .DS_Store

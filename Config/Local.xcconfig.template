@@ -1,0 +1,18 @@
+//
+//  Local.xcconfig.template  
+//  
+//  INSTRUCTIONS:
+//  1. Copy this file to "Local.xcconfig" (same folder)
+//  2. Fill in YOUR development team ID
+//  3. Never commit Local.xcconfig - it's gitignored
+//
+
+// Your Apple Developer Team ID (10-character string like "ABC123DEF0")
+// Find it at: https://developer.apple.com/account → Membership → Team ID
+DEVELOPMENT_TEAM = YOUR_TEAM_ID_HERE
+
+// Signing style: Automatic or Manual
+CODE_SIGN_STYLE = Automatic
+
+// Optional: Your provisioning profile name (for Manual signing)
+// PROVISIONING_PROFILE_SPECIFIER = 
