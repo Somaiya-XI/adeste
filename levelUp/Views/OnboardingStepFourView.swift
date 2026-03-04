@@ -28,15 +28,20 @@ struct OnboardingStepFourView: View {
     @State private var stepGoal: Int = 8000
     @State private var hasCompletedOnboarding = false
     @State var goToNext: Bool = false
+    
+    /// Tracks if user came from Settings to change cycle (vs initial onboarding)
+    @State private var isChangingCycle = false
 
     // Map habit names to HabitType
     private let habitTypeMap: [String: HabitType] = [
         "Pray": .prayer,
-        "Drink water": .water,
+        "Drink Water": .water,
         "Walk": .steps,
         "Athkar": .athkar,
         "Wake Up": .wakeUp
     ]
+    @State private var showWakeUpTimePopup = false
+    @State private var selectedWakeUpTime = Date()
     
     var body: some View {
         ZStack {
@@ -84,7 +89,11 @@ struct OnboardingStepFourView: View {
                         showGoalSheet = true
                     } else {
                         saveHabitsAndCompleteOnboarding()
-                        goToNext = true
+                        if isChangingCycle {
+                            dismiss()
+                        } else {
+                            goToNext = true
+                        }
                     }
 
                 } label: {
@@ -102,7 +111,10 @@ struct OnboardingStepFourView: View {
             }.padding(.top, 68)
             .padding(.bottom, 26)
             .padding(.horizontal, 56)
-        }.navigationBarBackButtonHidden(showGoalSheet ? true : false)
+        }  .navigationDestination(isPresented: $goToNext) {
+            // Only navigate forward during initial onboarding
+            OnboardingStepFiveView()
+        }.navigationBarBackButtonHidden()
             .sheet(isPresented: $showGoalSheet) {
                 HabitsGoalSheet(
                     selectedHabits: selectedHabits,
@@ -113,15 +125,18 @@ struct OnboardingStepFourView: View {
                 )
                 .presentationDetents([.large])
                 .onDisappear {
-                    saveHabitsAndCompleteOnboarding()
-                    goToNext = true
+                    //saveHabitsAndCompleteOnboarding()
+                    if !isChangingCycle {
+                        
+                        goToNext = true
+                    }
                 }
             }
-            .navigationDestination(isPresented: $goToNext) {
-               OnboardingStepFiveView()
-             
+            .onAppear {
+                UserManager.shared.loadOnboardingState()
+                // Capture if user is already onboarded (changing cycle from settings)
+                isChangingCycle = UserManager.shared.isOnboardingComplete
             }
-            .navigationBarBackButtonHidden()
     }
 
     /// Same toggle logic as PickHabit (HabitPickerView.toggleHabit).
@@ -146,7 +161,10 @@ struct OnboardingStepFourView: View {
         
         // Save all user data at once (single write)
         let userManager = UserManager.shared
-//        userManager.createUser(name: userName)
+        // Create user if doesn't exist
+        if userManager.currentUser == nil {
+            userManager.createUser(name: "")
+        }
         userManager.currentUser?.currentCycleId = cycle.id
         userManager.currentUser?.habits = habits
         userManager.saveUser()
@@ -158,7 +176,6 @@ struct OnboardingStepFourView: View {
             }
         }
         
-        userManager.completeOnboarding()
     }
 }
 

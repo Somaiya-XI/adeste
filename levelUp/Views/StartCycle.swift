@@ -18,6 +18,9 @@ struct StartCycle: View {
     @State var vm: CycleViewModel = .init()
     @State var currentPage = 0
     @State var goToNext: Bool = false
+    
+    /// Tracks if user came from Settings (onboarding already complete)
+    @State private var isChangingCycle = false
         
     var body: some View {
         @Bindable var vm = vm
@@ -92,6 +95,15 @@ struct StartCycle: View {
                 .onAppear {
                     vm.configure(with: modelContext)
                     UserManager.shared.loadOnboardingState()
+                    // Capture if user is already onboarded (changing cycle from settings)
+                    isChangingCycle = UserManager.shared.isOnboardingComplete
+                }
+                .onChange(of: goToNext) { oldValue, newValue in
+                    // When returning from child view (goToNext false after being true)
+                    // and we're changing cycle, dismiss back to Settings
+                    if oldValue == true && newValue == false && isChangingCycle {
+                        dismiss()
+                    }
                 }
         }.background(.baseShade01)
 .navigationBarBackButtonHidden(true)

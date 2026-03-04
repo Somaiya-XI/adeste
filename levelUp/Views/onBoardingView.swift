@@ -18,11 +18,10 @@ struct OnBoarding: View {
                 showStartCycle = true
             })
             .navigationDestination(isPresented: $showStartCycle) {
-                StartCycle().modelContainer(previewContainer2)
+                StartCycle()
 
             }
         }
-            .background(.baseShade01)
     }
 }
 
@@ -82,7 +81,7 @@ onContinue()
                 .padding(.bottom, 26)
                 .padding(.horizontal, 56)
             .frame(maxWidth: .infinity)
-        }
+        }.background(.baseShade01)
 
     }
 }

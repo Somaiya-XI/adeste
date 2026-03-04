@@ -167,17 +167,7 @@ struct SettingsView: View {
         .sheet(isPresented: $showPrivacyPolicy) {
             PrivacyPolicyView()
         }
-        
-        // 4. Change Cycle
-        .fullScreenCover(isPresented: $showChangeCycle) {
-            NavigationStack {
-                StartCycle(userName: UserManager.shared.userName) {
-                    UserManager.shared.resetScreenTimeChangeCount()
-                    showChangeCycle = false
-                }
-            }
-        }
-        
+                
         // 5. Limit Alert
         .alert("Limit Reached", isPresented: $showScreenTimeLimitAlert) {
             Button("OK", role: .cancel) {}

@@ -29,7 +29,7 @@ struct OnboardingStepFiveView: View {
     @State private var thresholdTimeMin: Int = 20
     @State private var thresholdTimeHour: Int = 4
     let center = AuthorizationCenter.shared
-
+    @State var showRequestAccess: Bool = AuthorizationCenter.shared.authorizationStatus != .approved
     var body: some View {
         ZStack {
             Color("base-shade-01")
@@ -58,7 +58,7 @@ struct OnboardingStepFiveView: View {
                 }.multilineTextAlignment(.center)
                     .padding(.bottom, 32)
                 
-                if center.authorizationStatus == .approved {
+                if !showRequestAccess {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(spacing: 16) {
                         Image(systemName: "hourglass.badge.lock")
@@ -119,7 +119,9 @@ struct OnboardingStepFiveView: View {
                 }
                 .background(.baseShade03)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
-                } else {
+                }
+                
+                if showRequestAccess {
                     VStack(alignment: .center, spacing: 12) {
                         
                         Image("screenTime")
@@ -134,38 +136,59 @@ struct OnboardingStepFiveView: View {
             
                 Spacer()
                 // Continue Button
-                Button {
+                
+                if showRequestAccess {
+                    Button {
                         Task {
                             await activityManager.requestFamilyControlAuthorization()
+                            showRequestAccess = AuthorizationCenter.shared.authorizationStatus != .approved
                         }
-                   
-                        do {
-                            try activityManager.startMonitoring(
-                                apps: selectedApps,
-                                thresholdHours: thresholdTimeHour,
-                                thresholdMinutes: thresholdTimeMin
-                            )
-                            dismiss()
-                        } catch {
-                        }
-                        
-                    
-                    
-                } label: {
-                    Text("\(center.authorizationStatus != .approved ? "Allow screen time access" :"Ready")")
-                        .font(.s18Semibold)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 52)
-                        .background(RoundedRectangle(cornerRadius: 32)
-                            .fill(.brand))
+                    } label: {
+                                Text("Allow screen time access")
+                                    .font(.s18Semibold)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 52)
+                                    .background(RoundedRectangle(cornerRadius: 32)
+                                        .fill(.brand))
+                            }
                 }
+                
+                
+                if !showRequestAccess {
+                    Button {
+                        do {
+                                try activityManager.startMonitoring(
+                                    apps: selectedApps,
+                                    thresholdHours: thresholdTimeHour,
+                                    thresholdMinutes: thresholdTimeMin
+                                )
+                            } catch {
+                                
+                            }
+                            
+                        userManager.completeOnboarding()
+
+                        
+                    } label: {
+                        Text("Ready")
+                            .font(.s18Semibold)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 52)
+                            .background(RoundedRectangle(cornerRadius: 32)
+                                .fill(.brand))
+                    }
+                }
+               
                 
                 
             }.padding(.top, 68)
                 .padding(.bottom, 26)
                 .padding(.horizontal, 56)
         }.onAppear {
+            
+                UserManager.shared.loadOnboardingState()
             
             if !userManager.isOnboardingComplete {
                 if activityManager.isMonitoring {
@@ -175,6 +198,7 @@ struct OnboardingStepFiveView: View {
 
             Task {
                 await activityManager.requestFamilyControlAuthorization()
+                showRequestAccess = AuthorizationCenter.shared.authorizationStatus != .approved
             }
             // Load existing settings
             selectedApps = activityManager.selectedActivities
