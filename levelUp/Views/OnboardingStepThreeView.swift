@@ -27,10 +27,12 @@ struct OnboardingStepThreeView: View {
             // Bg elements
             VStack{
                 Spacer()
-                Image("Group1635")
+                Image("SketchyIcons")
+                    .resizable()
+                    .scaledToFit()
                 
-            }.padding(.bottom, 53)
-            Rectangle().fill(.baseShade01.gradient.opacity(0.6)).padding(.top, 500).padding(.bottom, -34)
+            }.padding(.bottom, 63)
+            Rectangle().fill(.baseShade01.gradient.opacity(0.6)).padding(.top, 460).padding(.bottom, -34)
             
             
             VStack(spacing: 0) {
