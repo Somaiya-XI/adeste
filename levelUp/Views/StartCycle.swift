@@ -21,6 +21,9 @@ struct StartCycle: View {
     
     /// Tracks if user came from Settings (onboarding already complete)
     @State private var isChangingCycle = false
+    
+    /// Shows confirmation alert before resetting progress
+    @State private var showResetConfirmation = false
         
     var body: some View {
         @Bindable var vm = vm
@@ -63,8 +66,13 @@ struct StartCycle: View {
                 // Continue Button
                 Button {
                     if vm.currentCycle != nil {
-                        vm.isCompleted = true
-                        goToNext = true
+                        if isChangingCycle {
+                            // Show confirmation before resetting progress
+                            showResetConfirmation = true
+                        } else {
+                            vm.isCompleted = true
+                            goToNext = true
+                        }
                     }
                 } label: {
                     Text("Continue")
@@ -106,15 +114,17 @@ struct StartCycle: View {
                     }
                 }
         }.background(.baseShade01)
-.navigationBarBackButtonHidden(true)
-        //        .sheet(isPresented: $vm.isCompleted) {
-        //            ScreenTimeSettingsView()
-        //                .padding(.horizontal, 16)
-        //                .padding(.top, 40)
-        //                .onDisappear {
-        //                    goToNext = true
-        //                }
-        //        }
+        .navigationBarBackButtonHidden(true)
+        // Confirmation alert - warns before resetting progress
+        .alert("Start a New Cycle?", isPresented: $showResetConfirmation) {
+            Button("No, Go Back", role: .cancel) { }
+            Button("Yes, Start Fresh", role: .destructive) {
+                vm.isCompleted = true
+                goToNext = true
+            }
+        } message: {
+            Text("Starting a new cycle will reset all your current progress. Are you sure?")
+        }
     }
     
 }

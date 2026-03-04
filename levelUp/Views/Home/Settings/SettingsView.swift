@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
@@ -16,8 +17,8 @@ struct SettingsView: View {
     @State private var showPrivacyPolicy = false
     @State private var wakeUpTime = Date()
     @State private var stepGoal = 8000
-    @State private var showChangeCycle = false
     @State private var showScreenTimeLimitAlert = false
+    @State private var navigateToChangeCycle = false
     
     private let appLink = URL(string: "https://apple.com")!
     
@@ -143,7 +144,12 @@ struct SettingsView: View {
         .navigationBarBackButtonHidden(true)
         .background(Color.white.ignoresSafeArea())
         
-        // 1. Screen Time ✅ only once, with onDismiss
+        // ✅ navigationDestination لـ StartCycle
+        .navigationDestination(isPresented: $navigateToChangeCycle) {
+            StartCycle(userName: UserManager.shared.userName, isChangingCycle: true)
+        }
+        
+        // 1. Screen Time
         .sheet(isPresented: $showScreenTime, onDismiss: {
             UserManager.shared.incrementScreenTimeChangeCount()
         }) {
@@ -177,7 +183,7 @@ struct SettingsView: View {
     }
     
     // ==========================================
-    // MARK: - UI Helpers  ✅ inside the struct
+    // MARK: - UI Helpers
     // ==========================================
     
     @ViewBuilder
@@ -231,7 +237,7 @@ struct SettingsView: View {
         .padding(.vertical, 16)
         .contentShape(Rectangle())
     }
-}  // ✅ struct closes here, BEFORE the extension
+}
 
 extension UINavigationController: UIGestureRecognizerDelegate {
     override open func viewDidLoad() {
