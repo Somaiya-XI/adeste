@@ -17,12 +17,28 @@ struct CycleView: View {
     
     @State var vm: CycleViewModel = .init()
     @State var currentPage = 0
-    
+    @State var goToNext: Bool = false
     var body: some View {
         @Bindable var vm = vm
-        GeometryReader {
-            let size = $0.size
+        
+        VStack(spacing: 0) {
+            Text("Find your flow")
+                .font(.system(size: 36, weight: .bold, design: .rounded))
+                .foregroundColor(.brandGrey)
+                .padding(.bottom, 30)
             
+<<<<<<< HEAD
+            VStack {
+                TabView(selection: $currentPage) {
+                    ForEach(Array(cycles.enumerated()), id: \.element.id) { index, cycle in
+                        CycleCard(cycle: cycle, onGetStarted: {
+                            UserManager.shared.updateCycle(cycle.id)
+                            dismiss()
+                        }, onGoBack: {
+                            dismiss() 
+                        })
+                        .tag(index)
+=======
             VStack(spacing: 0) {
                     // Top Logo Section
                     Text("Find your flow")
@@ -36,28 +52,47 @@ struct CycleView: View {
                         // Main cards - Limits
                         TabView(selection: $currentPage) {
                             ForEach(Array(cycles.enumerated()), id: \.element.id) { index, cycle in
-//                                CycleCard(cycle: cycle) {
-//                                    // Update cycle in UserManager and dismiss
-//                                    UserManager.shared.updateCycle(cycle.id)
-//                                    dismiss()
-//                                }
-//                                .tag(index)
+                                CycleCard(cycle: cycle) {
+                                    // Update cycle in UserManager and dismiss
+                                    UserManager.shared.updateCycle(cycle.id)
+                                   
+                                }
+
+                                .tag(index)
                             }
                         }
                         .tabViewStyle(.page(indexDisplayMode: .never))
+>>>>>>> main
                     }
-                    // Page Indicator
-                    PageIndicator(numberOfPages: cycles.count, currentPage: currentPage)
-                        .padding(.top, 30)
-                    
-                Spacer()
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
             }
             
+            PageIndicator(numberOfPages: cycles.count, currentPage: currentPage)
+                .padding(.top, 30)
+            
+            Spacer()
         }
         .onAppear {
             vm.configure(with: modelContext)
-            
         }
+<<<<<<< HEAD
     }
 }
+=======
+        
+        // REPLACE .navigationDestination with this:
+        .navigationDestination(isPresented: $goToNext) {
+            HabitPickerView(
+                habitLimit: vm.currentCycle?.maxHabits ?? 2,
+                userName: UserManager.shared.userName,
+                cycleId: vm.currentCycle?.id ?? "",
+                cycleType: vm.currentCycle?.cycleType ?? .starter
+            )
+        }
+               }
+           }
+        
+    
 
+>>>>>>> main

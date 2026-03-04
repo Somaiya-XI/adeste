@@ -16,6 +16,7 @@ struct HabitPickerView: View {
     let userName: String
     let cycleId: String
     let cycleType: CycleType
+    var onComplete: (() -> Void)? = nil
     
     // Map habit names to HabitType
     private let habitTypeMap: [String: HabitType] = [
@@ -131,7 +132,7 @@ struct HabitPickerView: View {
             Spacer()
             
             // Get Started Button
-            ///////////hhhhhh
+            
             Button(action: {
                 let needsGoalSheet = selectedHabits.contains("Wake Up") || selectedHabits.contains("Walk")
                 if needsGoalSheet {
@@ -139,7 +140,7 @@ struct HabitPickerView: View {
                 } else {
                     saveHabitsAndCompleteOnboarding()
                 }
-            })///////////
+            })
             {
                 Text("Get Started")
                     .font(.s28Medium)
@@ -185,27 +186,32 @@ struct HabitPickerView: View {
     private func saveHabitsAndCompleteOnboarding() {
         guard !hasCompletedOnboarding else { return }
         hasCompletedOnboarding = true
-        // Convert selected habit names to Habit objects
+
         let habits: [Habit] = selectedHabits.compactMap { habitName in
             guard let habitType = habitTypeMap[habitName] else { return nil }
             return Habit(title: habitName, type: habitType, isEnabled: true)
         }
-        
-        // Save all user data at once (single write)
+
         let userManager = UserManager.shared
         userManager.createUser(name: userName)
         userManager.currentUser?.currentCycleId = cycleId
+        userManager.currentUser?.currentCycleType = cycleType
         userManager.currentUser?.habits = habits
         userManager.saveUser()
-        
-        // Request HealthKit only if Walk was selected
+
         if selectedHabits.contains("Walk") {
-            Task {
-                try? await HealthManager.shared.requestAuthorization()
-            }
+            Task { try? await HealthManager.shared.requestAuthorization() }
         }
-        
-        userManager.completeOnboarding()
+
+        // For onboarding flow → switches root view to HomeView
+        // For settings flow → onComplete dismisses the fullScreenCover instead
+        if onComplete == nil {
+            userManager.completeOnboarding()  // triggers root to show HomeView
+        } else {
+            onComplete?()  // triggers SettingsView to dismiss cover
+        }
+
+        dismiss()
     }
 }
 

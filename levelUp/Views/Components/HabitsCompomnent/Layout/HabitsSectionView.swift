@@ -12,7 +12,7 @@ struct HabitsSectionView: View {
     
     // Goal sheet state
     @State private var showGoalSheet = false
-    @State private var showNoGoalsAlert = false
+    
     
     @State private var wakeUpTime: Date = AppHabitWakeUpManager.shared.wakeUpTime
     @State private var stepGoal: Int = UserDefaults.standard.integer(forKey: "saved_step_goal") == 0
@@ -52,99 +52,99 @@ struct HabitsSectionView: View {
                 
                 Spacer()
                 
-                Menu {
-                    Button {
-                        if goalHabits.isEmpty {
-                            showNoGoalsAlert = true
-                        } else {
+                if !goalHabits.isEmpty {
+                    Menu {
+                        Button {
                             wakeUpTime = AppHabitWakeUpManager.shared.wakeUpTime
                             let saved = UserDefaults.standard.integer(forKey: "saved_step_goal")
                             stepGoal = saved == 0 ? 8000 : saved
                             showGoalSheet = true
+                        } label: {
+                            Label("Edit Goals", systemImage: "pencil")
                         }
                     } label: {
-                        Label("Edit Goals", systemImage: "pencil")
+                        Image(systemName: "ellipsis.circle")
+                            .font(.system(size: 22))
+                            .foregroundColor(.brand)
                     }
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                        .font(.system(size: 22))
-                        .foregroundColor(.brand)
                 }
             }
-            if pages.count > 1 {
-                TabView {
-                    ForEach(pages.indices, id: \.self) { index in
-                        HabitsStaticLayoutView(
-                            habits: pages[index],
-                            prayerManager: prayerManager,
-                            athkarManager: athkarManager,
-                            showWakeUpTimePopup: $showWakeUpTimePopup,
-                            selectedWakeUpTime: $selectedWakeUpTime
-                        )
-                        .padding(.horizontal)
+                if pages.count > 1 {
+                    TabView {
+                        ForEach(pages.indices, id: \.self) { index in
+                            HabitsStaticLayoutView(
+                                habits: pages[index],
+                                prayerManager: prayerManager,
+                                athkarManager: athkarManager,
+                                showWakeUpTimePopup: $showWakeUpTimePopup,
+                                selectedWakeUpTime: $selectedWakeUpTime
+                            )
+                            .padding(.horizontal)
+                        }
                     }
+                    .tabViewStyle(.page(indexDisplayMode: .automatic))
+                    .frame(height: 320)
+                } else if let firstPage = pages.first {
+                    HabitsStaticLayoutView(
+                        habits: firstPage,
+                        prayerManager: prayerManager,
+                        athkarManager: athkarManager,
+                        showWakeUpTimePopup: $showWakeUpTimePopup,
+                        selectedWakeUpTime: $selectedWakeUpTime
+                    )
                 }
-                .tabViewStyle(.page(indexDisplayMode: .automatic))
-                .frame(height: 320)
-            } else if let firstPage = pages.first {
-                HabitsStaticLayoutView(
-                    habits: firstPage,
-                    prayerManager: prayerManager,
-                    athkarManager: athkarManager,
-                    showWakeUpTimePopup: $showWakeUpTimePopup,
-                    selectedWakeUpTime: $selectedWakeUpTime
-                )
+                
             }
             
-        }
-        
-        .alert("No goals to edit", isPresented: $showNoGoalsAlert) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text("You don't have any habits with goals.")
-        }
-        .sheet(isPresented: $showGoalSheet) {
-            HabitsGoalSheet(
-                selectedHabits: goalHabits,
-                selectedWakeUpTime: $wakeUpTime,
-                stepGoal: $stepGoal,
-                isOnboarding: false,
-                cycleType: currentCycleType
-            )
-            .presentationDetents([.large])
+            
+            //        .alert("No goals to edit", isPresented: $showNoGoalsAlert) {
+            //            Button("OK", role: .cancel) {}
+            //        } message: {
+            //            Text("You don't have any habits with goals.")
+            //        }
+            .sheet(isPresented: $showGoalSheet) {
+                HabitsGoalSheet(
+                    selectedHabits: goalHabits,
+                    selectedWakeUpTime: $wakeUpTime,
+                    stepGoal: $stepGoal, isOnboarding: false,
+                    cycleType: currentCycleType
+                )
+                .presentationDetents([.large])
+            }
         }
     }
-}
 
-#Preview("HabitsSection – Single Page") {
-    let prayerManager = PrayerManager(
-        timesProvider: AdhanPrayerTimesProvider(
-            latitude: 24.7136,
-            longitude: 46.6753
-        ),
-        store: UserDefaultsPrayerStore()
-    )
     
-    let athkarManager = AthkarManager(
-        timesProvider: AdhanPrayerTimesProvider(
-            latitude: 24.7136,
-            longitude: 46.6753
-        ),
-        store: UserDefaultsAthkarStore()
-    )
-    
-    HabitsSectionView(
-        pages: [
-            [
-                Habit(title: "Water", type: .water),
-                Habit(title: "Steps", type: .steps),
-                Habit(title: "Wake Up", type: .wakeUp)
-            ]
-        ],
-        prayerManager: prayerManager,
-        athkarManager: athkarManager,
-        showWakeUpTimePopup: .constant(false),
-        selectedWakeUpTime: .constant(Date())
-    )
-    .padding()
-}
+    #Preview("HabitsSection – Single Page") {
+        let prayerManager = PrayerManager(
+            timesProvider: AdhanPrayerTimesProvider(
+                latitude: 24.7136,
+                longitude: 46.6753
+            ),
+            store: UserDefaultsPrayerStore()
+        )
+        
+        let athkarManager = AthkarManager(
+            timesProvider: AdhanPrayerTimesProvider(
+                latitude: 24.7136,
+                longitude: 46.6753
+            ),
+            store: UserDefaultsAthkarStore()
+        )
+        
+        HabitsSectionView(
+            pages: [
+                [
+                    Habit(title: "Water", type: .water),
+                    Habit(title: "Steps", type: .steps),
+                    Habit(title: "Wake Up", type: .wakeUp)
+                ]
+            ],
+            prayerManager: prayerManager,
+            athkarManager: athkarManager,
+            showWakeUpTimePopup: .constant(false),
+            selectedWakeUpTime: .constant(Date())
+        )
+        .padding()
+    }
+

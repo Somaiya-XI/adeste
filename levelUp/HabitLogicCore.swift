@@ -296,7 +296,7 @@ final class AppHabitAthkarManager: ObservableObject, HabitEngine {
     func refreshStatus(now: Date = Date()) async throws {
         let progress = try await coreManager.progressForToday(now: now)
         await MainActor.run {
-//            status.currentCount = Double(progress.completedPeriods.count)
+            // status.currentCount = Double(progress.completedPeriods.count)
             status.lastUpdated  = now
             print("✅ Habit System: Athkar refreshed → \(Int(status.currentCount))/2")
         }

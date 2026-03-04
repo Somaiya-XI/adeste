@@ -109,7 +109,7 @@ struct StartCycle: View {
 
 
 
-// CycleCard Component
+// MARK: - CycleCard Component
 struct CycleCard: View {
     var cycle: Cycle
     var isSelected: Bool
@@ -191,6 +191,7 @@ struct PageIndicator: View {
         }
     }
 }
+
 
 // MARK: - Preview
 #Preview {

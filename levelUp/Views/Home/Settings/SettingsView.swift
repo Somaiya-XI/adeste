@@ -16,13 +16,13 @@ struct SettingsView: View {
     @State private var showPrivacyPolicy = false
     @State private var wakeUpTime = Date()
     @State private var stepGoal = 8000
+    @State private var showChangeCycle = false
+    @State private var showScreenTimeLimitAlert = false
     
-    // App link
     private let appLink = URL(string: "https://apple.com")!
     
     var body: some View {
         VStack(spacing: 0) {
-            // Header
             HStack {
                 BackButton { dismiss() }
                 Spacer()
@@ -49,11 +49,21 @@ struct SettingsView: View {
                         customDivider
                         
                         Button {
-                            showScreenTime = true
+                            if UserManager.shared.canChangeScreenTime {
+                                showScreenTime = true
+                            } else {
+                                showScreenTimeLimitAlert = true
+                            }
                         } label: {
-                            settingsRow(title: consts.manageScreenActivitiesStr, icon: "hourglass")
+                            settingsRow(
+                                title: consts.manageScreenActivitiesStr,
+                                icon: "hourglass",
+                                trailingText: !UserManager.shared.canChangeScreenTime ? "Limit reached" : nil,
+                                showChevron: UserManager.shared.canChangeScreenTime
+                            )
                         }
                         .buttonStyle(.plain)
+                        .opacity(UserManager.shared.canChangeScreenTime ? 1.0 : 0.5)
                         
                         customDivider
                         
@@ -93,7 +103,6 @@ struct SettingsView: View {
                             settingsRow(title: "Privacy Policy", icon: "hand.raised", showChevron: true)
                         }
                         .buttonStyle(.plain)
-                        
                     }
                     
                     // 3. SECTION: FEEDBACK
@@ -113,7 +122,7 @@ struct SettingsView: View {
                         .buttonStyle(.plain)
                     }
                     
-                    // 4. FOOTER: Character & Quote
+                    // 4. FOOTER
                     VStack(spacing: 12) {
                         Image("im_mc")
                             .resizable()
@@ -133,33 +142,52 @@ struct SettingsView: View {
         }
         .navigationBarBackButtonHidden(true)
         .background(Color.white.ignoresSafeArea())
-                
-                // 1. Screen Time
-                .sheet(isPresented: $showScreenTime) {
-                    ScreenTimeSettingsView()
-                        .padding(.horizontal, 16)
-                        .padding(.top, 40)
-                }
-                
-                // 2. Habit Goals
-                .sheet(isPresented: $showHabitGoals) {
-                    HabitsGoalSheet(
-                        selectedHabits: ["Wake Up", "Walk"],
-                        selectedWakeUpTime: $wakeUpTime,
-                        stepGoal: $stepGoal,
-                        isOnboarding: false,
-                        cycleType: .basic
-                    )
-                }
-                
-                // 3. Privacy Policy
-                .sheet(isPresented: $showPrivacyPolicy) {
-                    PrivacyPolicyView()
+        
+        // 1. Screen Time ✅ only once, with onDismiss
+        .sheet(isPresented: $showScreenTime, onDismiss: {
+            UserManager.shared.incrementScreenTimeChangeCount()
+        }) {
+            ScreenTimeSettingsView()
+                .padding(.horizontal, 16)
+                .padding(.top, 40)
+        }
+        
+        // 2. Habit Goals
+        .sheet(isPresented: $showHabitGoals) {
+            HabitsGoalSheet(
+                selectedHabits: ["Wake Up", "Walk"],
+                selectedWakeUpTime: $wakeUpTime,
+                stepGoal: $stepGoal,
+                isOnboarding: false,
+                cycleType: .basic
+            )
+        }
+        
+        // 3. Privacy Policy
+        .sheet(isPresented: $showPrivacyPolicy) {
+            PrivacyPolicyView()
+        }
+        
+        // 4. Change Cycle
+        .fullScreenCover(isPresented: $showChangeCycle) {
+            NavigationStack {
+                StartCycle(userName: UserManager.shared.userName) {
+                    UserManager.shared.resetScreenTimeChangeCount()
+                    showChangeCycle = false
                 }
             }
+        }
+        
+        // 5. Limit Alert
+        .alert("Limit Reached", isPresented: $showScreenTimeLimitAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("You've used all \(UserManager.shared.cycleType.screenTimeChangeLimit) screen time changes for your \(UserManager.shared.cycleType.displayName) cycle.")
+        }
+    }
     
     // ==========================================
-    // MARK: - UI Helpers
+    // MARK: - UI Helpers  ✅ inside the struct
     // ==========================================
     
     @ViewBuilder
@@ -204,8 +232,7 @@ struct SettingsView: View {
                 Text(text)
                     .font(.s14Medium)
                     .foregroundStyle(Color("sec-color-pink"))
-            }
-            else if showChevron {
+            } else if showChevron {
                 Image("ic_chevron")
                     .foregroundStyle(.gray)
             }
@@ -214,7 +241,7 @@ struct SettingsView: View {
         .padding(.vertical, 16)
         .contentShape(Rectangle())
     }
-}
+}  // ✅ struct closes here, BEFORE the extension
 
 extension UINavigationController: UIGestureRecognizerDelegate {
     override open func viewDidLoad() {
