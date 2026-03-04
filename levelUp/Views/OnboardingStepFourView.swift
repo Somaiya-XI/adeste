@@ -125,7 +125,7 @@ struct OnboardingStepFourView: View {
                 )
                 .presentationDetents([.large])
                 .onDisappear {
-                    //saveHabitsAndCompleteOnboarding()
+                    saveHabitsAndCompleteOnboarding()
                     if !isChangingCycle {
                         
                         goToNext = true
