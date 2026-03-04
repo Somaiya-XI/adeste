@@ -146,7 +146,7 @@ struct SettingsView: View {
         
         // ✅ navigationDestination لـ StartCycle
         .navigationDestination(isPresented: $navigateToChangeCycle) {
-            StartCycle(userName: UserManager.shared.userName, isChangingCycle: true)
+            StartCycle()
         }
         
         // 1. Screen Time
