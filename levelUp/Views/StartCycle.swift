@@ -24,7 +24,12 @@ struct StartCycle: View {
     
     /// Shows confirmation alert before resetting progress
     @State private var showResetConfirmation = false
-        
+
+    /// Cycles ordered by duration: 7 days (Light) → 14 (Balanced) → 21 (Deep)
+    private var cyclesOrderedByDays: [Cycle] {
+        cycles.sorted { $0.cycleDuration.rawValue < $1.cycleDuration.rawValue }
+    }
+
     var body: some View {
         @Bindable var vm = vm
         GeometryReader{ _ in
@@ -37,20 +42,20 @@ struct StartCycle: View {
             
             VStack(spacing: 0) {
                 // Top Logo Section
-                VStack(spacing: 10) {
-                    Text("Pick your cycle")
+                VStack(spacing: 16) {
+                    Text("Choose your cycle")
                         .font(.system(size: 36, weight: .bold, design: .rounded))
                         .foregroundColor(.brand)
                     
-                    Text("Detox your doomscrolling at your fingertips")
+                    Text("Each cycle guides your habit detox.")
                         .font(.s18Medium)
-                        .foregroundStyle(.brandGrey)
+                        .foregroundStyle(.brand)
                 }.multilineTextAlignment(.center)
                 
                 Spacer()
                 
                 VStack(spacing: 24) {
-                    ForEach(cycles) { cycle in
+                    ForEach(cyclesOrderedByDays) { cycle in
                         Button{
                             vm.currentCycle = cycle
                             vm.isCompleted = true
@@ -117,13 +122,13 @@ struct StartCycle: View {
         .navigationBarBackButtonHidden(true)
         // Confirmation alert - warns before resetting progress
         .alert("Start a New Cycle?", isPresented: $showResetConfirmation) {
-            Button("No, Go Back", role: .cancel) { }
-            Button("Yes, Start Fresh", role: .destructive) {
+            Button("Cancel", role: .cancel) { }
+            Button("Start Fresh", role: .destructive) {
                 vm.isCompleted = true
                 goToNext = true
             }
         } message: {
-            Text("Starting a new cycle will reset all your current progress. Are you sure?")
+            Text("This will reset your current progress. You can’t undo this.")
         }
     }
     

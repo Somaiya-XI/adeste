@@ -46,7 +46,7 @@ struct HabitsSectionView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("Daily habit")
+                Text("Daily habits")
                     .font(.s24Semibold)
                     .foregroundColor(.brand)
                 

@@ -10,10 +10,10 @@ struct GoalChangeTracker {
     // MARK: Max allowed changes per cycle type
     static func maxChanges(for cycleType: CycleType) -> Int {
         switch cycleType {
-        case .starter:  return 2  // Awareness
-        case .basic:    return 3   // Consistency
-        case .advanced: return 4  // Foundation
-        case .premium:  return 5  // Growth – same as Foundation (adjust if needed)
+        case .starter, .awareness: return 2
+        case .basic, .consistency: return 3
+        case .advanced, .foundation: return 4
+        case .premium: return 5
         }
     }
     
@@ -103,7 +103,7 @@ struct HabitsGoalSheet: View {
                 .padding(.top, 12)
             
             // Header
-            Text("Set your goals")
+            Text("Set your goals!")
                 .font(.system(size: 20, weight: .semibold))
                 .fontDesign(.rounded)                .foregroundColor(Color("brand-color"))
                 .frame(maxWidth: .infinity, alignment: .leading)
