@@ -32,14 +32,14 @@ struct OnboardingStepThreeView: View {
                     .scaledToFit()
                 
             }.padding(.bottom, 63)
-            Rectangle().fill(.baseShade01.gradient.opacity(0.6)).padding(.top, 430).padding(.bottom, -34)
+            Rectangle().fill(.baseShade01.gradient.opacity(0.6)).padding(.top, 420).padding(.bottom, -34)
             
             
             VStack(spacing: 0) {
                 
                 // 1. Header — large, dominant
                 Text("That was the first step!")
-                    .font(.system(size: 46, weight: .bold, design: .rounded))
+                    .font(.system(size: 36, weight: .bold, design: .rounded))
                     .foregroundColor(Color("brand-color"))
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
@@ -48,7 +48,8 @@ struct OnboardingStepThreeView: View {
                 // 2. Body text — medium, comfortable width
                 Text("With your cycle come your habits.\n\n\nThey shape your progress and build your streak.\n\n\nCheck them off to see your growth!")
                     .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(.brandGrey)
+                    .fontDesign(.rounded)
                     .multilineTextAlignment(.center)
                 
                 Spacer()

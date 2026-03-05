@@ -49,7 +49,7 @@ struct StartCycle: View {
                     
                     Text("Each cycle guides your habit detox.")
                         .font(.s18Medium)
-                        .foregroundStyle(.brand)
+                        .foregroundStyle(.brandGrey)
                 }.multilineTextAlignment(.center)
                 
                 Spacer()
