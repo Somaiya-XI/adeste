@@ -19,12 +19,12 @@ struct UserCategoryReport: DeviceActivityReportScene {
     let content: (UsageSummaryData) -> UserCategoryReportView
     
     func makeConfiguration(representing data: DeviceActivityResults<DeviceActivityData>) async -> UsageSummaryData {
-        // Calculate total duration from SELECTED categories only (not total screen time)
+        // Simple direct iteration - fastest approach for selected categories
         var totalDuration: TimeInterval = 0
         
         for await activityData in data {
             for await segment in activityData.activitySegments {
-                // Sum up only the selected categories' durations
+                // Sum only the selected/filtered categories
                 for await category in segment.categories {
                     totalDuration += category.totalActivityDuration
                 }

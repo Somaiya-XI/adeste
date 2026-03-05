@@ -21,7 +21,12 @@ struct adesteApp: App {
 
         // Configure SwiftData to use the App Group container and ensure
         // the Library/Application Support directory exists before creating the store.
-        let appGroupID = "group.adeste.app.local.mayar"
+
+        // =========================================================
+        // ============= ADD YOUR OWN APP GROUP HERE ==============
+        // =========================================================
+        #warning("ADD YOUR OWN APP GROUP HERE !!!!!")
+        let appGroupID = "group.adeste.app"
         let fileManager = FileManager.default
 
         guard let groupURL = fileManager.containerURL(forSecurityApplicationGroupIdentifier: appGroupID) else {

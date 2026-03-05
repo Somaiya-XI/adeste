@@ -22,14 +22,13 @@ struct OnboardingStepFiveView: View {
     @State var goToNext: Bool = false
     
     @State private var userManager = UserManager.shared
-    @State var activityManager = DeviceActivityManager()
+    @State var activityManager: DeviceActivityManager? = nil  // Lazy init
     @State var selectedApps = FamilyActivitySelection()
     @State var isPresented: Bool = false
     
     @State private var thresholdTimeMin: Int = 20
     @State private var thresholdTimeHour: Int = 4
-    let center = AuthorizationCenter.shared
-    @State var showRequestAccess: Bool = AuthorizationCenter.shared.authorizationStatus != .approved
+    @State var showRequestAccess: Bool = true  // Default to true, set actual value in onAppear
     var body: some View {
         ZStack {
             Color("base-shade-01")
@@ -52,7 +51,7 @@ struct OnboardingStepFiveView: View {
                         .font(.system(size: 36, weight: .bold, design: .rounded))
                         .foregroundColor(.brand)
                     
-                    Text(center.authorizationStatus != .approved ? "Allow access to screen time to set your screen time limit." : "Set a limit and track the apps that steal up your time.")
+                    Text(showRequestAccess ? "Allow access to screen time to set your screen time limit." : "Set a limit and track the apps that steal up your time.")
                         .font(.s18Medium)
                         .foregroundStyle(.brandGrey)
                 }.multilineTextAlignment(.center)
@@ -98,7 +97,7 @@ struct OnboardingStepFiveView: View {
                                     .font(.s16Medium)
                                     .foregroundStyle(Color("brand-color"))
                                 
-                                Text(" ~\(activityManager.selectedActivities.applicationTokens.count + activityManager.selectedActivities.categoryTokens.count) selected \(activityManager.selectedActivities.applicationTokens.count + activityManager.selectedActivities.categoryTokens.count == 1 ? "activity": "activities") ")
+                                Text(" ~\(selectedApps.applicationTokens.count + selectedApps.categoryTokens.count) selected \(selectedApps.applicationTokens.count + selectedApps.categoryTokens.count == 1 ? "activity": "activities") ")
                                     .font(.caption2)
                                     .fontDesign(.rounded)
                                     .foregroundStyle(.brandGrey)
@@ -140,7 +139,11 @@ struct OnboardingStepFiveView: View {
                 if showRequestAccess {
                     Button {
                         Task {
-                            await activityManager.requestFamilyControlAuthorization()
+                            // Initialize manager if needed, then request authorization
+                            if activityManager == nil {
+                                activityManager = DeviceActivityManager()
+                            }
+                            await activityManager?.requestFamilyControlAuthorization()
                             showRequestAccess = AuthorizationCenter.shared.authorizationStatus != .approved
                         }
                     } label: {
@@ -158,7 +161,7 @@ struct OnboardingStepFiveView: View {
                 if !showRequestAccess {
                     Button {
                         do {
-                                try activityManager.startMonitoring(
+                            try activityManager?.startMonitoring(
                                     apps: selectedApps,
                                     thresholdHours: thresholdTimeHour,
                                     thresholdMinutes: thresholdTimeMin
@@ -187,24 +190,33 @@ struct OnboardingStepFiveView: View {
                 .padding(.bottom, 26)
                 .padding(.horizontal, 56)
         }.onAppear {
+            // Check authorization status first (synchronous, fast)
+            showRequestAccess = AuthorizationCenter.shared.authorizationStatus != .approved
             
-                UserManager.shared.loadOnboardingState()
-            
-            if !userManager.isOnboardingComplete {
-                if activityManager.isMonitoring {
-                    activityManager.stopMonitoring()
+      // Move all heavy work off the main thread during navigation
+            Task { @MainActor in
+                // Lazy initialize the DeviceActivityManager
+                if activityManager == nil {
+                    activityManager = DeviceActivityManager()
                 }
-            }
+                
+                UserManager.shared.loadOnboardingState()
+                
+                if !userManager.isOnboardingComplete {
+                    if activityManager?.isMonitoring == true {
+                        activityManager?.stopMonitoring()
+                    }
+                }
 
-            Task {
-                await activityManager.requestFamilyControlAuthorization()
+                await activityManager?.requestFamilyControlAuthorization()
                 showRequestAccess = AuthorizationCenter.shared.authorizationStatus != .approved
-            }
-            // Load existing settings
-            selectedApps = activityManager.selectedActivities
-            if let threshold = activityManager.getThreshold() {
-                thresholdTimeHour = threshold.hours
-                thresholdTimeMin = threshold.minutes
+                
+                // Load existing settings
+                selectedApps = activityManager?.selectedActivities ?? FamilyActivitySelection()
+                if let threshold = activityManager?.getThreshold() {
+                    thresholdTimeHour = threshold.hours
+                    thresholdTimeMin = threshold.minutes
+                }
             }
         }
         .familyActivityPicker(isPresented: $isPresented, selection: $selectedApps)

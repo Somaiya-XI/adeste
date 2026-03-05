@@ -32,7 +32,7 @@ struct OnboardingStepThreeView: View {
                     .scaledToFit()
                 
             }.padding(.bottom, 63)
-            Rectangle().fill(.baseShade01.gradient.opacity(0.6)).padding(.top, 460).padding(.bottom, -34)
+            Rectangle().fill(.baseShade01.gradient.opacity(0.6)).padding(.top, 430).padding(.bottom, -34)
             
             
             VStack(spacing: 0) {

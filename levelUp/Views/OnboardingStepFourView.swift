@@ -127,8 +127,10 @@ struct OnboardingStepFourView: View {
                 .onDisappear {
                     saveHabitsAndCompleteOnboarding()
                     if !isChangingCycle {
-                        
-                        goToNext = true
+                        // Defer navigation to let sheet dismissal animation complete
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            goToNext = true
+                        }
                     }
                 }
             }

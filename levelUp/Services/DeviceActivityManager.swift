@@ -32,7 +32,13 @@ class DeviceActivityManager {
     private let userDefaults = UserDefaults(suiteName: ScreenTimeConstants.appGroupID)!
     
     init() {
-        isMonitoring = deviceActivityCenter.activities.contains(ScreenTimeConstants.activityName)
+        // IMPORTANT: Only query DeviceActivityCenter if authorized
+        // Otherwise it blocks for ~90 seconds waiting for timeout
+        if AuthorizationCenter.shared.authorizationStatus == .approved {
+            isMonitoring = deviceActivityCenter.activities.contains(ScreenTimeConstants.activityName)
+        } else {
+            isMonitoring = false
+        }
         selectedActivities = Self.loadSelection() ?? FamilyActivitySelection()
         configureReportFilter()
     }
@@ -86,6 +92,12 @@ class DeviceActivityManager {
     
     // MARK: - Instance methods for app
     func startMonitoring(apps: FamilyActivitySelection, thresholdHours: Int, thresholdMinutes: Int) throws {
+        // Require authorization before making DeviceActivityCenter calls
+        guard AuthorizationCenter.shared.authorizationStatus == .approved else {
+            throw NSError(domain: "DeviceActivityManager", code: 1, 
+                         userInfo: [NSLocalizedDescriptionKey: "Family Controls not authorized"])
+        }
+        
         // Save selection for extension to access
         let data = try JSONEncoder().encode(apps)
         userDefaults.set(data, forKey: ScreenTimeConstants.selectionKey)
@@ -136,7 +148,10 @@ class DeviceActivityManager {
     }
     
     func stopMonitoring() {
-        deviceActivityCenter.stopMonitoring([ScreenTimeConstants.activityName])
+        // Only call DeviceActivityCenter if authorized
+        if AuthorizationCenter.shared.authorizationStatus == .approved {
+            deviceActivityCenter.stopMonitoring([ScreenTimeConstants.activityName])
+        }
         Self.removeShield()
         userDefaults.removeObject(forKey: ScreenTimeConstants.selectionKey)
         isMonitoring = false
@@ -145,6 +160,8 @@ class DeviceActivityManager {
     }
     
     func getThreshold() -> (hours: Int, minutes: Int)? {
+        // Only query if authorized - otherwise this blocks forever
+        guard AuthorizationCenter.shared.authorizationStatus == .approved else { return nil }
         let events = deviceActivityCenter.events(for: ScreenTimeConstants.activityName)
         guard let threshold = events[ScreenTimeConstants.eventName]?.threshold else { return nil }
         return (threshold.hour ?? 0, threshold.minute ?? 0)
