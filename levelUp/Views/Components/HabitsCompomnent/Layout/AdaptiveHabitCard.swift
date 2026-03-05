@@ -36,22 +36,28 @@ struct AdaptiveHabitCard: View {
     let habit: HabitDisplayData
     let layoutType: HabitLayoutType
     let waterFilledBottles: Int?  // For water habit in large layout
-    
-    // Add this computed property
+    /// When false, the card does not draw its own checkmark (caller draws an interactive one).
+    let showCheckmarkOverlay: Bool
+
     private var shouldShowCheckmark: Bool {
         let titleLower = habit.title.lowercased()
         return titleLower.contains("athkar") ||
         titleLower.contains("prayer") ||
         titleLower.contains("wake up")
     }
+
+    private var showBuiltInCheckmark: Bool { shouldShowCheckmark && showCheckmarkOverlay }
+
     init(
         habit: HabitDisplayData,
         layoutType: HabitLayoutType,
-        waterFilledBottles: Int? = nil
+        waterFilledBottles: Int? = nil,
+        showCheckmarkOverlay: Bool = true
     ) {
         self.habit = habit
         self.layoutType = layoutType
         self.waterFilledBottles = waterFilledBottles
+        self.showCheckmarkOverlay = showCheckmarkOverlay
     }
     
     var body: some View {
@@ -134,8 +140,8 @@ struct AdaptiveHabitCard: View {
             .foregroundStyle(Color.white.opacity(0.7))
             .offset(x: 90, y: 67)
             
-            // Conditional checkmark
-            if shouldShowCheckmark {
+
+            if showBuiltInCheckmark {
                 checkmarkOverlay
             }
         }
@@ -176,7 +182,9 @@ struct AdaptiveHabitCard: View {
                 .foregroundStyle(Color.white.opacity(0.7))
                 .offset(x: 90, y: 55)
             
-            checkmarkOverlay
+            if showCheckmarkOverlay {
+                checkmarkOverlay
+            }
         }
         .smallHabitFrame()
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -237,7 +245,7 @@ struct AdaptiveHabitCard: View {
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             
-            if shouldShowCheckmark {
+            if showBuiltInCheckmark {
                 checkmarkOverlay
             }
         }
@@ -280,7 +288,7 @@ struct AdaptiveHabitCard: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             }
             
-            if shouldShowCheckmark {
+            if showBuiltInCheckmark {
                 checkmarkOverlay
             }
         }
@@ -330,7 +338,7 @@ struct AdaptiveHabitCard: View {
                 .foregroundStyle(Color.white.opacity(0.7))
                 .offset(x: 260, y: 35)
             
-            if shouldShowCheckmark {
+            if showBuiltInCheckmark {
                 checkmarkOverlay
             }
         }
@@ -389,7 +397,7 @@ struct AdaptiveHabitCard: View {
             .foregroundStyle(Color.white.opacity(0.7))
             .offset(x: 260, y: 45)
             
-            if shouldShowCheckmark {
+            if showBuiltInCheckmark {
                 checkmarkOverlay
             }
         }
@@ -424,7 +432,7 @@ struct AdaptiveHabitCard: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .offset(y: 10)
             
-            if shouldShowCheckmark {
+            if showBuiltInCheckmark {
                 checkmarkOverlay
             }
             
@@ -496,7 +504,7 @@ struct AdaptiveHabitCard: View {
                 .foregroundStyle(Color.white.opacity(0.7))
                 .offset(x: 210, y: 110)
             
-            if shouldShowCheckmark {
+            if showBuiltInCheckmark {
                 checkmarkOverlay
             }
         }
@@ -562,7 +570,7 @@ struct AdaptiveHabitCard: View {
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             
-            if shouldShowCheckmark {
+            if showBuiltInCheckmark {
                 checkmarkOverlay
             }
         }
@@ -602,7 +610,7 @@ struct AdaptiveHabitCard: View {
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             
-            if shouldShowCheckmark {
+            if showBuiltInCheckmark {
                 checkmarkOverlay
             }
         }
@@ -645,7 +653,7 @@ struct AdaptiveHabitCard: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             }
             
-            if shouldShowCheckmark {
+            if showBuiltInCheckmark {
                 checkmarkOverlay
             }
         }
@@ -691,7 +699,7 @@ struct AdaptiveHabitCard: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .offset(y: 10)
             
-            if shouldShowCheckmark {
+            if showBuiltInCheckmark {
                 checkmarkOverlay
             }
         }
@@ -733,7 +741,7 @@ struct AdaptiveHabitCard: View {
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             
-            if shouldShowCheckmark {
+            if showBuiltInCheckmark {
                 checkmarkOverlay
             }
         }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AthkarHabitCardView: View {
     @StateObject var viewModel: AthkarViewModel
+    @ObservedObject private var athkarManager = AppHabitAthkarManager.shared
     let layoutType: HabitLayoutType
     @State private var showErrorAlert = false
     
@@ -35,19 +36,20 @@ struct AthkarHabitCardView: View {
             // Use AdaptiveHabitCard for beautiful UI
             AdaptiveHabitCard(
                 habit: displayData,
-                layoutType: layoutType
+                layoutType: layoutType,
+                showCheckmarkOverlay: false
             )
-            
-            // Check-in button overlay
+
             Button {
-                handleCheckInTap()
+                Task { await handleCheckInTap() }
             } label: {
                 Image(systemName: viewModel.isCheckedIn ? "checkmark.circle.fill" : "checkmark.circle")
                     .font(.s20Medium)
-                    .foregroundStyle(viewModel.isCheckedIn ? Color.white : Color.white.opacity(0.7))
+                    .foregroundStyle(viewModel.isCheckedIn ? .white : .white.opacity(0.7))
             }
             .padding(8)
             .disabled(viewModel.isCheckedIn)
+            .buttonStyle(.plain)
         }
         .onAppear {
             // Load athkar period when view appears
@@ -72,18 +74,19 @@ struct AthkarHabitCardView: View {
         }
     }
     
-    // Handle check-in with error handling
-    private func handleCheckInTap() {
-        Task {
-            let canCheck = await viewModel.canCheckIn()
-            
-            if canCheck {
-                await viewModel.checkIn()
-            } else if !viewModel.isCheckedIn {
-                // Outside athkar window
-                viewModel.errorMessage = "You can only check in during \(viewModel.currentPeriod.displayName) athkar time."
-                showErrorAlert = true
-            }
+    @MainActor
+    private func handleCheckInTap() async {
+        let canCheck = await viewModel.canCheckIn()
+        if canCheck {
+
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+            AppToastCenter.shared.show(message: "Saved!")
+
+            await viewModel.checkIn()
+        } else if !viewModel.isCheckedIn {
+            viewModel.errorMessage = "You can only check in during \(viewModel.currentPeriod.displayName) athkar time."
+            showErrorAlert = true
         }
     }
 }

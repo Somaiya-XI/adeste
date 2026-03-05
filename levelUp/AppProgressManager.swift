@@ -14,6 +14,7 @@ class AppProgressManager {
     var completionPercentage: CGFloat = 0.0
     var completedCount: Int = 0
     var totalCount: Int = 0
+    private var hasAnimatedThisSession: Bool = false
 
     func updateProgress(habits: [Habit]) {
         guard !habits.isEmpty else {
@@ -35,8 +36,18 @@ class AppProgressManager {
         self.completedCount = completed
         self.totalCount = habits.count
         
-        withAnimation(.spring()) {
-            self.completionPercentage = CGFloat(completed) / CGFloat(habits.count)
+        let newPercentage = CGFloat(completed) / CGFloat(habits.count)
+
+      
+        if !hasAnimatedThisSession && newPercentage == 0 {
+            self.completionPercentage = 0
+        } else {
+            withAnimation(.spring()) {
+                self.completionPercentage = newPercentage
+            }
+            if newPercentage > 0 {
+                hasAnimatedThisSession = true
+            }
         }
     }
 }

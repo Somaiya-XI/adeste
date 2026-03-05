@@ -9,6 +9,7 @@ import SwiftUI
 
 struct StepsHabitCardView: View {
     @StateObject var viewModel: StepsViewModel
+    @ObservedObject private var exerciseManager = AppHabitExerciseManager.shared
     let layoutType: HabitLayoutType  
     
     init(habit: Habit, layoutType: HabitLayoutType = .wide) {
@@ -20,7 +21,8 @@ struct StepsHabitCardView: View {
         // Format steps count with comma separator
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        let stepsString = formatter.string(from: NSNumber(value: viewModel.stepsCount)) ?? "\(viewModel.stepsCount)"
+        let currentSteps = Int(exerciseManager.status.currentCount)
+        let stepsString = formatter.string(from: NSNumber(value: currentSteps)) ?? "\(currentSteps)"
         
         // Convert ViewModel state to HabitDisplayData
         let displayData = HabitDisplayData(
@@ -33,7 +35,6 @@ struct StepsHabitCardView: View {
             textColorName: "white"
         )
         
-        // ← FIX: Just return the view directly
         return AdaptiveHabitCard(
             habit: displayData,
             layoutType: layoutType
@@ -41,7 +42,7 @@ struct StepsHabitCardView: View {
         .onAppear {
             // Fetch steps when view appears
             Task {
-                viewModel.fetchSteps()
+                await exerciseManager.refreshSteps()
             }
         }
         .overlay(alignment: .bottomLeading) {

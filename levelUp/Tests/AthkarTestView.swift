@@ -36,8 +36,9 @@ struct AthkarTestView: View {
             Button("Check Progress") {
                 Task {
                     do {
-                        completed = try await manager.progressForToday().isCompleted
-                        message = completed ? "✅ COMPLETED (at least one)" : "❌ NOT COMPLETED"
+                        let progress = try await manager.progressForToday()
+                        completed = progress.completedCount == 2
+                        message = completed ? "✅ COMPLETED (both periods)" : "❌ NOT COMPLETED"
                     } catch {
                         message = error.localizedDescription
                     }

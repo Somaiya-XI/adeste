@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PrayerHabitCardView: View {
     @StateObject var viewModel: PrayerViewModel
+    @ObservedObject private var prayerHabitManager = AppHabitPrayerManager.shared
     let layoutType: HabitLayoutType
     @State private var showErrorAlert = false
     
@@ -18,10 +19,20 @@ struct PrayerHabitCardView: View {
     }
     
     var body: some View {
-        // Convert ViewModel state to HabitDisplayData
+        // Convert ViewModel + core habit state to HabitDisplayData
+        let completedCount = Int(prayerHabitManager.status.currentCount)
+        let progressText = "\(completedCount)/5"
+        let subtitleText: String? = {
+            if layoutType == .small {
+                return progressText
+            } else {
+                return "\(viewModel.currentPrayer.displayName.uppercased()) • \(progressText)"
+            }
+        }()
+
         let displayData = HabitDisplayData(
             title: "Praying",
-            subTitle: viewModel.currentPrayer.displayName.uppercased(),
+            subTitle: subtitleText,
             iconName: viewModel.currentPrayer.iconName,
             isSystemIcon: true,
             backgroundColorName: "sec-color-berry",
@@ -32,19 +43,21 @@ struct PrayerHabitCardView: View {
             // Use AdaptiveHabitCard for beautiful UI
             AdaptiveHabitCard(
                 habit: displayData,
-                layoutType: layoutType
+                layoutType: layoutType,
+                showCheckmarkOverlay: false
             )
-            
+
             // Check-in button overlay
             Button {
-                handleCheckInTap()
+                Task { await handleCheckInTap() }
             } label: {
                 Image(systemName: viewModel.isCheckedIn ? "checkmark.circle.fill" : "checkmark.circle")
                     .font(.s20Medium)
-                    .foregroundStyle(viewModel.isCheckedIn ? Color.white : Color.white.opacity(0.7))
+                    .foregroundStyle(viewModel.isCheckedIn ? .white : .white.opacity(0.7))
             }
             .padding(8)
             .disabled(viewModel.isCheckedIn)
+            .buttonStyle(.plain)
         }
         .onAppear {
             // Load prayer times and current prayer when view appears
@@ -69,29 +82,21 @@ struct PrayerHabitCardView: View {
         }
     }
     
-    // Handle check-in with error handling
-        private func handleCheckInTap() {
-            Task {
-                let canCheck = await viewModel.canCheckIn()
-                
-                if canCheck {
-                    await viewModel.checkIn()
-                    
-                    if let allHabits = UserManager.shared.currentUser?.habits {
-                        AppStreakManager.shared.refreshForToday(habits: allHabits)
-                        AppProgressManager.shared.updateProgress(habits: allHabits)
-                    }
-                    
-                    let generator = UINotificationFeedbackGenerator()
-                    generator.notificationOccurred(.success)
-                    AppToastCenter.shared.show(message: "Prayer completed!")
-                } else if !viewModel.isCheckedIn {
-                    // Outside prayer window
-                    viewModel.errorMessage = "You can only check in during \(viewModel.currentPrayer.displayName) prayer time."
-                    showErrorAlert = true
-                }
-            }
+    @MainActor
+    private func handleCheckInTap() async {
+        let canCheck = await viewModel.canCheckIn()
+        if canCheck {
+
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+            AppToastCenter.shared.show(message: "Saved!")
+
+            await viewModel.checkIn()
+        } else if !viewModel.isCheckedIn {
+            viewModel.errorMessage = "You can only check in during \(viewModel.currentPrayer.displayName) prayer time."
+            showErrorAlert = true
         }
+    }
 }
 
 #Preview {
