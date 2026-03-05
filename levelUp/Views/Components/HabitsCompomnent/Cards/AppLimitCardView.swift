@@ -99,21 +99,6 @@ import FamilyControls
 struct AppLimitCardView: View {
     @State private var activityManager = DeviceActivityManager()
     @State private var showSettings = false
-    @State private var reportID = UUID()
-
-    private var selectedHabits: Set<String> {
-        var set = Set<String>()
-        let habits = UserManager.shared.currentUser?.habits ?? []
-        if habits.contains(where: { $0.type == .wakeUp }) { set.insert("Wake Up") }
-        if habits.contains(where: { $0.type == .steps })  { set.insert("Walk") }
-        return set
-    }
-
-    private var currentCycleType: CycleType {
-        if let raw = UserDefaults.standard.string(forKey: "currentCycleType"),
-           let type = CycleType(rawValue: raw) { return type }
-        return .starter
-    }
 
     var body: some View {
         VStack {
@@ -128,7 +113,6 @@ struct AppLimitCardView: View {
                                     activityManager.reportContext,
                                     filter: activityManager.reportFilter
                                 )
-                                .id(reportID)
                                 .frame(height: 50)
                                 .font(.s32Bold)
                                 .foregroundStyle(.brand)
@@ -156,21 +140,14 @@ struct AppLimitCardView: View {
                     }.padding(.horizontal, 16)
                 )
         }
-        .sheet(isPresented: $showSettings) {
+        .sheet(isPresented: $showSettings, onDismiss: {
+            // Reload state when settings close - re-init handles everything
+            activityManager = DeviceActivityManager()
+        }) {
             ScreenTimeSettingsView()
             .padding(.horizontal, 16)
             .padding(.top, 40)
         }
-        .onAppear { refreshReport() }
-        .onChange(of: showSettings) { _, isPresented in
-            if !isPresented { refreshReport() }
-        }
-    }
-
-    private func refreshReport() {
-        activityManager.selectedActivities = DeviceActivityManager.loadSelection() ?? FamilyActivitySelection()
-        activityManager.configureReportFilter()
-        reportID = UUID()
     }
 }
 

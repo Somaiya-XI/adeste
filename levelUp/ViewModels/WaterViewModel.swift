@@ -65,7 +65,7 @@ extension WaterViewModel {
         let now = Date()
         guard let last = lastWaterDate else { return true }
         if now.timeIntervalSince(last) > limit { return true }
-        return increaseCount < 2
+        return increaseCount < 4
     }
 
     func increaseWater() {
@@ -80,7 +80,7 @@ extension WaterViewModel {
             lastWaterDate = now
             increaseCount = 0
         }
-        guard increaseCount < 2 else { return }
+        guard increaseCount < 4 else { return }
         waterIntake += 1
         increaseCount += 1
     }
