@@ -43,7 +43,7 @@ struct SettingsView: View {
                     // 1. SECTION: PREFERENCES
                     settingsSection(title: "PREFERENCES") {
                         NavigationLink(destination: StartCycle()) {
-                            settingsRow(title: "Change Cycle", icon: "arrow.triangle.2.circlepath")
+                            settingsRow(title: "Edit Cycle", icon: "arrow.triangle.2.circlepath")
                         }
                         .buttonStyle(.plain)
                         
@@ -71,7 +71,7 @@ struct SettingsView: View {
                         Button {
                             showHabitGoals = true
                         } label: {
-                            settingsRow(title: "Manage Habit Goals", icon: "target")
+                            settingsRow(title: "Edit Habit Goals", icon: "target")
                         }
                         .buttonStyle(.plain)
                     }

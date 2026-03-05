@@ -47,7 +47,7 @@ struct OnboardingStepFiveView: View {
                 
                 // Header
                 VStack(spacing: 10) {
-                    Text("One Last Step")
+                    Text("One Last Step!")
                         .font(.system(size: 36, weight: .bold, design: .rounded))
                         .foregroundColor(.brand)
                     

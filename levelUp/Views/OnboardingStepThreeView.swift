@@ -46,7 +46,7 @@ struct OnboardingStepThreeView: View {
                     .padding(.bottom, 32)
                 
                 // 2. Body text — medium, comfortable width
-                Text("With your cycle, comes along your habits.\n\nHabits are the building blocks of your cycle and streak\n\nComplete them to progress!")
+                Text("With your cycle come your habits.\n\n\nThey shape your progress and build your streak.\n\n\nCheck them off to see your growth!")
                     .font(.system(size: 18, weight: .semibold))
                     .foregroundStyle(.primary)
                     .multilineTextAlignment(.center)
@@ -73,6 +73,7 @@ struct OnboardingStepThreeView: View {
             }.padding(.top, 68)
                 .padding(.bottom, 26)
                 .padding(.horizontal, 56)
+           
             
         }.navigationDestination(isPresented: $goToNext) {
             OnboardingStepFourView(cycle: cycle)
