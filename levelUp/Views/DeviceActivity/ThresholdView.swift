@@ -12,9 +12,7 @@ struct ThresholdView: View {
     @Binding var thresholdTimeMin: Int
     var body: some View {
             HStack{
-                Text("Set a time limit")
-                    .font(.s20Medium)
-                Spacer()
+          
                 
             }.padding(.horizontal,16)
                 .padding(.top, 16)

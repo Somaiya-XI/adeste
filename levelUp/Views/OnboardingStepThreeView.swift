@@ -6,54 +6,85 @@
 import SwiftUI
 
 struct OnboardingStepThreeView: View {
+    @Environment(\.dismiss) var dismiss
+    let cycle: Cycle
+    @State var goToNext: Bool = false
+    
     var body: some View {
         ZStack {
             Color("base-shade-01")
                 .ignoresSafeArea()
-
+            
+            
+            // Back Button
+            GeometryReader{_ in
+                Button { dismiss() }
+                label:{ Image(.icBack) }
+                    .padding(.top, 12)
+                    .padding(.leading, 24)
+            }
+            
+            // Bg elements
+            VStack{
+                Spacer()
+                Image("SketchyIcons")
+                    .resizable()
+                    .scaledToFit()
+                
+            }.padding(.bottom, 63)
+            Rectangle().fill(.baseShade01.gradient.opacity(0.6)).padding(.top, 460).padding(.bottom, -34)
+            
+            
             VStack(spacing: 0) {
-                Spacer(minLength: 20)
-
+                
                 // 1. Header — large, dominant
                 Text("That was the first step!")
                     .font(.system(size: 46, weight: .bold, design: .rounded))
                     .foregroundColor(Color("brand-color"))
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
-
-                Spacer()
-                    .frame(height: 32)
-
+                    .padding(.bottom, 32)
+                
                 // 2. Body text — medium, comfortable width
                 Text("With your cycle, comes along your habits.\n\nHabits are the building blocks of your cycle and streak\n\nComplete them to progress!")
                     .font(.system(size: 18, weight: .semibold))
                     .foregroundStyle(.primary)
                     .multilineTextAlignment(.center)
-                    .frame(maxWidth: 320)
-
-                Spacer(minLength: 32)
-
-                // 3. Next button — compact, near bottom
-                Spacer(minLength: 24)
-
+                
+                Spacer()
+                
                 Button {
+                    goToNext = true
                     // No navigation logic per requirements
-                } label: {
-                    Text("Next")
+                }label: {
+                    Text("Continue")
                         .font(.system(size: 18, weight: .semibold))
                         .foregroundColor(.white)
-                        .frame(width: 273, height: 54)
-                        .background(Color("brand-color"))
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 52)
+                        .background(.brand)
                         .clipShape(Capsule())
-                }
-                .buttonStyle(.plain)
-                .padding(.bottom, 50)
-            }
-            .padding(.horizontal, 44)
+                }.buttonStyle(.plain)
+                .background(.baseShade01)
+                .clipShape(Capsule())
+
+                
+                
+            }.padding(.top, 68)
+                .padding(.bottom, 26)
+                .padding(.horizontal, 56)
+            
+        }.navigationDestination(isPresented: $goToNext) {
+            OnboardingStepFourView(cycle: cycle)
+            
         }
+        .navigationBarBackButtonHidden()
+        
     }
 }
 
 #Preview {
-    OnboardingStepThreeView()
+    OnboardingStepThreeView(cycle: Cycle(cycleType: .advanced, cycleDuration: .advanced, desc:
+                                            "")
+    )
 }

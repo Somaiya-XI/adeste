@@ -104,16 +104,14 @@ struct HabitsGoalSheet: View {
             
             // Header
             Text("Set your goals")
-                .font(.s32Bold)
-                .foregroundColor(Color("brand-color"))
+                .font(.system(size: 20, weight: .semibold))
+                .fontDesign(.rounded)                .foregroundColor(Color("brand-color"))
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 24)
-                .padding(.top, 24)
-                .padding(.bottom, 28)
+                .padding(.bottom, 24)
             
             // Content
             ScrollView {
-                VStack(spacing: 20) {
+                VStack(spacing: 32) {
                     
                     if allLimitsReached {
                         // ── Empty state ──────────────────────────────────────
@@ -122,24 +120,36 @@ struct HabitsGoalSheet: View {
                         // ── Wake Up card ─────────────────────────────────────
                         if showWakeUp {
                             if canEditWakeUp {
-                                GoalSectionCard(title: "Wake Up Time", icon: "sun.max.fill") {
-                                    VStack(spacing: 8) {
-                                        changesRemainingBadge(
-                                            used: GoalChangeTracker.wakeUpChanges(cycleId: cycleId),
-                                            max: maxChanges
-                                        )
+                                
+                                VStack(alignment: .leading, spacing: 16) {
+                                    HStack(spacing: 4) {
+                                        Image(systemName: "sun.max.fill")
+                                            .font(.system(size: 18, weight: .semibold))
+                                            .foregroundColor(Color("brand-color"))
+                                        Text("Wake Up Time")
+                                            .font(.s18Medium)
+                                            .foregroundColor(Color("brand-color"))
+                                        
+                                        Spacer()
                                         DatePicker(
-                                            "Wake up",
+                                            "",
                                             selection: $selectedWakeUpTime,
                                             displayedComponents: .hourAndMinute
-                                        )
-                                        .datePickerStyle(.wheel)
-                                        .labelsHidden()
-                                        .frame(maxWidth: .infinity)
-                                        .frame(height: 150)
-                                        .clipped()
+                                        ).datePickerStyle(.compact)
+                                        .font(.s18Medium)
+                                        .tint(.brand)
                                     }
+                                    
+                                    changesRemainingBadge(
+                                        used: GoalChangeTracker.wakeUpChanges(cycleId: cycleId),
+                                        max: maxChanges
+                                    )
                                 }
+                                .padding(20)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(Color("base-shade-01"))
+                                .cornerRadius(20)
+                                
                             } else {
                                 lockedCard(title: "Wake Up Time", icon: "sun.max.fill")
                             }
@@ -155,12 +165,12 @@ struct HabitsGoalSheet: View {
                                             max: maxChanges
                                         )
                                         Text("\(stepGoal) steps")
-                                            .font(.s28Medium)
+                                            .font(.s20Semibold)
                                             .foregroundColor(Color("brand-color"))
                                         Picker("Steps", selection: $stepGoal) {
                                             ForEach(stepOptions, id: \.self) { steps in
                                                 Text("\(steps)")
-                                                    .font(.s24Medium)
+                                                    .font(.s18Medium)
                                                     .tag(steps)
                                             }
                                         }
@@ -175,37 +185,38 @@ struct HabitsGoalSheet: View {
                         }
                     }
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 32)
+               
             }
             
             // Save button – hidden when everything is locked
             if !allLimitsReached {
                 Button(action: saveGoals) {
+                    
                     Text("Save Goals")
-                        .font(.s28Medium)
+                        .font(.s18Semibold)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
-                        .frame(height: 64)
-                        .background(Color("brand-color"))
-                        .cornerRadius(16)
+                        .frame(height: 52)
+                        .background(RoundedRectangle(cornerRadius: 32)
+                            .fill(.brand))
+                    
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 40)
+                
             } else {
                 Button(action: { dismiss() }) {
                     Text("Close")
-                        .font(.s28Medium)
+                        .font(.s18Semibold)
                         .foregroundColor(Color("brand-color"))
                         .frame(maxWidth: .infinity)
-                        .frame(height: 64)
+                        .frame(height: 52)
                         .background(Color("brand-color").opacity(0.1))
-                        .cornerRadius(16)
+                        .cornerRadius(32)
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 40)
+                
             }
-        }
+        }.padding(.horizontal, 24)
+            .padding(.top, 24)
+            .padding(.bottom, 26)
         .background(Color.white)
     }
     
@@ -310,12 +321,12 @@ struct GoalSectionCard<Content: View>: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack(spacing: 10) {
+            HStack(spacing: 4) {
                 Image(systemName: icon)
-                    .font(.system(size: 20, weight: .semibold))
+                    .font(.system(size: 18, weight: .semibold))
                     .foregroundColor(Color("brand-color"))
                 Text(title)
-                    .font(.s24Medium)
+                    .font(.s18Medium)
                     .foregroundColor(Color("brand-color"))
             }
             content()

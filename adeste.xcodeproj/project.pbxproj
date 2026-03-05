@@ -382,7 +382,7 @@
 				CODE_SIGN_ENTITLEMENTS = DeviceActivityMonitor/DeviceActivityMonitor.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.1;
-				DEVELOPMENT_TEAM = CKP2ZXN8KU;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DeviceActivityMonitor/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DeviceActivityMonitor;
@@ -393,7 +393,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = JKH.Local.adeste.app.DeviceActivityMonitor;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app.DeviceActivityMonitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -417,7 +417,7 @@
 				CODE_SIGN_ENTITLEMENTS = DeviceActivityMonitor/DeviceActivityMonitor.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.1;
-				DEVELOPMENT_TEAM = CKP2ZXN8KU;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DeviceActivityMonitor/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DeviceActivityMonitor;
@@ -428,7 +428,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = JKH.Local.adeste.app.DeviceActivityMonitor;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app.DeviceActivityMonitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -452,7 +452,7 @@
 				CODE_SIGN_ENTITLEMENTS = ActivityReport/ActivityReport.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.1;
-				DEVELOPMENT_TEAM = CKP2ZXN8KU;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ActivityReport/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ActivityReport;
@@ -463,7 +463,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = JKH.Local.adeste.app.ActivityReport;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app.ActivityReport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -487,7 +487,7 @@
 				CODE_SIGN_ENTITLEMENTS = ActivityReport/ActivityReport.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.1;
-				DEVELOPMENT_TEAM = CKP2ZXN8KU;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ActivityReport/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ActivityReport;
@@ -498,7 +498,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = JKH.Local.adeste.app.ActivityReport;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app.ActivityReport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -647,7 +647,7 @@
 				CODE_SIGN_ENTITLEMENTS = adeste.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.1;
-				DEVELOPMENT_TEAM = CKP2ZXN8KU;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "adeste-Info.plist";
@@ -666,7 +666,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = JKH.Local.adeste.app;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -692,7 +692,7 @@
 				CODE_SIGN_ENTITLEMENTS = adeste.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.1;
-				DEVELOPMENT_TEAM = CKP2ZXN8KU;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "adeste-Info.plist";
@@ -711,7 +711,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = JKH.Local.adeste.app;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -802,7 +802,7 @@
 				CODE_SIGN_ENTITLEMENTS = adeste.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.1;
-				DEVELOPMENT_TEAM = CKP2ZXN8KU;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "adeste-Info.plist";
@@ -821,7 +821,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = JKH.Local.adeste.app;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -845,7 +845,7 @@
 				CODE_SIGN_ENTITLEMENTS = DeviceActivityMonitor/DeviceActivityMonitor.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.1;
-				DEVELOPMENT_TEAM = CKP2ZXN8KU;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DeviceActivityMonitor/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DeviceActivityMonitor;
@@ -856,7 +856,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = JKH.Local.adeste.app.DeviceActivityMonitor;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app.DeviceActivityMonitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -880,7 +880,7 @@
 				CODE_SIGN_ENTITLEMENTS = ActivityReport/ActivityReport.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.1;
-				DEVELOPMENT_TEAM = CKP2ZXN8KU;
+				DEVELOPMENT_TEAM = CATUKJ98AS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ActivityReport/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ActivityReport;
@@ -891,7 +891,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = JKH.Local.adeste.app.ActivityReport;
+				PRODUCT_BUNDLE_IDENTIFIER = adeste.app.ActivityReport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
