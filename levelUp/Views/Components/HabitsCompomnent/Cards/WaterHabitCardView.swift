@@ -10,6 +10,7 @@ import SwiftUI
 
 struct WaterHabitCardView: View {
     @StateObject var viewModel: WaterViewModel
+    @ObservedObject private var waterManager = AppHabitWaterManager.shared
     @State private var showAlert = false
     let layoutType: HabitLayoutType
     
@@ -24,10 +25,10 @@ struct WaterHabitCardView: View {
     }
     
     var body: some View {
-        // Convert ViewModel state to HabitDisplayData
+        let filledCount = Int(waterManager.status.currentCount)
         let displayData = HabitDisplayData(
             title: "Water intake",
-            value: "\(viewModel.waterIntake)",
+            value: "\(filledCount)",
             unit: nil,
             iconName: "waterbottle.fill",
             isSystemIcon: true,
@@ -40,11 +41,11 @@ struct WaterHabitCardView: View {
             AdaptiveHabitCard(
                 habit: displayData,
                 layoutType: layoutType,
-                waterFilledBottles: viewModel.waterIntake
+                waterFilledBottles: filledCount
             )
-            
-            
-            interactiveControls        }
+
+            interactiveControls
+        }
         
         
         // Match the card frame size
@@ -76,6 +77,7 @@ struct WaterHabitCardView: View {
         Button {
             if viewModel.canIncreaseWater() {
                 viewModel.increaseWater()
+                AppHabitWaterManager.shared.checkIn()
             } else {
                 showAlert = true
             }

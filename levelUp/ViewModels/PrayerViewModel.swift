@@ -6,8 +6,9 @@
 //
 
 import Foundation
-import Combine
 import Adhan
+import Combine
+
 
 class PrayerViewModel: ObservableObject {
     let habit: Habit
@@ -20,8 +21,7 @@ class PrayerViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     private let prayerManager: PrayerManager
-    private var cancellables = Set<AnyCancellable>()
-    
+
     init(habit: Habit, latitude: Double = 24.7136, longitude: Double = 46.6753) {
         self.habit = habit
         
@@ -76,7 +76,6 @@ class PrayerViewModel: ObservableObject {
             await checkIfCheckedIn()
             
         } catch {
-            print("❌ Error loading prayer times: \(error)")
             errorMessage = "Failed to load prayer times"
         }
     }
@@ -90,7 +89,7 @@ class PrayerViewModel: ObservableObject {
             
             isCheckedIn = checkIns.contains { $0.prayer == currentPrayer }
         } catch {
-            print("❌ Error checking prayer status: \(error)")
+            // Leave isCheckedIn as-is on load failure
         }
     }
     
@@ -101,13 +100,17 @@ class PrayerViewModel: ObservableObject {
             try await prayerManager.checkIn(prayer: currentPrayer)
             isCheckedIn = true
             errorMessage = nil
-            print("✅ Checked in for \(currentPrayer.rawValue)")
+
+            await AppHabitPrayerManager.shared.refreshStatus()
+
+            if let habits = UserManager.shared.currentUser?.habits {
+                AppStreakManager.shared.refreshForToday(habits: habits)
+                AppProgressManager.shared.updateProgress(habits: habits)
+            }
         } catch let error as PrayerCheckInError {
             errorMessage = error.errorDescription
-            print("❌ Check-in failed: \(error.errorDescription ?? "Unknown error")")
         } catch {
             errorMessage = "Failed to check in"
-            print("❌ Check-in failed: \(error)")
         }
     }
     

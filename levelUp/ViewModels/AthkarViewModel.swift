@@ -17,8 +17,7 @@ class AthkarViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     private let athkarManager: AthkarManager
-    private var cancellables = Set<AnyCancellable>()
-    
+
     init(habit: Habit, athkarManager: AthkarManager) {
         self.habit = habit
         self.athkarManager = athkarManager
@@ -50,7 +49,6 @@ class AthkarViewModel: ObservableObject {
             await checkIfCheckedIn()
             
         } catch {
-            print("❌ Error loading athkar period: \(error)")
             errorMessage = "Failed to load athkar times"
         }
     }
@@ -64,7 +62,6 @@ class AthkarViewModel: ObservableObject {
             
             isCheckedIn = checkIns.contains { $0.period == currentPeriod }
         } catch {
-            print("❌ Error checking athkar status: \(error)")
         }
     }
     
@@ -75,13 +72,16 @@ class AthkarViewModel: ObservableObject {
             try await athkarManager.checkIn(period: currentPeriod)
             isCheckedIn = true
             errorMessage = nil
-            print("✅ Checked in for \(currentPeriod.rawValue) athkar")
+
+            await AppHabitAthkarManager.shared.refreshStatus()
+
+            if let habits = UserManager.shared.currentUser?.habits {
+                AppStreakManager.shared.refreshForToday(habits: habits)
+            }
         } catch let error as AthkarCheckInError {
             errorMessage = error.errorDescription
-            print("❌ Check-in failed: \(error.errorDescription ?? "Unknown error")")
         } catch {
             errorMessage = "Failed to check in"
-            print("❌ Check-in failed: \(error)")
         }
     }
     

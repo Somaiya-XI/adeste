@@ -62,10 +62,12 @@ struct WakeUpHabitCardView: View {
             textColorName: "brand-color"
         )
         
+        let isCompleted = wakeUpManager.didCheckInToday
         ZStack(alignment: .topTrailing) {
             AdaptiveHabitCard(
                 habit: displayData,
-                layoutType: layoutType
+                layoutType: layoutType,
+                showCheckmarkOverlay: false
             )
             .onTapGesture {
                 selectedWakeUpTime = wakeUpManager.wakeUpTime
@@ -82,16 +84,16 @@ struct WakeUpHabitCardView: View {
                 viewModel.wakeUpTime = newTime
             }
 
-            // Check-in button overlay
             Button {
-                handleCheckInTap()
+                Task { await handleCheckInTap() }
             } label: {
-                Image(systemName: wakeUpManager.didCheckInToday ? "checkmark.circle.fill" : "checkmark.circle")
+                Image(systemName: isCompleted ? "checkmark.circle.fill" : "checkmark.circle")
                     .font(.s20Medium)
-                    .foregroundStyle(wakeUpManager.didCheckInToday ? Color.white : Color.white.opacity(0.7))
+                    .foregroundStyle(isCompleted ? .white : .white.opacity(0.7))
             }
             .padding(8)
-            .disabled(wakeUpManager.didCheckInToday)
+            .disabled(isCompleted)
+            .buttonStyle(.plain)
         }
         .alert(consts.WakeUpAlertTitleStr, isPresented: $showMissedAlert) {
             Button("OK", role: .cancel) {
@@ -102,12 +104,14 @@ struct WakeUpHabitCardView: View {
         }
     }
     // Handle check-in with alert
-    private func handleCheckInTap() {
+    @MainActor
+    private func handleCheckInTap() async {
         if wakeUpManager.didCheckInToday {
             return
         }
         if viewModel.canCheckIn() {
             wakeUpManager.checkIn()
+            await AppHabitWakeUpManager.shared.refreshStatus(isUserAction: true)
              
             if let allHabits = UserManager.shared.currentUser?.habits {
                 AppStreakManager.shared.refreshForToday(habits: allHabits)
@@ -116,7 +120,6 @@ struct WakeUpHabitCardView: View {
             
             let generator = UINotificationFeedbackGenerator()
             generator.notificationOccurred(.success)
-            AppToastCenter.shared.show(message: "Progress Saved")
         } else {
             showMissedAlert = true
         }

@@ -96,8 +96,7 @@ struct HomeView: View {
             // Always reload — covers both first load and cycle change
             viewModel.loadHabits(habits)
             hasLoadedHabits = true
-            AppStreakManager.shared.refreshForToday(habits: habits)
-            AppProgressManager.shared.updateProgress(habits: habits)
+
         }
 
     }

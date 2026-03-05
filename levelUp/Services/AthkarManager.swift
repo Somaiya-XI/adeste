@@ -27,7 +27,7 @@ struct AthkarWindow: Equatable {
 }
 
 struct AthkarProgress {
-    let isCompleted: Bool  // true if at least one (morning or evening) is checked validly
+    let completedCount: Int
 }
 
 struct AthkarWindowService {
@@ -146,20 +146,20 @@ struct AthkarManager {
         try store.save(checkIns, for: dayStart)
     }
 
-    // Progress is TRUE if at least one of morning/evening was checked validly.
-        func progressForToday(now: Date = Date()) async throws -> AthkarProgress {
+    // Progress: count how many of morning/evening were checked validly (0, 1, or 2).
+    func progressForToday(now: Date = Date()) async throws -> AthkarProgress {
             let dayStart = todayStart(now)
             let windows = try await windowsForToday(now: now)
             let checkIns = try store.load(for: dayStart)
 
-            let validPeriods = Set(
+        let validPeriods = Set(
                 checkIns
                     .filter { windowService.isValidCheckIn(period: $0.period, at: $0.checkedAt, windows: windows) }
                     .map(\.period)
             )
 
-            let completed = !validPeriods.isEmpty   // ✅ your rule
-            return AthkarProgress(isCompleted: completed)
+        let completedCount = validPeriods.count
+        return AthkarProgress(completedCount: completedCount)
         }
 }
 
