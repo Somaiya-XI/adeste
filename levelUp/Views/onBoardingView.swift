@@ -47,7 +47,7 @@ struct StartingView: View {
                         .foregroundStyle(.brand)
                         .dynamicTypeSize(...DynamicTypeSize.accessibility1)
 
-                    Text("Detox your doomscrolling at your fingertips")
+                    Text("Digital detox, right at your fingertips.")
                         .font(.s18Medium)
                         .foregroundStyle(.brandGrey)
                 }.multilineTextAlignment(.center)

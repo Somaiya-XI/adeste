@@ -9,19 +9,29 @@ import Foundation
 import SwiftData
 
 enum CycleType: String, Codable, CaseIterable {
-    case starter = "Awareness"
-    case basic = "Consistency"
-    case advanced = "Foundation"
+    case starter = "Light"
+    case basic = "Balanced"
+    case advanced = "Deep"
     case premium = "Growth"
-    
-    var displayName: String { self.rawValue }
-    
+    // Legacy raw values (persisted data may contain these); map to current behavior
+    case awareness = "Awareness"      // → same as starter (Light)
+    case consistency = "Consistency"  // → same as basic (Balanced)
+    case foundation = "Foundation"    // → same as advanced (Deep)
+
+    var displayName: String {
+        switch self {
+        case .starter, .awareness: return "Light"
+        case .basic, .consistency: return "Balanced"
+        case .advanced, .foundation: return "Deep"
+        case .premium: return "Growth"
+        }
+    }
+
     var screenTimeChangeLimit: Int {
         switch self {
-        case .starter:  return 1
-        case .basic:    return 2
-        case .advanced: return 3
-        case .premium:  return 3 // decide what premium gets
+        case .starter, .awareness: return 1
+        case .basic, .consistency: return 2
+        case .advanced, .foundation, .premium: return 3
         }
     }
 }
@@ -43,19 +53,18 @@ class Cycle: Identifiable, Hashable {
     
     var maxHabits: Int {
         switch self.cycleType {
-            case .starter: return 2
-            case .basic: return 3
-            case .advanced: return 5
-            case .premium: return 7
+        case .starter, .awareness: return 2
+        case .basic, .consistency: return 3
+        case .advanced, .foundation: return 5
+        case .premium: return 7
         }
     }
-    
+
     var image: String {
         switch self.cycleType {
-            case .starter: return "Sleepy-expression"
-            case .basic: return "Serious-expression"
-            case .advanced: return "Fire-expression"
-            case .premium: return "Fire-expression"
+        case .starter, .awareness: return "Sleepy-expression"
+        case .basic, .consistency: return "Serious-expression"
+        case .advanced, .foundation, .premium: return "Fire-expression"
         }
     }
     
